@@ -1,9 +1,12 @@
 # averno
 Small, local NNTP server using HDT as a peering mechanism.
 
+
 I will  write 4 components:
+<pre>
 -first, the dht component:
   -dht : using the dht library, the server will be able to find other peers.
+</pre>
 
 -then the second component, NNTP
   -NNTP client: once another peer is found, using NNTP it will upload new contents and download from the peer.
