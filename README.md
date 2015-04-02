@@ -6,12 +6,12 @@ I will  write 4 components:
 
 first, the dht component:
 
->-dht : using the dht library, the server will be able to find other peers.
+1. dht : using the dht library, the server will be able to find other peers.
+2. dht(PASTRY): using pastry to announce and transmit each post
 
 then the second component, NNTP
 
-1. NNTP client: for each known peer, using NNTP it will upload and download new contents.
-2. NNTP server: interface to the user's client and to the peers, in order to exchange messages and groups.
+1. NNTP server: interface to the user's client and to the peers, in order to exchange messages and groups.
 
 the third module, UpNP
   
@@ -25,7 +25,7 @@ Basically i plan to have 5 threads :
 2. dht looking for peers
 3. nntp listening 
 4. one infinite loop checking lifespans and deleting old articles from filesystem.
-5. one infinite loop spreading/downloading new messages and groups to/from all known peers, using NNTP client.
+5. one infinite loop spreading/downloading new messages and groups to/from all known peers, using pastry.
 
 all files will be stored in local ~/news folder. 
 
@@ -49,9 +49,6 @@ I will make it assuming Linux/Unix. If it doesn't works in windows, please resta
 
 I will choose UPnP , dht and NNTP libraries (if any) from existing ones. I hope.
 
-1. DHT: [http://github.com/anacrolix/torrent/dht](https://github.com/anacrolix/torrent/tree/master/dht) or/and [https://github.com/nictuku/dht](https://github.com/nictuku/dht)
+1. DHT/PASTRY: [https://github.com/secondbit/wendy](https://github.com/secondbit/wendy)
 2. NNTP: [https://github.com/dustin/go-nntp](https://github.com/dustin/go-nntp)
 3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp)
-
-
-
