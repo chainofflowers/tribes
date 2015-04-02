@@ -40,8 +40,8 @@ where:
 2. _YYYYMMDDHHMMSS_ is a timestamp, to keep files in natural order and make the NNTP interface easier.
 3. _SH1_ is the SH1 hash of the body, to avoid duplicates.
 
-keeping each post in a different file will make also easier to delete old files by group, 
-even manually/cronjob if needed.
+storing things in such a way will make also easier to delete old files by group, 
+even manually/cronjob if needed. I am still a  sysadmin :)
 
 I will make it assuming Linux/Unix. If it doesn't works in windows, please restart your PC.
 
