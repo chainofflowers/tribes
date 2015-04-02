@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-
-	"./tools/"
-	"./upnp/"
 	"log"
 	"os"
+	"./tools/"
+	"./upnp/"
 )
 
 // No root. End of story
