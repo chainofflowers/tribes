@@ -10,7 +10,7 @@ first, the dht component:
 
 then the second component, NNTP
 
-1. NNTP client: once another peer is found, using NNTP it will upload new contents and download from the peer.
+1. NNTP client: once another peer is found, using NNTP it will upload and download new contents from the peer.
 2. NNTP server: interface to the user's client and to the peers, in order to exchange messages and groups.
 
 the third module, UpNP
