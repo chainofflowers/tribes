@@ -6,7 +6,6 @@ import (
 	"os"
 )
 
-
 func ReadIpFromHost() {
 	host, _ := os.Hostname()
 	log.Printf("[INFO] %s", host)
