@@ -6,7 +6,6 @@ I will  write 4 components:
   -dht : using the dht library, the server will be able to find other peers.
 
 -then the second component, NNTP
-
   -NNTP client: once another peer is found, using NNTP it will upload new contents and download from the peer.
   -NNTP server: interface to the user's client and to the peers, in order to exchange messages and groups.
 
