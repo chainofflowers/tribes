@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// just to avoid running it as root
 
 func init() {
 	
