@@ -1,5 +1,5 @@
 # averno
-Small, local NNTP server using HDT as a peering mechanism.
+Small, local NNTP server using DHT as a peering mechanism.
 
 
 I will  write 4 components:
