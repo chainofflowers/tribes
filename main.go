@@ -21,17 +21,12 @@ func init() {
 
 }
 
-const (
-	httpPortTCP = 8080
-	numTarget   = 10
-	exampleIH   = "deca7a89a1dbdc4b213de1c0d5351e92582f31fb" // ubuntu-12.04.4-desktop-amd64.iso
-)
-
 func main() {
 
 	ReadIpFromInterface()
+	fmt.Println("now by host")
+	ReadIpFromHost()
 	NntpUpnpOpen()
-
 	os.Exit(0)
 
 }
@@ -46,13 +41,24 @@ func NntpUpnpOpen() {
 	}
 }
 
-func ReadIpFromInterface() {
+func ReadIpFromHost() {
 	host, _ := os.Hostname()
+	log.Printf("[INFO] %s", host)
 	addrs, _ := net.LookupIP(host)
+	log.Printf("[INFO] %s", addrs)
 	for _, addr := range addrs {
 		if ipv4 := addr.To4(); ipv4 != nil {
-
 			log.Printf("[INFO] %s", ipv4)
+		}
+	}
+
+}
+
+func ReadIpFromInterface() {
+	addrs, _ := net.InterfaceAddrs()
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok {
+			log.Printf("[INFO] %s", ipnet.IP)
 		}
 	}
 
