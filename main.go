@@ -1,4 +1,4 @@
-package averno
+package main
 
 import (
 	"fmt"
