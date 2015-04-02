@@ -40,6 +40,7 @@ where:
 1. _groupname_ is the name of the group (z.b. de.mahl.zeit) , to keep easy  "find all files for a group"
 2. _YYYYMMDDHHMMSS_ is a timestamp, to keep files in natural order and make the NNTP interface easier.
 3. _SH1_ is the SH1 hash of the body, to avoid duplicates.
+4. One file, one message.
 
 storing things in such a way will make also easier to delete old files by group, 
 even manually/cronjob if needed. I am still a  sysadmin :)
