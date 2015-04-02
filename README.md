@@ -36,7 +36,7 @@ format or single posts will be the following:
 
 where:
 
-1. _groupname_ is the name of the group (z.b. de.mahl.zeit) , so to find all files for a group will be easy
+1. _groupname_ is the name of the group (z.b. de.mahl.zeit) , to keep easy  "find all files for a group"
 2. _YYYYMMDDHHMMSS_ is a timestamp, to keep files in natural order and make the NNTP interface easier.
 3. _SH1_ is the SH1 hash of the body, to avoid duplicates.
 
