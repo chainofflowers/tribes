@@ -26,7 +26,7 @@ Basically i plan to have 5 threads :
 4. one infinite loop checking lifespans and deleting old articles from filesystem.
 5. one infinite loop spreading/downloading new messages and groups to/from all known peers, using NNTP client.
 
-all files will be stored in local ~/News folder. Since of port 11119 , no **root** privileges SHALL be needed.
+all files will be stored in local ~/news folder. Since of port 11119 , no **root** privileges SHALL be needed.
 
 I will make it assuming Linux/Unix. If it doesn't works in windows, please restart your PC.
 
