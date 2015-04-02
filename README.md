@@ -18,10 +18,17 @@ the third module, UpNP
 >It will try to open port 11119 on the router (nntp) and some UDP port for dht.
 
 
-Basically i plan to have 4 threads :
+Basically i plan to have 5 threads :
 
 >-Upnp opening the router and keeping it open
 >-hdt looking for peers
->-nntp listening
->-an infinite loop spreading/downloading new messages and groups to all the known peers, using NNTP client.
+>-nntp listening 
+>-one infinite loop checking lifespans and deleting old articles from filesystem.
+>-one infinite loop spreading/downloading new messages and groups to all the known peers, using NNTP client.
+
+all files will be stored in local ~/News folder. Since of port 11119 , no **root** privileges SHALL be needed.
+
+
+
+
 
