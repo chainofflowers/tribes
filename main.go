@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/prestonTao/upnp"
+	"log"
 	"os"
 )
 
@@ -19,6 +21,18 @@ func init() {
 
 func main() {
 
+	NNTP_UPnP_open()
+
 	os.Exit(0)
 
+}
+
+func NNTP_UPnP_open() {
+
+	mapping := new(upnp.Upnp)
+	if err := mapping.AddPortMapping(11119, 11119, "TCP"); err == nil {
+		log.Printf("[INFO] %s", "UPnP redirect 11119 successful")
+	} else {
+		log.Printf("[WARNING] %s", "UPnP redirect failed for port 11119: router is UPnP-agnostic")
+	}
 }
