@@ -48,7 +48,7 @@ I will make it assuming Linux/Unix. If it doesn't works in windows, please resta
 
 I will choose UPnP , dht and NNTP libraries (if any) from existing ones. I hope.
 
-1. DHT: [http://github.com/anacrolix/torrent/dht](http://github.com/anacrolix/torrent/dht) or [https://github.com/nictuku/dht](https://github.com/nictuku/dht)
+1. DHT: [http://github.com/anacrolix/torrent/dht](https://github.com/anacrolix/torrent/tree/master/dht) or [https://github.com/nictuku/dht](https://github.com/nictuku/dht)
 2. NNTP: [https://github.com/dustin/go-nntp](https://github.com/dustin/go-nntp)
 3. UPnP: [https://github.com/jackpal/go-nat-pmp](https://github.com/jackpal/go-nat-pmp)
 
