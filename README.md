@@ -24,7 +24,7 @@ Basically i plan to have 5 threads :
 2. dht looking for peers
 3. nntp listening 
 4. one infinite loop checking lifespans and deleting old articles from filesystem.
-5. one infinite loop spreading/downloading new messages and groups to all the known peers, using NNTP client.
+5. one infinite loop spreading/downloading new messages and groups to/from all known peers, using NNTP client.
 
 all files will be stored in local ~/News folder. Since of port 11119 , no **root** privileges SHALL be needed.
 
