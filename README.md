@@ -51,7 +51,7 @@ I will choose UPnP , dht and NNTP libraries (if any) from existing ones. I hope.
 
 1. DHT: [http://github.com/anacrolix/torrent/dht](https://github.com/anacrolix/torrent/tree/master/dht) or/and [https://github.com/nictuku/dht](https://github.com/nictuku/dht)
 2. NNTP: [https://github.com/dustin/go-nntp](https://github.com/dustin/go-nntp)
-3. UPnP: [https://github.com/jackpal/go-nat-pmp](https://github.com/jackpal/go-nat-pmp)
+3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp)
 
 
 
