@@ -28,7 +28,6 @@ Basically i plan to have 5 threads :
 
 all files will be stored in local ~/News folder. Since of port 11119 , no **root** privileges SHALL be needed.
 
-
-
+I will make it assuming Linux/Unix. If it doesn't works in windows, please restart your PC.
 
 
