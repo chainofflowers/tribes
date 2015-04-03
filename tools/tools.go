@@ -2,20 +2,19 @@ package tools
 
 import (
 	"log"
+	"math/rand"
 	"net"
 	"os"
-	"math/rand"
 	"time"
 )
 
 var letters = []rune("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
-
-func ReadIpFromHost() (string) {
+func ReadIpFromHost() string {
 
 	host, err := os.Hostname()
 
-	if  err == nil {
+	if err == nil {
 		log.Printf("[INFO] Own Hostname is: %s", host)
 	} else {
 		log.Printf("[WTF] Can't get my own hostname? SYSADMIN!")
@@ -23,7 +22,7 @@ func ReadIpFromHost() (string) {
 	}
 
 	addrs, err := net.LookupIP(host)
-	if  err == nil {
+	if err == nil {
 		log.Printf("[INFO] Own IP is: %s", addrs[0].String())
 	} else {
 		log.Printf("[WTF] Can't get my own IP? SYSADMIN!")
@@ -32,12 +31,11 @@ func ReadIpFromHost() (string) {
 	return addrs[0].String()
 }
 
-
 func RandSeq(n int) string {
-	  rand.Seed(time.Now().UTC().UnixNano())
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letters[rand.Intn(len(letters))]
-    }
-    return string(b)
+	rand.Seed(time.Now().UTC().UnixNano())
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }

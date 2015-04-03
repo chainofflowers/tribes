@@ -1,15 +1,11 @@
 package main
 
 import (
-
+	"./legione/"
+	"./upnp/"
 	"log"
 	"os"
-	"./upnp/"
-	"./legione/"
 )
-
-
-
 
 // No root. End of story
 
@@ -21,7 +17,6 @@ func init() {
 	}
 
 	upnp.AllUpnpOpen()
-
 
 }
 

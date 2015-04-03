@@ -1,12 +1,10 @@
 package legion
 
 import (
-
 	"github.com/secondbit/wendy"
-  "log"
-	"time"
+	"log"
 	"math/rand"
-
+	"time"
 )
 
 func init() {
@@ -18,8 +16,6 @@ func randomID() (id wendy.NodeID) {
 	id[1] = uint64(uint64(rand.Uint32())<<32 | uint64(rand.Uint32()))
 	return
 }
-
-
 
 type debugWendy struct {
 }

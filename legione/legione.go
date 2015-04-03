@@ -9,19 +9,18 @@ import (
 
 func Initialize() {
 
-  var options MessagingConfig
+	var options MessagingConfig
 
 	log.Printf("[INFO] %s", "Baking a nice Pastry cluster")
 
-	options.nodeID =  randomID()
-  options.IDString = options.nodeID.String()
+	options.nodeID = randomID()
+	options.IDString = options.nodeID.String()
 	options.ExternalIP = tools.ReadIpFromHost()
-  options.LocalIP = "127.0.0.1"
-  options.Region = "AVERNO"
-  options.Port = GetClusterPort()
+	options.LocalIP = "127.0.0.1"
+	options.Region = "AVERNO"
+	options.Port = GetClusterPort()
 
-
-	node := wendy.NewNode(options.nodeID, options.LocalIP, options.ExternalIP, options.Region, options.Port )
+	node := wendy.NewNode(options.nodeID, options.LocalIP, options.ExternalIP, options.Region, options.Port)
 	log.Printf("[INFO] NodeName : %s", options.nodeID)
 
 	// this is just to avoid interference+bullshit with other clusters/dht nodes
@@ -33,7 +32,7 @@ func Initialize() {
 	cluster.SetNetworkTimeout(1)
 	cluster.SetLogLevel(wendy.LogLevelWarn)
 
-  cluster.RegisterCallback(&debugWendy{})
+	cluster.RegisterCallback(&debugWendy{})
 
 	log.Printf("[INFO] %s", "Cluster initialized, now start listening")
 
@@ -41,7 +40,7 @@ func Initialize() {
 		defer cluster.Stop()
 		err := cluster.Listen()
 		if err != nil {
-			log.Printf("[WTF] Cannot listen on port %s SYSADMIN!",options.Port)
+			log.Printf("[WTF] Cannot listen on port %s SYSADMIN!", options.Port)
 			os.Exit(1)
 		}
 	}()

@@ -1,10 +1,8 @@
 package legion
 
 import (
-
 	"github.com/secondbit/wendy"
 )
-
 
 // MessagingConfig holds configuration for the messaging component
 type MessagingConfig struct {
