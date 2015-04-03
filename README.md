@@ -52,3 +52,4 @@ I will choose UPnP , dht and NNTP libraries (if any) from existing ones. I hope.
 1. DHT/PASTRY: [https://github.com/secondbit/wendy](https://github.com/secondbit/wendy)
 2. NNTP: [https://github.com/dustin/go-nntp](https://github.com/dustin/go-nntp)
 3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp)
+4. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper)
