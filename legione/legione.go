@@ -31,7 +31,8 @@ credentials := wendy.Passphrase("Chi puote puote, chi non puote se lo scuote")
 // actually no secret credentials are needed
 
 cluster := wendy.NewCluster(node, credentials)
-log.Printf("[INFO] %s", "Cluster initialized")
+log.Printf("[INFO] %s", "Cluster initialized, now start listening")
+
 go func() {
 	defer cluster.Stop()
 	err := cluster.Listen()
@@ -40,7 +41,9 @@ go func() {
 		panic(err.Error())
 	}
 }()
-cluster.Join(hostname, 20000) // ports can be different for each Node
+
+
+cluster.Join(hostname, 20000) // we choose 20000 
 log.Printf("[INFO] %s", "Joined Myself, now looking for other nodes")
 select {}
 
