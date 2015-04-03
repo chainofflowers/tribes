@@ -8,6 +8,9 @@ import (
 	"./legione/"
 )
 
+
+
+
 // No root. End of story
 
 func init() {
@@ -18,6 +21,7 @@ func init() {
 	}
 
 	upnp.AllUpnpOpen()
+
 
 }
 
