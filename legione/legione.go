@@ -35,7 +35,8 @@ go func() {
 	}
 }()
 cluster.Join(hostname, 20000) // ports can be different for each Node
-log.Printf("[INFO] %s", "Joined Myself")
+log.Printf("[INFO] %s", "Joined Myself, now looking for other nodes")
 select {}
+
 
 }
