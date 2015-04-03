@@ -13,11 +13,22 @@ var letters = []rune("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV
 
 func ReadIpFromHost() (string) {
 
-	host, _ := os.Hostname()
-	log.Printf("[INFO] Own Hostname is: %s", host)
-	addrs, _ := net.LookupIP(host)
-	log.Printf("[INFO] Own IP is: %s", addrs[0].String())
+	host, err := os.Hostname()
 
+	if  err == nil {
+		log.Printf("[INFO] Own Hostname is: %s", host)
+	} else {
+		log.Printf("[WTF] Can't get my own hostname? SYSADMIN!")
+		os.Exit(1)
+	}
+
+	addrs, err := net.LookupIP(host)
+	if  err == nil {
+		log.Printf("[INFO] Own IP is: %s", addrs[0].String())
+	} else {
+		log.Printf("[WTF] Can't get my own IP? SYSADMIN!")
+		os.Exit(1)
+	}
 	return addrs[0].String()
 }
 

@@ -23,7 +23,7 @@ func init() {
 
 func main() {
 
-	go legion.Initialize()
+	legion.Initialize()
 
 	os.Exit(0)
 

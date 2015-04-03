@@ -9,6 +9,8 @@ import (
 
 func Initialize() {
 
+  log.Printf("[INFO] %s", "Making the wendy cluster")
+
   hostname, err := os.Hostname()
   nodename := tools.RandSeq(30)
   networkaddress := tools.ReadIpFromHost()
@@ -25,6 +27,8 @@ node := wendy.NewNode(id,  networkaddress, networkaddress , "AVERNO", 20000)
 log.Printf("[INFO] %s", "Nodename: "+nodename)
 // this is just to avoid interference with other clusters/dht nodes
 credentials := wendy.Passphrase("Chi puote puote, chi non puote se lo scuote")
+// actually no secret credentials are needed
+
 cluster := wendy.NewCluster(node, credentials)
 log.Printf("[INFO] %s", "Cluster initialized")
 go func() {
