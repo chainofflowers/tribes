@@ -4,27 +4,29 @@ import (
 	"log"
 	"net"
 	"os"
+	"math/rand"
+	"time"
 )
 
-func ReadIpFromHost() {
-	host, _ := os.Hostname()
-	log.Printf("[INFO] %s", host)
-	addrs, _ := net.LookupIP(host)
-	log.Printf("[INFO] %s", addrs)
-	for _, addr := range addrs {
-		if ipv4 := addr.To4(); ipv4 != nil {
-			log.Printf("[INFO] %s", ipv4)
-		}
-	}
+var letters = []rune("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
+
+func ReadIpFromHost() (string) {
+
+	host, _ := os.Hostname()
+	log.Printf("[INFO] Own Hostname is: %s", host)
+	addrs, _ := net.LookupIP(host)
+	log.Printf("[INFO] Own IP is: %s", addrs[0].String())
+
+	return addrs[0].String()
 }
 
-func ReadIpFromInterface() {
-	addrs, _ := net.InterfaceAddrs()
-	for _, addr := range addrs {
-		if ipnet, ok := addr.(*net.IPNet); ok {
-			log.Printf("[INFO] %s", ipnet.IP)
-		}
-	}
 
+func RandSeq(n int) string {
+	  rand.Seed(time.Now().UTC().UnixNano())
+    b := make([]rune, n)
+    for i := range b {
+        b[i] = letters[rand.Intn(len(letters))]
+    }
+    return string(b)
 }

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
+
 	"log"
 	"os"
-	"./tools/"
 	"./upnp/"
+	"./legione/"
 )
 
 // No root. End of story
@@ -17,14 +17,14 @@ func init() {
 		os.Exit(1)
 	}
 
+	upnp.AllUpnpOpen()
+
 }
 
 func main() {
 
-	tools.ReadIpFromInterface()
-	fmt.Println("now by host")
-	tools.ReadIpFromHost()
-	upnp.AllUpnpOpen()
+	go legion.Initialize()
+
 	os.Exit(0)
 
 }
