@@ -20,7 +20,7 @@ if err != nil {
 }
 id, err := wendy.NodeIDFromBytes([]byte(nodename+"averno" ))
 if err != nil {
-  log.Printf("[INFO] %s", "Cannot create a new Node")
+  log.Printf("[INFO] %s", "Cannot create a new Node because of:")
 	panic(err.Error())
 }
 node := wendy.NewNode(id,  networkaddress, networkaddress , "AVERNO", 20000)
@@ -36,6 +36,7 @@ go func() {
 	defer cluster.Stop()
 	err := cluster.Listen()
 	if err != nil {
+    log.Printf("[WTF] %s", "Cannot listen on port 20000. SYSADMIN!")
 		panic(err.Error())
 	}
 }()
