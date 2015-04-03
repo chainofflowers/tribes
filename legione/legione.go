@@ -9,13 +9,13 @@ import (
 
 func Initialize() {
 
-  log.Printf("[INFO] %s", "Making the wendy cluster")
+  log.Printf("[INFO] %s", "Baking a nice Pastry cluster")
 
   hostname, err := os.Hostname()
   nodename := tools.RandSeq(30)
   networkaddress := tools.ReadIpFromHost()
 if err != nil {
-  log.Printf("[INFO] %s", "Cannot get own hostname!")
+  log.Printf("[WTF] %s", "Cannot get own hostname! SYSADMIN!")
 	panic(err.Error())
 }
 id, err := wendy.NodeIDFromBytes([]byte(nodename+"averno" ))
@@ -25,7 +25,8 @@ if err != nil {
 }
 node := wendy.NewNode(id,  networkaddress, networkaddress , "AVERNO", 20000)
 log.Printf("[INFO] %s", "Nodename: "+nodename)
-// this is just to avoid interference with other clusters/dht nodes
+
+// this is just to avoid interference+bullshit with other clusters/dht nodes
 credentials := wendy.Passphrase("Chi puote puote, chi non puote se lo scuote")
 // actually no secret credentials are needed
 

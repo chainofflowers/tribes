@@ -19,7 +19,7 @@ func ReadIpFromHost() (string) {
 		log.Printf("[INFO] Own Hostname is: %s", host)
 	} else {
 		log.Printf("[WTF] Can't get my own hostname? SYSADMIN!")
-		os.Exit(1)
+		panic(err.Error())
 	}
 
 	addrs, err := net.LookupIP(host)
@@ -27,7 +27,7 @@ func ReadIpFromHost() (string) {
 		log.Printf("[INFO] Own IP is: %s", addrs[0].String())
 	} else {
 		log.Printf("[WTF] Can't get my own IP? SYSADMIN!")
-		os.Exit(1)
+		panic(err.Error())
 	}
 	return addrs[0].String()
 }
