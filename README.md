@@ -47,7 +47,7 @@ even manually/cronjob if needed. I am still a  sysadmin :)
 
 I will make it assuming Linux/Unix. If it doesn't works in windows, please restart your PC.
 
-I will choose a set of libraries to use, until they have documentation (**given the code is not documentation**) and examples. Until now, I see those libraries are ok. 
+I will choose a set of libraries to use, until they have documentation (**given the code is not documentation**) and good examples. 
 
 1. DHT/PASTRY: [https://github.com/secondbit/wendy](https://github.com/secondbit/wendy)
 2. NNTP: [https://github.com/dustin/go-nntp](https://github.com/dustin/go-nntp)
