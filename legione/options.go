@@ -23,6 +23,3 @@ type MessagingConfig struct {
 	v             int    // verbosity level as a number
 }
 
-func GetClusterPort() int {
-	return 30000
-}

@@ -21,7 +21,7 @@ type debugWendy struct {
 }
 
 func (app *debugWendy) OnError(err error) {
-	panic(err.Error())
+	log.Printf("[OMG] Incoming Bullshit : %s", err)
 }
 
 func (app *debugWendy) OnDeliver(msg wendy.Message) {
@@ -30,7 +30,8 @@ func (app *debugWendy) OnDeliver(msg wendy.Message) {
 
 func (app *debugWendy) OnForward(msg *wendy.Message, next wendy.NodeID) bool {
 	log.Printf("Forwarding message %s to Node %s.", msg.Key, next)
-	return true // return false if you don't want the message forwarded
+	return true 
+    // return false if you don't want the message forwarded
 }
 
 func (app *debugWendy) OnNewLeaves(leaves []*wendy.Node) {

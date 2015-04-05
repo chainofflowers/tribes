@@ -1,14 +1,15 @@
 package upnp
 
 import (
-	"../legione/"
+	
+    "../config/"
 	"github.com/prestonTao/upnp"
 	"log"
 )
 
 func AllUpnpOpen() {
 
-	ClusterPort := legion.GetClusterPort()
+	ClusterPort := config.GetClusterPort()
 
 	mapping_dht := new(upnp.Upnp)
 	log.Printf("[INFO] UPnP on TCP %d...", ClusterPort)

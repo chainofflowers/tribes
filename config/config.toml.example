@@ -1,0 +1,3 @@
+DHTPORT = "21000"
+BootstrapNode = "boseburo.ddns.net"
+

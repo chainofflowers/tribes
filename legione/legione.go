@@ -2,12 +2,13 @@ package legion
 
 import (
 	"../tools/"
+    "../config"
 	"github.com/secondbit/wendy"
 	"log"
 	"os"
 )
 
-func Initialize() {
+func Initialize()  {
 
 	var options MessagingConfig
 
@@ -17,8 +18,8 @@ func Initialize() {
 	options.IDString = options.nodeID.String()
 	options.ExternalIP = tools.ReadIpFromHost()
 	options.LocalIP = "127.0.0.1"
-	options.Region = "AVERNO"
-	options.Port = GetClusterPort()
+	options.Region = "" // no need of EC2 regions
+	options.Port = config.GetClusterPort()
 
 	node := wendy.NewNode(options.nodeID, options.LocalIP, options.ExternalIP, options.Region, options.Port)
 	log.Printf("[INFO] NodeName : %s", options.nodeID)
@@ -40,7 +41,7 @@ func Initialize() {
 		defer cluster.Stop()
 		err := cluster.Listen()
 		if err != nil {
-			log.Printf("[WTF] Cannot listen on port %s SYSADMIN!", options.Port)
+			log.Printf("[WTF] Cannot listen on port %s : SYSADMIN!", options.Port)
 			os.Exit(1)
 		}
 	}()
