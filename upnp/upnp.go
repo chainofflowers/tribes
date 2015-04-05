@@ -1,8 +1,7 @@
 package upnp
 
 import (
-	
-    "../config/"
+	"../config/"
 	"github.com/prestonTao/upnp"
 	"log"
 )

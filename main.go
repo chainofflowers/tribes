@@ -17,13 +17,13 @@ func init() {
 	}
 
 	upnp.AllUpnpOpen()
-    legion.Initialize()
+	legion.Initialize()
 
 }
 
 func main() {
 
-	select{}
+	select {}
 
 	os.Exit(0)
 

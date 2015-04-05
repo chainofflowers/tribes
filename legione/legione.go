@@ -1,16 +1,16 @@
 package legion
 
 import (
+	"../config"
 	"../tools/"
-    "../config"
 	"github.com/secondbit/wendy"
 	"log"
-    "net"
+	"net"
 	"os"
-    "strconv"
+	"strconv"
 )
 
-func Initialize()  {
+func Initialize() {
 
 	var options MessagingConfig
 
@@ -22,7 +22,7 @@ func Initialize()  {
 	options.LocalIP = "127.0.0.1"
 	options.Region = "" // no need of EC2 regions
 	options.Port = config.GetClusterPort()
-    options.BootstrapNode = config.GetBootstrapNode()
+	options.BootstrapNode = config.GetBootstrapNode()
 
 	node := wendy.NewNode(options.nodeID, options.LocalIP, options.ExternalIP, options.Region, options.Port)
 	log.Printf("[INFO] NodeName : %s", options.nodeID)
@@ -49,19 +49,15 @@ func Initialize()  {
 		}
 	}()
 
-    
-    go func () {
-            host,port,err := net.SplitHostPort(options.BootstrapNode)
-            if err != nil {
+	go func() {
+		host, port, err := net.SplitHostPort(options.BootstrapNode)
+		if err != nil {
 			log.Printf("[OMG] BoostrapNode cannot be: ", options.BootstrapNode)
-                          }else{	
-            p, _ := strconv.Atoi(port)
-            log.Printf("[INFO] joining the cluster at %s",options.BootstrapNode )
-			cluster.Join(host,p )
+		} else {
+			p, _ := strconv.Atoi(port)
+			log.Printf("[INFO] joining the cluster at %s", options.BootstrapNode)
+			cluster.Join(host, p)
 		}
 	}()
-    
-    
-	
 
 }

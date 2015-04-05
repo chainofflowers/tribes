@@ -22,4 +22,3 @@ type MessagingConfig struct {
 	Verbose       []bool `short:"v" long:"verbose" description:"Verbosity. Can be given multiple times"`
 	v             int    // verbosity level as a number
 }
-

@@ -1,16 +1,14 @@
 package config
 
 import (
-	
 	"github.com/spf13/viper"
 	"log"
-	
 )
 
 func init() {
 
 	viper.SetConfigName("config")
-    viper.SetConfigType("toml")
+	viper.SetConfigType("toml")
 	viper.AddConfigPath("$HOME/News/")
 
 	err := viper.ReadInConfig() // Find and read the config file
