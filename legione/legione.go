@@ -5,7 +5,9 @@ import (
     "../config"
 	"github.com/secondbit/wendy"
 	"log"
+    "net"
 	"os"
+    "strconv"
 )
 
 func Initialize()  {
@@ -20,6 +22,7 @@ func Initialize()  {
 	options.LocalIP = "127.0.0.1"
 	options.Region = "" // no need of EC2 regions
 	options.Port = config.GetClusterPort()
+    options.BootstrapNode = config.GetBootstrapNode()
 
 	node := wendy.NewNode(options.nodeID, options.LocalIP, options.ExternalIP, options.Region, options.Port)
 	log.Printf("[INFO] NodeName : %s", options.nodeID)
@@ -46,12 +49,19 @@ func Initialize()  {
 		}
 	}()
 
-	// err = cluster.Join("127.0.0.1", 20000)
-	// if err != nil {
-	// 	log.Printf("[OOPS] Cannot join the cluster %s", err)
-	// }
-
-	// log.Printf("[INFO] %s", "Joined Myself, now looking for other nodes")
-	select {}
+    
+    go func () {
+            host,port,err := net.SplitHostPort(options.BootstrapNode)
+            if err != nil {
+			log.Printf("[OMG] BoostrapNode cannot be: ", options.BootstrapNode)
+                          }else{	
+            p, _ := strconv.Atoi(port)
+            log.Printf("[INFO] joining the cluster at %s",options.BootstrapNode )
+			cluster.Join(host,p )
+		}
+	}()
+    
+    
+	
 
 }
