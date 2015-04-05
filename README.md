@@ -15,7 +15,7 @@ then the second component, NNTP
 
 the third module, UpNP
   
->It will try to open port -TO BE DECIDED- on the router (nntp) and some UDP port for dht.
+>It will try to open port -TO BE DECIDED- on the router for dht.
 
 Due of port 11119, no **root** privileges SHALL be used.
 
