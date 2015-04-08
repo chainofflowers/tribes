@@ -2,10 +2,19 @@ package main
 
 import (
 	"./legione/"
+    "./nntp/"
 	"./upnp/"
 	"log"
 	"os"
 )
+
+// Channels to connect nntp and wendy
+
+var IncomingMessages = make(chan string,100) 
+var AnnounceMessages = make(chan string,100)
+var IncomingGroups   = make(chan string,100)
+var AnnounceGroups   = make(chan string,100)
+
 
 // No root. End of story
 
@@ -16,14 +25,19 @@ func init() {
 		os.Exit(1)
 	}
 
-	upnp.AllUpnpOpen()
-	legion.Initialize()
+	go upnp.AllUpnpOpen()
+	go legion.Initialize()
 
 }
 
-func main() {
 
-	select {}
+// main will only manage local data
+
+func main() {
+    
+    nntp.NNTP_Frontend()
+
+//	select {}
 
 	os.Exit(0)
 
