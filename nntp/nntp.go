@@ -2,13 +2,17 @@ package nntp
 
 import (
 	"bufio"
-	"fmt"
+
 	"log"
 	"net"
-	"strings" // only needed below for sample processing
+	"regexp"
 )
 
+var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nOVER\nXOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
+
 func NNTP_Frontend() {
+
+	// setting up the tcp connection
 
 	ln, err := net.Listen("tcp", "127.0.0.1:11119")
 	if err == nil {
@@ -17,35 +21,104 @@ func NNTP_Frontend() {
 		log.Printf("[WTF] TCP CANNOT listen at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 	}
 
+	defer ln.Close()
+
 	for {
 
-		conn, err := ln.Accept()
+		// start listening at it
+
+		server, err := ln.Accept()
+		tcp_client := server.RemoteAddr()
 
 		if err == nil {
-			remote_client := conn.RemoteAddr()
 
-			log.Printf("[INFO] NNTP accepted connection from %s ", remote_client)
+			log.Printf("[INFO] NNTP accepted connection from %s ", tcp_client)
 		} else {
 			log.Printf("[WTF] NNTP something went wrong at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 		}
 
-		// will listen for message to process ending in newline (\n)
+		go NNTP_Interpret(server)
 
-		message, _ := bufio.NewReader(conn).ReadString('\n')
+	}
 
+}
+
+func NNTP_Interpret(conn net.Conn) {
+
+	remote_client := conn.RemoteAddr()
+
+	for {
+
+		linea, _ := bufio.NewReader(conn).ReadString('\n')
+
+		message := string(linea)
 		// output message received
 
-		fmt.Print("Message Received:", string(message))
+		log.Printf("[DEBUG] NNTP %s from %s ", message, remote_client)
 
-		// sample process for string received
+		// decides WTF to do with the string
 
-		newmessage := strings.ToUpper(message)
+		if matches, _ := regexp.MatchString("(?i)^QUIT.*", message); matches == true {
+			log.Printf("[INFO] NNTP QUIT from %s ", remote_client)
+			conn.Close()
+		}
 
-		// send new string back to client
+		if matches, _ := regexp.MatchString("(?i)^GROUP.*", message); matches == true {
+			log.Printf("[INFO] NNTP GROUP from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^LIST.*", message); matches == true {
+			log.Printf("[INFO] NNTP LIST from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^HEAD.*", message); matches == true {
+			log.Printf("[INFO] NNTP HEAD from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^BODY.*", message); matches == true {
+			log.Printf("[INFO] NNTP BODY from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^ARTICLE.*", message); matches == true {
+			log.Printf("[INFO] NNTP ARTICLE from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^POST.*", message); matches == true {
+			log.Printf("[INFO] NNTP POST from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^IHAVE.*", message); matches == true {
+			log.Printf("[INFO] NNTP IHAVE from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^CAPABILITIES.*", message); matches == true {
+			log.Printf("[INFO] NNTP CAPABILITIES from %s ", remote_client)
+			conn.Write([]byte(capab_out))
+			continue
 
-		conn.Write([]byte(newmessage + "\n"))
+		}
+		if matches, _ := regexp.MatchString("(?i)^MODE.*", message); matches == true {
+			log.Printf("[INFO] NNTP MODE from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^AUTHINFO.*", message); matches == true {
+			log.Printf("[INFO] NNTP AUTHINFO from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^NEWSGROUPS.*", message); matches == true {
+			log.Printf("[INFO] NNTP NEWSGROUPS from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^OVER.*", message); matches == true {
+			log.Printf("[INFO] NNTP OVER from %s ", remote_client)
+			continue
+		}
+		if matches, _ := regexp.MatchString("(?i)^XOVER.*", message); matches == true {
+			log.Printf("[INFO] NNTP XOVER from %s ", remote_client)
+			continue
+		}
 
+		log.Printf("[INFO] NNTP BULLSHIT %s , closing connection ", remote_client)
 		conn.Close()
-
 	}
 }
