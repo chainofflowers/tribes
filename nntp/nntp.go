@@ -52,9 +52,6 @@ func NNTP_Interpret(conn net.Conn) {
 		linea, _ := bufio.NewReader(conn).ReadString('\n')
 
 		message := string(linea)
-		// output message received
-
-		log.Printf("[DEBUG] NNTP %s from %s ", message, remote_client)
 
 		// decides WTF to do with the string
 
@@ -119,6 +116,8 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 
 		log.Printf("[INFO] NNTP BULLSHIT %s , closing connection ", remote_client)
-		conn.Close()
+		break
+
 	}
+	conn.Close()
 }
