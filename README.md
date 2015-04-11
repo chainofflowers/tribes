@@ -50,6 +50,6 @@ I will make it assuming Linux/Unix. If it doesn't works in windows, please resta
 I will choose a set of libraries to use, until they have documentation (**code is not documentation.** If you think code is a good documentation, just work alone) and good examples. 
 
 1. DHT/PASTRY: [https://github.com/secondbit/wendy](https://github.com/secondbit/wendy)
-2. NNTP: [https://github.com/dustin/go-nntp](https://github.com/dustin/go-nntp)
+2. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977)
 3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp)
 4. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper)
