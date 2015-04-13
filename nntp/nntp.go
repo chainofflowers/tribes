@@ -2,10 +2,10 @@ package nntp
 
 import (
 	"bufio"
-
 	"log"
 	"net"
 	"regexp"
+    "../backend/"
 )
 
 var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nOVER\nXOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
@@ -31,8 +31,9 @@ func NNTP_Frontend() {
 		tcp_client := server.RemoteAddr()
 
 		if err == nil {
-
+            
 			log.Printf("[INFO] NNTP accepted connection from %s ", tcp_client)
+            
 		} else {
 			log.Printf("[WTF] NNTP something went wrong at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 		}
@@ -46,7 +47,8 @@ func NNTP_Frontend() {
 func NNTP_Interpret(conn net.Conn) {
 
 	remote_client := conn.RemoteAddr()
-
+    greetings := "200 averno.node AVERNO Version 01 beta, S0, posting OK"
+    conn.Write([]byte(greetings + "\n"))
 	for {
 
 		linea, _ := bufio.NewReader(conn).ReadString('\n')
@@ -56,66 +58,75 @@ func NNTP_Interpret(conn net.Conn) {
 		// decides WTF to do with the string
 
 		if matches, _ := regexp.MatchString("(?i)^QUIT.*", message); matches == true {
-			log.Printf("[INFO] NNTP QUIT from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			conn.Close()
 		}
 
 		if matches, _ := regexp.MatchString("(?i)^GROUP.*", message); matches == true {
-			log.Printf("[INFO] NNTP GROUP from %s ", remote_client)
+			
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^LIST.*", message); matches == true {
-			log.Printf("[INFO] NNTP LIST from %s ", remote_client)
+            conn.Write([]byte("215 list of newsgroups follows"+ "\n"))
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            backend.Trasmit_Active_NG(conn)
+            conn.Write([]byte("\n."+ "\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^HEAD.*", message); matches == true {
-			log.Printf("[INFO] NNTP HEAD from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^BODY.*", message); matches == true {
-			log.Printf("[INFO] NNTP BODY from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^ARTICLE.*", message); matches == true {
-			log.Printf("[INFO] NNTP ARTICLE from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^POST.*", message); matches == true {
-			log.Printf("[INFO] NNTP POST from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^IHAVE.*", message); matches == true {
-			log.Printf("[INFO] NNTP IHAVE from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^CAPABILITIES.*", message); matches == true {
-			log.Printf("[INFO] NNTP CAPABILITIES from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			conn.Write([]byte(capab_out))
 			continue
 
 		}
-		if matches, _ := regexp.MatchString("(?i)^MODE.*", message); matches == true {
-			log.Printf("[INFO] NNTP MODE from %s ", remote_client)
+		if matches, _ := regexp.MatchString("(?i)^MODE.*READER.*", message); matches == true {
+            conn.Write([]byte(greetings + "\n"))
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^AUTHINFO.*", message); matches == true {
-			log.Printf("[INFO] NNTP AUTHINFO from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^NEWSGROUPS.*", message); matches == true {
-			log.Printf("[INFO] NNTP NEWSGROUPS from %s ", remote_client)
+		if matches, _ := regexp.MatchString("(?i)^NEWGROUPS.*", message); matches == true {
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            conn.Write([]byte("231 New newsgroups since whatever follow"+ "\n"))
+            backend.Trasmit_New_NG(conn)
+            conn.Write([]byte("\n."+ "\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^OVER.*", message); matches == true {
-			log.Printf("[INFO] NNTP OVER from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^XOVER.*", message); matches == true {
-			log.Printf("[INFO] NNTP XOVER from %s ", remote_client)
+			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
 
-		log.Printf("[INFO] NNTP BULLSHIT %s , closing connection ", remote_client)
+		
+        log.Printf("[INFO] NNTP BULLSHIT %s from %s ", message,  remote_client)
 		break
 
 	}
