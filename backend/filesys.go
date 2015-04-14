@@ -13,12 +13,17 @@ import (
 var active_ng_file string = "/News/groups/ng.active"
 var new_ng_file    string = "/News/groups/ng.new"
 
+// initializes everything
+
+
 func init() {
     var user_home = GetHomeDir()
     active_ng_file  = user_home + active_ng_file
     new_ng_file = user_home + new_ng_file
 }
 
+
+// gets the active NG and sends them to the given sockets
 
 
 func Trasmit_Active_NG(conn net.Conn)  (error) {
@@ -39,6 +44,9 @@ func Trasmit_Active_NG(conn net.Conn)  (error) {
     file.Close()
   return scanner.Err()
 }
+
+// transmits NEW newgroups (here "local") to the given socket
+
 
 func Trasmit_New_NG(conn net.Conn)  (error) {
   file, err := os.Open(new_ng_file)
@@ -62,7 +70,7 @@ func Trasmit_New_NG(conn net.Conn)  (error) {
 
 
 
-
+// just gets the home directory. to be moved in "tools"
 
         
 
