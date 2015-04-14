@@ -3,6 +3,7 @@
 *.a
 *.so
 averno
+notes.txt
 
 # Folders
 _obj
