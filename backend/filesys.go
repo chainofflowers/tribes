@@ -7,6 +7,7 @@ import (
 //	"regexp"
     "os"
     "os/user"
+    "path/filepath"
 )
 
 
@@ -17,9 +18,21 @@ var new_ng_file    string = "/News/groups/ng.new"
 
 
 func init() {
+
+
+    separator := string(filepath.Separator)
+
     var user_home = GetHomeDir()
     active_ng_file  = user_home + active_ng_file
     new_ng_file = user_home + new_ng_file
+
+    os.MkdirAll(user_home + separator + "News" + separator + "groups" ,0755)
+    os.MkdirAll(user_home + separator + "News" + separator + "peers" ,0755)
+    os.MkdirAll(user_home + separator + "News" + separator + "messages" ,0755)
+
+
+
+
 }
 
 
