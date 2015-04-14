@@ -12,7 +12,7 @@ import (
 
 
 var active_ng_file string = "/News/groups/ng.active"
-var new_ng_file    string = "/News/groups/ng.new"
+var new_ng_file    string = "/News/groups/ng.local"
 
 // initializes everything
 
