@@ -60,6 +60,7 @@ func NNTP_Interpret(conn net.Conn) {
 		if matches, _ := regexp.MatchString("(?i)^QUIT.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			conn.Close()
+            break
 		}
 
 		if matches, _ := regexp.MatchString("(?i)^GROUP.*", message); matches == true {
