@@ -43,7 +43,7 @@ func RandSeq(n int) string {
 
 
 func TheFileExists(filename string) (bool, error) {
-  err := os.Stat(name)
+  _, err := os.Stat(filename)
   if os.IsNotExist(err) {
     return false, nil
   }
