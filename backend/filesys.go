@@ -93,6 +93,8 @@ func GetHomeDir() (string) {
     if err != nil {
         log.Fatal( err )
         log.Printf("[WTF] can't get homedir for user! SYSADMIIIN!"  )
-    }
+        return "/tmp"
+    } else {
     return usr.HomeDir
+    }
 }
