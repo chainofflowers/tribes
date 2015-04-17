@@ -49,3 +49,20 @@ func TheFileExists(filename string) (bool, error) {
   }
   return err != nil, err
 }
+
+
+// just gets the home directory. to be moved in "tools"
+
+
+
+func GetHomeDir() (string) {
+
+    usr, err := user.Current()
+    if err != nil {
+        log.Fatal( err )
+        log.Printf("[WTF] can't get homedir for user! SYSADMIIIN!"  )
+        return "/tmp"
+    } else {
+    return usr.HomeDir
+    }
+}

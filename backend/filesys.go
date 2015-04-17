@@ -8,6 +8,7 @@ import (
     "os"
     "os/user"
     "path/filepath"
+    "../tools/"
 )
 
 
@@ -22,7 +23,7 @@ func init() {
 
     separator := string(filepath.Separator)
 
-    var user_home = GetHomeDir()
+    var user_home = tools.GetHomeDir()
     active_ng_file  = user_home + active_ng_file
     new_ng_file = user_home + new_ng_file
 
@@ -83,18 +84,3 @@ func Trasmit_New_NG(conn net.Conn)  (error) {
 
 
 
-// just gets the home directory. to be moved in "tools"
-
-        
-
-func GetHomeDir() (string) {
-    
-    usr, err := user.Current()
-    if err != nil {
-        log.Fatal( err )
-        log.Printf("[WTF] can't get homedir for user! SYSADMIIIN!"  )
-        return "/tmp"
-    } else {
-    return usr.HomeDir
-    }
-}
