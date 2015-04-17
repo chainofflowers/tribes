@@ -14,7 +14,7 @@ then the second component, NNTP
 
 the third module, UpNP
   
->It will try to open port -TO BE DECIDED- on the router for dht.
+>It will try to open port -TO BE DECIDED- on the router for http.
 
 Due of port 11119, no **root** privileges SHALL be used.
 
@@ -31,7 +31,7 @@ all files will be stored in local ~/news folder.
 Naming convention will be the following: 
 
 <pre>
-~/news/posts/x.groupname-YYMMDDHHMMSS-SH1 
+~/news/messages/x-groupname-YYMMDDHHMMSS-SH1 
 </pre>
 
 where:
@@ -70,6 +70,6 @@ I will make it assuming Linux/Unix. If it doesn't works in windows, please resta
 I will choose a set of libraries to use, until they have documentation (**code is not documentation.** If you think code is a good documentation, just work alone) and good examples. Everything which has an incomplete/shitty documentation will be outscoped from the project. 
 
 1. HTTP: [http://tools.ietf.org/html/rfc2616](http://tools.ietf.org/html/rfc2616)[http://tools.ietf.org/html/rfc1945](http://tools.ietf.org/html/rfc1945)
-2. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977)
-3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp)
-4. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper)
+2. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977) - IN PROGRESS -
+3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp) - **DONE** -
+4. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper) - **DONE** - 

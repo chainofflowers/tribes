@@ -13,6 +13,7 @@ import (
 
 var active_ng_file string = "/News/groups/ng.active"
 var new_ng_file    string = "/News/groups/ng.local"
+var messages_folder string= "/News/messages/"
 
 // initializes everything
 
@@ -25,6 +26,7 @@ func init() {
     var user_home = tools.GetHomeDir()
     active_ng_file  = user_home + active_ng_file
     new_ng_file = user_home + new_ng_file
+    messages_folder = user_home + messages_folder
 
     os.MkdirAll(user_home + separator + "News" + separator + "groups" ,0755)
     os.MkdirAll(user_home + separator + "News" + separator + "peers" ,0755)
