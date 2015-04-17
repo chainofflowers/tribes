@@ -44,6 +44,24 @@ where:
 
 Peers will be saved in 
 
+<pre>
+~/news/peers/peers.initial  // the first host to connect to download other peers.
+~/news/peers/peers.active   // the peers we can reach. This is the list to be shared
+~/news/peers/peers.all      // all the peers we know from others
+</pre>
+
+there will be a worker thread keeping updated the "active" list and pruning the "all" list.
+
+Newsgroup will be stored as:
+
+<pre>
+~/news/groups/groups.local  // groups which are created locally. Always considered "new". To be exposed to peers
+~/news/groups/groups.active   // groups which are subscribed by the local client.
+~/news/groups/groups.all      //all the groups we know. 
+</pre>
+
+a running task will take care of pruning groups.all making it equal to groups.active, after a while. 
+
 storing things in such a way will make easier to delete old files by group, 
 even manually/cronjob if needed. I am still a  sysadmin :)
 
