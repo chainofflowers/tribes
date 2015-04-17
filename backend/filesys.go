@@ -6,7 +6,7 @@ import (
 	"net"
 //	"regexp"
     "os"
-    "os/user"
+
     "path/filepath"
     "../tools/"
 )
