@@ -31,15 +31,18 @@ all files will be stored in local ~/news folder.
 Naming convention will be the following: 
 
 <pre>
-~/news/groupname-YYMMDDHHMMSS-SH1 
+~/news/posts/x.groupname-YYMMDDHHMMSS-SH1 
 </pre>
 
 where:
 
-1. _groupname_ is the name of the group (z.b. de.mahl.zeit) , to keep easy  "find all files for a group"
-2. _YYMMDDHHMMSS_ is a timestamp, to keep files in natural order and make the NNTP interface easier.
-3. _SH1_ is the SH1 hash of the body, to avoid duplicates.
-4. One file, one message.
+1. _x_ is "h" for headers, "b" for bodies.
+2. _groupname_ is the name of the group (z.b. de.mahl.zeit) , to keep easy  "find all files for a group"
+3. _YYMMDDHHMMSS_ is a timestamp, to keep files in natural order and make the NNTP interface easier.
+4. _SH1_ is the SH1 hash of the body, to avoid duplicates.
+5. One file, one message.
+
+Peers will be saved in 
 
 storing things in such a way will make easier to delete old files by group, 
 even manually/cronjob if needed. I am still a  sysadmin :)
