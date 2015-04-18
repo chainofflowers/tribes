@@ -62,6 +62,7 @@ func NNTP_Interpret(conn net.Conn) {
 
 		if matches, _ := regexp.MatchString("(?i)^QUIT.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            conn.Write([]byte("205 closing connection - goodbye!"))
 			conn.Close()
             break
 		}
