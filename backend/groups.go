@@ -1,59 +1,53 @@
 package backend
 
 import (
-	"bufio"
-	"io/ioutil"
 	"log"
-	"os"
 	"path/filepath"
-	"strings"
+	"sort"
 )
 
 func GetNumFilesByGroup(groupname string) int {
-	files, _ := ioutil.ReadDir(backend.messages_folder)
-	count := 0
 
-	for fileline := range files {
-		if strings.Contains(files[fileline], groupname) {
+	if files, err := filepath.Glob(backend.messages_folder + "*" + groupname + "*"); err != nil {
+		log.Printf("[SOB] No messages for group %s ", groupname)
+		return 0
+	} else {
+		log.Printf("[WOW] %d messages for group %s ", len[files], groupname)
+		return len(files)
 
-			count++
-		}
 	}
-	return count
+
 }
 
 func GetFirstNumByGroup(groupname string) string {
-	files, _ := ioutil.ReadDir(backend.messages_folder)
 
-	current_num := "null"
-
-	for filename := range files {
-
-		if strings.Contains(files[filename], groupname) {
-
-			pieces = strings.Split(filename, "-")
-			if current_num > pieces[2] {
-				current_num = pieces[2]
-			}
-		}
+	if files, err := filepath.Glob(backend.messages_folder + "*" + groupname + "*"); err != nil {
+		log.Printf("[SOB] No messages for group %s ", groupname)
+		return "0"
+	} else {
+		sort.Strings(files)
+		pieces = strings.Split(files[0], "-")
+		log.Printf("[WOW] %s first message for %s ", pieces[2], groupname)
+		return pieces[2]
 	}
-	return current_num
+
 }
 
 func GetLastNumByGroup(groupname string) string {
-	files, _ := ioutil.ReadDir(backend.messages_folder)
-
-	current_num := ""
-
-	for filename := range files {
-
-		if strings.Contains(filename, groupname) {
-
-			pieces = strings.Split(filename, "-")
-			if current_num < pieces[2] {
-				current_num = pieces[2]
-			}
-		}
+	if files, err := filepath.Glob(backend.messages_folder + "*" + groupname + "*"); err != nil {
+		log.Printf("[SOB] No messages for group %s ", groupname)
+		return "0"
+	} else {
+		sort.Strings(files)
+		pieces = strings.Split(files[len(files)-1], "-")
+		log.Printf("[WOW] %s last message for %s ", pieces[2], groupname)
+		return pieces[2]
 	}
-	return current_num
+
+}
+
+func ResponseToNNTPGROUP(groupname string) string {
+	response = "211 " + GetNumFilesByGroup(groupname) + " " + GetFirstNumByGroup(groupname) + " " + GetLastNumByGroup(groupname) + " group is now " + groupname
+	log.Printf("[OK] answering back %s ", response)
+	return response
 }

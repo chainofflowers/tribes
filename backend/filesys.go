@@ -21,19 +21,16 @@ var messages_folder string= "/News/messages/"
 func init() {
 
 
-    separator := string(filepath.Separator)
+
 
     var user_home = tools.GetHomeDir()
-    active_ng_file  = user_home + active_ng_file
-    new_ng_file = user_home + new_ng_file
-    messages_folder = user_home + messages_folder
+    active_ng_file  = filepath.Join(user_home , active_ng_file)
+    new_ng_file = filepath.Join(user_home ,new_ng_file)
+    messages_folder = filepath.Join(user_home , messages_folder)
 
-    os.MkdirAll(user_home + separator + "News" + separator + "groups" ,0755)
-    os.MkdirAll(user_home + separator + "News" + separator + "peers" ,0755)
-    os.MkdirAll(user_home + separator + "News" + separator + "messages" ,0755)
-
-
-
+    os.MkdirAll(filepath.Join(user_home , "News" , "groups") ,0755)
+    os.MkdirAll(filepath.Join(user_home ,"News" , "peers") ,0755)
+    os.MkdirAll(filepath.Join(user_home , "News" , "messages") ,0755)
 
 }
 
