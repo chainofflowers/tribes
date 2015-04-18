@@ -6,17 +6,13 @@ import (
 	"log"
 )
 
-var ClusterPort int
 
-func init() {
-    ClusterPort := config.GetClusterPort()
-}
 
 
 
 func AllUpnpOpen() {
 
-
+    ClusterPort := config.GetClusterPort()
 
 	mapping_http := new(upnp.Upnp)
 	log.Printf("[INFO] UPnP on TCP %d...", ClusterPort)

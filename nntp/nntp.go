@@ -5,10 +5,13 @@ import (
 	"log"
 	"net"
 	"regexp"
+    "strings"
     "../backend/"
 )
 
 var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nOVER\nXOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
+var current_group string = ""
+var current_messg string = ""
 
 func NNTP_Frontend() {
 
@@ -63,9 +66,11 @@ func NNTP_Interpret(conn net.Conn) {
             break
 		}
 
-		if matches, _ := regexp.MatchString("(?i)^GROUP.*", message); matches == true {
-			
+		if matches, _ := regexp.MatchString("(?i)^GROUP[ ].+", message); matches == true {
             log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            sinta := strings.Split(message," ")
+            current_group = sinta[1]
+            conn.Write([]byte(backend.ResponseToNNTPGROUP(current_group)))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^LIST.*", message); matches == true {
