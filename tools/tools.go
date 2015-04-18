@@ -7,6 +7,8 @@ import (
 	"os"
     "os/user"
 	"time"
+    "bufio"
+    "fmt"
 )
 
 var letters = []rune("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
@@ -66,4 +68,20 @@ func GetHomeDir() (string) {
     } else {
     return usr.HomeDir
     }
+}
+
+
+
+func WriteMessages(lines []string, path string) error {
+   file, err := os.Create(path)
+  if err != nil {
+    return err
+  }
+  defer file.Close()
+
+  w := bufio.NewWriter(file)
+  for _, line := range lines {
+    fmt.Fprintln(w, line)
+  }
+  return w.Flush()
 }

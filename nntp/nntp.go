@@ -9,9 +9,8 @@ import (
     "../backend/"
 )
 
-var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nOVER\nXOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
-var current_group string = ""
-var current_messg string = ""
+var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
+
 
 func NNTP_Frontend() {
 
@@ -33,6 +32,8 @@ func NNTP_Frontend() {
 		server, err := ln.Accept()
 		tcp_client := server.RemoteAddr()
 
+
+
 		if err == nil {
             
 			log.Printf("[INFO] NNTP accepted connection from %s ", tcp_client)
@@ -49,14 +50,19 @@ func NNTP_Frontend() {
 
 func NNTP_Interpret(conn net.Conn) {
 
+
+    var current_group string = "garbage"
+// for future use    var current_messg string = "null"
+
 	remote_client := conn.RemoteAddr()
     greetings := "200 averno.node AVERNO Version 01 beta, S0, posting OK"
     conn.Write([]byte(greetings + "\n"))
 	for {
 
-		linea, _ := bufio.NewReader(conn).ReadString('\n')
+		linea, _,_ := bufio.NewReader(conn).ReadLine()
 
 		message := string(linea)
+
 
 		// decides WTF to do with the string
 
@@ -95,6 +101,7 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 		if matches, _ := regexp.MatchString("(?i)^POST.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            backend.NNTP_POST_ReadAndSave(conn , current_group)
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^IHAVE.*", message); matches == true {
@@ -125,16 +132,19 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 		if matches, _ := regexp.MatchString("(?i)^OVER.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            conn.Write([]byte("502 no permission, and BTW not a RFC977 command\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^XOVER.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            conn.Write([]byte("502 no permission, and BTW not a RFC977 command\n"))
 			continue
 		}
 
 		
-        log.Printf("[INFO] NNTP BULLSHIT %s from %s ", message,  remote_client)
-		break
+        log.Printf("[INFO] NNTP BULLSHIT < %s > from %s ", message,  remote_client)
+        conn.Write([]byte("502 no permission, and BTW not a RFC977 command\n"))
+
 
 	}
 	conn.Close()
