@@ -6,9 +6,17 @@ import (
 	"log"
 )
 
+
+
+func init() {
+    ClusterPort := config.GetClusterPort()
+}
+
+
+
 func AllUpnpOpen() {
 
-	ClusterPort := config.GetClusterPort()
+
 
 	mapping_dht := new(upnp.Upnp)
 	log.Printf("[INFO] UPnP on TCP %d...", ClusterPort)
