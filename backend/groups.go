@@ -4,16 +4,18 @@ import (
 	"log"
 	"path/filepath"
 	"sort"
+	"strconv"
 )
 
-func GetNumFilesByGroup(groupname string) int {
+func GetNumFilesByGroup(groupname string) string {
 
 	if files, err := filepath.Glob(backend.messages_folder + "*" + groupname + "*"); err != nil {
 		log.Printf("[SOB] No messages for group %s ", groupname)
-		return 0
+		return "0"
 	} else {
-		log.Printf("[WOW] %d messages for group %s ", len[files], groupname)
-		return len(files)
+        msg_num = len(files)/2    // 'cause we save two files for each message
+		log.Printf("[WOW] %d messages for group %s ", msg_num, groupname)
+		return strconv.Itoa(msg_num)
 
 	}
 
