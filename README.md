@@ -14,7 +14,7 @@ then the second component, NNTP
 
 the third module, UpNP
   
->It will try to open port -TO BE DECIDED- on the router for http.
+It will try to open port -Configurable- on the router for http.
 
 Due of port 11119, no **root** privileges SHALL be used.
 
@@ -33,6 +33,9 @@ Naming convention will be the following:
 <pre>
 ~/news/messages/x-groupname-SERIAL-ID
 </pre>
+
+Being the '-' a separator, it will not be possible to have groups with '-' in the name.
+
 
 where:
 
