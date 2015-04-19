@@ -8,6 +8,7 @@ import (
     "os"
     "path/filepath"
     "../tools/"
+    "strings"
 )
 
 
@@ -37,7 +38,6 @@ func init() {
 
 // gets the active NG and sends them to the given sockets
 
-
 func Trasmit_Active_NG(conn net.Conn)  (error) {
   file, err := os.Open(active_ng_file)
   if err != nil {
@@ -49,9 +49,11 @@ func Trasmit_Active_NG(conn net.Conn)  (error) {
   
   scanner := bufio.NewScanner(file)
   for scanner.Scan() {
-    var line string =  scanner.Text() 
-    conn.Write([]byte(line +"\n"))
-    log.Printf("[INFO] NNTP print: %s ", line)  
+    var line string =  scanner.Text()
+    line = strings.Replace(line, "-", ".NOMINUSALLOWEDINGROUPNAME.", -1)
+    response := line + " " + GetLastNumByGroup(line) + " " + GetFirstNumByGroup(line) + " y"
+    conn.Write([]byte(response +"\n"))
+    log.Printf("[INFO] NNTP print: %s ", response)
   }
     file.Close()
   return scanner.Err()
