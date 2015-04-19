@@ -84,7 +84,7 @@ func NNTP_Interpret(conn net.Conn) {
             conn.Write([]byte("215 list of newsgroups follows"+ "\n"))
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
             backend.Trasmit_Active_NG(conn)
-            conn.Write([]byte("\n."+ "\n"))
+            conn.Write([]byte("."+ "\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^HEAD.*", message); matches == true {
@@ -101,6 +101,10 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 		if matches, _ := regexp.MatchString("(?i)^POST.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            if current_group == "garbage" {
+                                            conn.Write([]byte("412 no newsgroup has been selected\n"))
+                                            continue
+                                                       }
             backend.NNTP_POST_ReadAndSave(conn , current_group)
 			continue
 		}
@@ -142,8 +146,10 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 
 		
-        log.Printf("[INFO] NNTP BULLSHIT < %s > from %s ", message,  remote_client)
-        conn.Write([]byte("502 no permission, and BTW not a RFC977 command\n"))
+        if message == "" {continue}
+
+        log.Printf("[INFO] NNTP BULLSHIT >%s< from %s ", message,  remote_client)
+
 
 
 	}
