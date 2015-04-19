@@ -66,7 +66,7 @@ func ResponseToNNTPGROUP(groupname string) string {
         return response
 	} else {
 
-		response := "211 " + GetNumFilesByGroup(groupname) + " " + GetFirstNumByGroup(groupname) + " " + GetLastNumByGroup(groupname) + " group is now " + groupname + " \n"
+		response := "211 " + GetNumFilesByGroup(groupname) + " " + GetFirstNumByGroup(groupname) + " " + GetLastNumByGroup(groupname) + " " + groupname + " group selected\n"
         log.Printf("[OK] answering back %s ", response)
         return response
 	}

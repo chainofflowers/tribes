@@ -19,6 +19,7 @@ func NNTP_Frontend() {
 	ln, err := net.Listen("tcp", "127.0.0.1:11119")
 	if err == nil {
 		log.Printf("[INFO] TCP listening at %s ", "127.0.0.1:11119")
+
 	} else {
 		log.Printf("[WTF] TCP CANNOT listen at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 	}
@@ -42,6 +43,8 @@ func NNTP_Frontend() {
 			log.Printf("[WTF] NNTP something went wrong at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 		}
 
+
+
 		go NNTP_Interpret(server)
 
 	}
@@ -52,7 +55,7 @@ func NNTP_Interpret(conn net.Conn) {
 
 
     var current_group string = "garbage"
-// for future use    var current_messg string = "null"
+    var current_messg string = "null"
 
 	remote_client := conn.RemoteAddr()
     greetings := "200 averno.node AVERNO Version 01 beta, S0, posting OK"
@@ -81,34 +84,74 @@ func NNTP_Interpret(conn net.Conn) {
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^LIST.*", message); matches == true {
-            conn.Write([]byte("215 list of newsgroups follows"+ "\n"))
+            conn.Write([]byte("215 list of newsgroups follows\r\n"))
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
             backend.Trasmit_Active_NG(conn)
-            conn.Write([]byte("."+ "\n"))
+            conn.Write([]byte(".\r\n"))
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^HEAD.*", message); matches == true {
+
+// split. To consolidate later
+
+		if matches, _ := regexp.MatchString("(?i)^HEAD[ ]*$", message); matches == true {
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            backend.NNTP_HEAD_ReturnHEADER(conn,current_group,current_messg)
+            conn.Write([]byte(".\n"))
+			continue
+		}
+
+        if matches, _ := regexp.MatchString("(?i)^HEAD[ ](([0-9]+)|(<.*>))", message); matches == true {
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            sinta := strings.Split(message," ")
+            current_messg = sinta[1]
+            backend.NNTP_HEAD_ReturnHEADER(conn,current_group, current_messg  )
+            conn.Write([]byte(".\n"))
+			continue
+		}
+
+
+
+		if matches, _ := regexp.MatchString("(?i)^BODY[ ]*$", message); matches == true {
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            backend.NNTP_BODY_ReturnBODY(conn,current_group,current_messg)
+			continue
+		}
+
+        if matches, _ := regexp.MatchString("(?i)^BODY[ ](([0-9]+)|(<.*>))", message); matches == true {
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            sinta := strings.Split(message," ")
+            current_messg = sinta[1]
+            backend.NNTP_BODY_ReturnBODY(conn,current_group,current_messg)
+			continue
+		}
+
+
+
+
+		if matches, _ := regexp.MatchString("(?i)^ARTICLE[ ]*$", message); matches == true {
+            backend.NNTP_ARTICLE_ReturnALL(conn,current_group, current_messg)
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^BODY.*", message); matches == true {
+
+      	if matches, _ := regexp.MatchString("(?i)^ARTICLE[ ](([0-9]+)|(<.*>))", message); matches == true {
+            sinta := strings.Split(message," ")
+            current_messg = sinta[1]
+            backend.NNTP_ARTICLE_ReturnALL(conn,current_group, current_messg)
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^ARTICLE.*", message); matches == true {
-			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
-			continue
-		}
+
+
+
 		if matches, _ := regexp.MatchString("(?i)^POST.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
-            if current_group == "garbage" {
-                                            conn.Write([]byte("412 no newsgroup has been selected\n"))
-                                            continue
-                                                       }
             backend.NNTP_POST_ReadAndSave(conn , current_group)
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^IHAVE.*", message); matches == true {
+		if matches, _ := regexp.MatchString("(?i)^STAT[ ](([0-9]+)|(<.*>))", message); matches == true {
+            sinta := strings.Split(message," ")
+            current_messg = sinta[1]
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
 			continue
 		}
@@ -119,8 +162,8 @@ func NNTP_Interpret(conn net.Conn) {
 
 		}
 		if matches, _ := regexp.MatchString("(?i)^MODE.*READER.*", message); matches == true {
-            conn.Write([]byte(greetings + "\n"))
-			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            conn.Write([]byte("200 Hello, you can post\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^AUTHINFO.*", message); matches == true {
