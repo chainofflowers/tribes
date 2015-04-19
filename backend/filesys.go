@@ -94,7 +94,7 @@ func Transmit_Article(conn net.Conn, file_id string) {
   scanner := bufio.NewScanner(file)
   for scanner.Scan() {
     line :=  scanner.Text()
-    n,_ := conn.Write([]byte(line + "\n"))
+    n,_ := conn.Write([]byte(line + "\r\n"))
     log.Printf("[INFO] NNTP print: %s [%d BYTES]", line,n)
   }
 

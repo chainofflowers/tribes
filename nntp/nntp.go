@@ -59,7 +59,7 @@ func NNTP_Interpret(conn net.Conn) {
 
 	remote_client := conn.RemoteAddr()
     greetings := "200 averno.node AVERNO Version 01 beta, S0, posting OK"
-    conn.Write([]byte(greetings + "\n"))
+    conn.Write([]byte(greetings + "\r\n"))
 	for {
 
 		linea, _,_ := bufio.NewReader(conn).ReadLine()
@@ -96,7 +96,7 @@ func NNTP_Interpret(conn net.Conn) {
 		if matches, _ := regexp.MatchString("(?i)^HEAD[ ]*$", message); matches == true {
             log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
             backend.NNTP_HEAD_ReturnHEADER(conn,current_group,current_messg)
-            conn.Write([]byte(".\n"))
+            conn.Write([]byte(".\r\n"))
 			continue
 		}
 
@@ -105,7 +105,7 @@ func NNTP_Interpret(conn net.Conn) {
             sinta := strings.Split(message," ")
             current_messg = sinta[1]
             backend.NNTP_HEAD_ReturnHEADER(conn,current_group, current_messg  )
-            conn.Write([]byte(".\n"))
+            conn.Write([]byte(".\r\n"))
 			continue
 		}
 
@@ -163,7 +163,7 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 		if matches, _ := regexp.MatchString("(?i)^MODE.*READER.*", message); matches == true {
             log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
-            conn.Write([]byte("200 Hello, you can post\n"))
+            conn.Write([]byte("200 Hello, you can post\r\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^AUTHINFO.*", message); matches == true {
@@ -172,19 +172,19 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 		if matches, _ := regexp.MatchString("(?i)^NEWGROUPS.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
-            conn.Write([]byte("231 New newsgroups since whatever follow"+ "\n"))
+            conn.Write([]byte("231 New newsgroups since whatever follow"+ "\r\n"))
             backend.Trasmit_New_NG(conn)
-            conn.Write([]byte("\n."+ "\n"))
+            conn.Write([]byte("\r\n."+ "\r\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^OVER.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
-            conn.Write([]byte("502 no permission, and BTW not a RFC977 command\n"))
+            conn.Write([]byte("502 no permission, and BTW not a RFC977 command\r\n"))
 			continue
 		}
 		if matches, _ := regexp.MatchString("(?i)^XOVER.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
-            conn.Write([]byte("502 no permission, and BTW not a RFC977 command\n"))
+            conn.Write([]byte("502 no permission, and BTW not a RFC977 command\r\n"))
 			continue
 		}
 

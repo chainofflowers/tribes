@@ -14,7 +14,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
 	id_message := tools.RandSeq(32)
 
-	answer_ok := "340 Ok, recommended ID <" + id_message + ">\n"
+	answer_ok := "340 Ok, recommended ID <" + id_message + ">\r\n"
 	conn.Write([]byte(answer_ok))
 	log.Printf("[FYI] %s", answer_ok)
 
@@ -94,7 +94,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 		log.Printf("[FYI] body saved in %s", body_file)
 	}
 
-	conn.Write([]byte("240 article posted ok\n"))
+	conn.Write([]byte("240 article posted ok\r\n"))
 
 }
 
@@ -105,18 +105,18 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s  ", article_id, groupname)
-		conn.Write([]byte("430 no such article found\n"))
+		conn.Write([]byte("430 no such article found\r\n"))
 	} else {
 
 		if files == nil {
 			log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-			conn.Write([]byte("430 no such article found\n"))
+			conn.Write([]byte("430 no such article found\r\n"))
 		}
 
 		if files != nil {
 
             file_fields := strings.Split(files[0],"-")
-            head_string := "221 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\n"
+            head_string := "221 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\r\n"
             conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
@@ -131,17 +131,17 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 
 	if files, err := filepath.Glob(messages_folder + "/b-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-		conn.Write([]byte("430 no such article found\n"))
+		conn.Write([]byte("430 no such article found\r\n"))
 	} else {
 
 		if files == nil {
 			log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-			conn.Write([]byte("430 no such article found\n"))
+			conn.Write([]byte("430 no such article found\r\n"))
 		}
 
 		if files != nil {
             file_fields := strings.Split(files[0],"-")
-            head_string := "222 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\n"
+            head_string := "222 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\r\n"
             conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
@@ -162,12 +162,12 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 
 		if files == nil {
 			log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-			conn.Write([]byte("430 no such article found\n"))
+			conn.Write([]byte("430 no such article found\r\n"))
 		}
 
 		if files != nil {
             file_fields := strings.Split(files[0],"-")
-            head_string := "220 " + file_fields[2] + " <" + file_fields[3] + "> " + "All of article follows\n"
+            head_string := "220 " + file_fields[2] + " <" + file_fields[3] + "> " + "All of article follows\r\n"
             conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
@@ -184,11 +184,11 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 
 		if files == nil {
 			log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-			conn.Write([]byte("430 no such article found\n"))
+			conn.Write([]byte("430 no such article found\r\n"))
 		}
 
 		if files != nil {
-            head_string := "\n\n"
+            head_string := "\r\n\r\n"
             conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
