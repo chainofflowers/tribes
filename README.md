@@ -31,15 +31,15 @@ all files will be stored in local ~/news folder.
 Naming convention will be the following: 
 
 <pre>
-~/news/messages/x-groupname-YYMMDDHHMMSS-SH1 
+~/news/messages/x-groupname-SERIAL-ID
 </pre>
 
 where:
 
 1. _x_ is "h" for headers, "b" for bodies.
 2. _groupname_ is the name of the group (z.b. de.mahl.zeit) , to keep easy  "find all files for a group"
-3. _YYMMDDHHMMSS_ is a timestamp, to keep files in natural order and make the NNTP interface easier.
-4. _SH1_ is the SH1 hash of the body, to avoid duplicates.
+3. _SERIAL_ is a unique identifier of the message, by group.
+4. _ID_ is a unique identifier of the message, to avoid duplicates.
 5. One file, one message.
 
 Peers will be saved in 
