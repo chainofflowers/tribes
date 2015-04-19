@@ -12,7 +12,7 @@ import (
 
 func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
-	id_message := tools.RandSeq(32)
+	id_message := tools.RandSeq(32) + "@averno"
 
 	answer_ok := "340 Ok, recommended ID <" + id_message + ">\r\n"
 	conn.Write([]byte(answer_ok))
@@ -50,9 +50,13 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
                                                     log.Printf("[FYI] Normalization of NG Header as: %s", line)
                                                     }
 
+        if strings.HasPrefix(line, "Message-ID:") {
+                                                    log.Printf("[WARN] not permitted to set MSGID ->%s<-", line)
+                                                    continue
+                                                    }
 
 
-		if line == "" {
+		if (line == "") && (is_header == true)  {
 			log.Printf("[FYI] header line was ->%s<-", line)
 			is_header = false
 			continue
@@ -75,6 +79,8 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
     num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
 	num_message++
+
+    headers = append(headers, "X-Internal-ID: <"+strconv.Itoa(num_message)+">")
 
 
 	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+strconv.Itoa(num_message)+"-"+id_message)
