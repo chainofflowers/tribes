@@ -21,6 +21,8 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	var body []string
 	var headers []string
 	var is_header bool = true
+	var body_lines int32 = 0
+	var body_bytes int64 = 0
 
 	scanner_h := bufio.NewScanner(conn)
 	for {
@@ -67,6 +69,8 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 			headers = append(headers, line)
 		} else {
 			log.Printf("[FYI] body line is:  ->%s<-", line)
+			body_lines ++
+			body_bytes += len(line)
 			body = append(body, line)
 
 		}
@@ -76,8 +80,10 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	}
 
 	headers = append(headers, "Message-ID: <"+id_message+">")
+	headers = append(headers, "Lines: " + strconv.Itoa(body_lines))
+	headers = append(headers, "Bytes: " + strconv.Itoa(body_bytes))
 
-    num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
+        num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
 	num_message++
 
     headers = append(headers, "Xref: averno "+groupname+":"+strconv.Itoa(num_message))
