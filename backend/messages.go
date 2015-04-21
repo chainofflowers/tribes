@@ -80,7 +80,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
     num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
 	num_message++
 
-    headers = append(headers, "X-Internal-ID: <"+strconv.Itoa(num_message)+">")
+    headers = append(headers, "Xref: averno "+groupname+":"+strconv.Itoa(num_message))
 
 
 	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+strconv.Itoa(num_message)+"-"+id_message)
