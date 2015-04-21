@@ -3,6 +3,7 @@ package backend
 import (
 	"../tools/"
 	"bufio"
+	"fmt"
 	"log"
 	"net"
 	"path/filepath"
@@ -21,8 +22,8 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	var body []string
 	var headers []string
 	var is_header bool = true
-	var body_lines int32 = 0
-	var body_bytes int64 = 0
+	var body_lines int = 0
+	var body_bytes int = 0
 
 	scanner_h := bufio.NewScanner(conn)
 	for {
@@ -32,33 +33,35 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 		}
 		line := scanner_h.Text()
 
-       
-        if (strings.HasPrefix(line, "Newsgroups:")) && (groupname == "garbage") {
+		if (strings.HasPrefix(line, "Newsgroups:")) && (groupname == "garbage") {
 
-                                                    log.Printf("[FYI] ng was %s", groupname)
-                                                    grp_hdr:= strings.Split(line,":")
-                                                    if grp_hdr != nil {groupname = grp_hdr[1]}
-                                                    log.Printf("[FYI] ng now is %s", groupname)
-                                                    grp_hdr = strings.Split(groupname,",")
-                                                    if grp_hdr != nil {groupname = grp_hdr[0]}
-                                                    groupname = strings.Trim(groupname," ")
-                                                    log.Printf("[FYI] tried to fix with %s", groupname)
+			log.Printf("[FYI] ng was %s", groupname)
+			grp_hdr := strings.Split(line, ":")
+			if grp_hdr != nil {
+				groupname = grp_hdr[1]
+			}
+			log.Printf("[FYI] ng now is %s", groupname)
+			grp_hdr = strings.Split(groupname, ",")
+			if grp_hdr != nil {
+				groupname = grp_hdr[0]
+			}
+			groupname = strings.Trim(groupname, " ")
+			log.Printf("[FYI] tried to fix with %s", groupname)
 
-                                                    }
+		}
 
-        if strings.HasPrefix(line, "Newsgroups:") {
+		if strings.HasPrefix(line, "Newsgroups:") {
 
-                                                    line = "Newsgroups: " + groupname
-                                                    log.Printf("[FYI] Normalization of NG Header as: %s", line)
-                                                    }
+			line = "Newsgroups: " + groupname
+			log.Printf("[FYI] Normalization of NG Header as: %s", line)
+		}
 
-        if strings.HasPrefix(line, "Message-ID:") {
-                                                    log.Printf("[WARN] not permitted to set MSGID ->%s<-", line)
-                                                    continue
-                                                    }
+		if strings.HasPrefix(line, "Message-ID:") {
+			log.Printf("[WARN] not permitted to set MSGID ->%s<-", line)
+			continue
+		}
 
-
-		if (line == "") && (is_header == true)  {
+		if (line == "") && (is_header == true) {
 			log.Printf("[FYI] body starts after empty line ->%s<-", line)
 			is_header = false
 			continue
@@ -69,7 +72,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 			headers = append(headers, line)
 		} else {
 			log.Printf("[FYI] body line is:  ->%s<-", line)
-			body_lines ++
+			body_lines++
 			body_bytes += len(line)
 			body = append(body, line)
 
@@ -80,17 +83,18 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	}
 
 	headers = append(headers, "Message-ID: <"+id_message+">")
-	headers = append(headers, "Lines: " + strconv.Itoa(body_lines))
-	headers = append(headers, "Bytes: " + strconv.Itoa(body_bytes))
+	headers = append(headers, "Lines: "+strconv.Itoa(body_lines))
+	headers = append(headers, "Bytes: "+strconv.Itoa(body_bytes))
 
-        num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
+	num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
 	num_message++
 
-    headers = append(headers, "Xref: averno "+groupname+":"+strconv.Itoa(num_message))
+	msgnum_str := fmt.Sprintf("%05d", num_message)
 
+	headers = append(headers, "Xref: averno "+groupname+":"+msgnum_str)
 
-	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+strconv.Itoa(num_message)+"-"+id_message)
-	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+strconv.Itoa(num_message)+"-"+id_message)
+	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
+	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
 
 	err := tools.WriteMessages(headers, header_file)
 	if err != nil {
@@ -112,6 +116,10 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
 func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) {
 
+	if article_id == "null" {
+		article_id = GetFirstNumByGroup(groupname)
+	}
+
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
@@ -127,9 +135,9 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 
 		if files != nil {
 
-            file_fields := strings.Split(files[0],"-")
-            head_string := "221 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\r\n"
-            conn.Write([]byte(head_string))
+			file_fields := strings.Split(files[0], "-")
+			head_string := "221 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\r\n"
+			conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
 
@@ -137,6 +145,10 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 }
 
 func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
+
+	if article_id == "null" {
+		article_id = GetFirstNumByGroup(groupname)
+	}
 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
@@ -152,9 +164,9 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 		}
 
 		if files != nil {
-            file_fields := strings.Split(files[0],"-")
-            head_string := "222 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\r\n"
-            conn.Write([]byte(head_string))
+			file_fields := strings.Split(files[0], "-")
+			head_string := "222 " + file_fields[2] + " <" + file_fields[3] + "> " + "file article retrieved\r\n"
+			conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
 
@@ -163,11 +175,14 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 
 func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) {
 
+	if article_id == "null" {
+		article_id = GetFirstNumByGroup(groupname)
+	}
 
-    article := strings.Trim(article_id, "<")
+	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
+	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
 		conn.Write([]byte("430 no such article found\n"))
 	} else {
@@ -178,16 +193,13 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 		}
 
 		if files != nil {
-            file_fields := strings.Split(files[0],"-")
-            head_string := "220 " + file_fields[2] + " <" + file_fields[3] + "> " + "All of article follows\r\n"
-            conn.Write([]byte(head_string))
+			file_fields := strings.Split(files[0], "-")
+			head_string := "220 " + file_fields[2] + " <" + file_fields[3] + "> " + "All of article follows\r\n"
+			conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
 
 	}
-
-
-
 
 	if files, err := filepath.Glob(messages_folder + "/b-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
@@ -200,16 +212,11 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 		}
 
 		if files != nil {
-            head_string := "\r\n\r\n"
-            conn.Write([]byte(head_string))
+			head_string := "\r\n\r\n"
+			conn.Write([]byte(head_string))
 			Transmit_Article(conn, files[0])
 		}
 
 	}
-
-
-
-
-
 
 }
