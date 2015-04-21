@@ -30,7 +30,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 		}
 		line := scanner_h.Text()
 
-        if strings.HasPrefix(line, "Message-ID:") {continue}
+       
         if (strings.HasPrefix(line, "Newsgroups:")) && (groupname == "garbage") {
 
                                                     log.Printf("[FYI] ng was %s", groupname)
