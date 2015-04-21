@@ -59,7 +59,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
 
 		if (line == "") && (is_header == true)  {
-			log.Printf("[FYI] header line was ->%s<-", line)
+			log.Printf("[FYI] body starts after empty line ->%s<-", line)
 			is_header = false
 			continue
 		}
