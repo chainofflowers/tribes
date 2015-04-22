@@ -1,17 +1,22 @@
 package main
 
 import (
-
-    "./nntp/"
+	"./tools/"
+	"./nntp/"
 	"./upnp/"
 	"log"
 	"os"
 )
 
-
 // No root. End of story
 
 func init() {
+
+
+
+	tools.SetLogFolder()
+
+    log.Printf("\n\n[OMG] %s", "AVERNO starts now!")
 
 	if (os.Getuid() == 0) || (os.Getgid() == 0) {
 		log.Printf("[OMG] %s", "AAAARGH! ROOT! ROOT! ROOOOOT! ")
@@ -20,20 +25,16 @@ func init() {
 
 	go upnp.AllUpnpOpen()
 
-
 }
-
 
 // main will only manage local data
 
 func main() {
-    
-    nntp.NNTP_Frontend()
 
-//	select {}
+	nntp.NNTP_Frontend()
+
+	//	select {}
 
 	os.Exit(0)
-
-
 
 }
