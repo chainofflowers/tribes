@@ -18,7 +18,7 @@ func NNTP_Frontend() {
 
 	ln, err := net.Listen("tcp", "127.0.0.1:11119")
 	if err == nil {
-		log.Printf("[INFO] TCP listening at %s ", "127.0.0.1:11119")
+		log.Printf("[NNTP] TCP listening at %s ", "127.0.0.1:11119")
 
 	} else {
 		log.Printf("[WTF] TCP CANNOT listen at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
@@ -76,7 +76,7 @@ func NNTP_Interpret(conn net.Conn) {
             break
 		}
 
-		if matches, _ := regexp.MatchString("(?i)^GROUP[ ].+", message); matches == true {
+		if matches, _ := regexp.MatchString("(?i)^GROUP[ ]+([0-9A-Za-z]+\\.)+[0-9A-Za-z]+$", message); matches == true {
             log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
             sinta := strings.Split(message," ")
             current_group = sinta[1]
