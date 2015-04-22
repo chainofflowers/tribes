@@ -83,6 +83,16 @@ func NNTP_Interpret(conn net.Conn) {
             conn.Write([]byte(backend.ResponseToNNTPGROUP(current_group)))
 			continue
 		}
+
+        if matches, _ := regexp.MatchString("(?i)^STAT[ ]+.+", message); matches == true {
+            log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
+            sinta := strings.Split(message," ")
+            current_messg = sinta[1]
+			continue
+		}
+
+
+
 		if matches, _ := regexp.MatchString("(?i)^LIST.*", message); matches == true {
             conn.Write([]byte("215 list of newsgroups follows\r\n"))
 			log.Printf("[INFO] NNTP %s from %s ", message,  remote_client)
