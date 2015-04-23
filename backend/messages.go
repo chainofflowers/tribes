@@ -92,6 +92,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
 	headers = append(headers, "Xref: averno "+groupname+":"+msgnum_str)
+    headers = append(headers, "Path: averno")
 
 	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
 	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
