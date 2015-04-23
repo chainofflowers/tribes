@@ -13,7 +13,7 @@ import (
 
 func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
-	id_message := tools.RandSeq(32) + "@averno"
+	id_message := tools.RandSeq(42) + "@averno"
 
 	answer_ok := "340 Ok, recommended ID <" + id_message + ">\r\n"
 	conn.Write([]byte(answer_ok))
@@ -61,6 +61,16 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 			continue
 		}
 
+        if strings.HasPrefix(line, "Xref:") {
+			log.Printf("[WARN] not permitted to set Xref: ->%s<-", line)
+			continue
+		}
+
+        if strings.HasPrefix(line, "Path:") {
+			log.Printf("[WARN] not permitted to set Path ->%s<-", line)
+			continue
+		}
+
 		if (line == "") && (is_header == true) {
 			log.Printf("[FYI] body starts after empty line ->%s<-", line)
 			is_header = false
@@ -93,6 +103,8 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
 	headers = append(headers, "Xref: averno "+groupname+":"+msgnum_str)
     headers = append(headers, "Path: averno")
+
+    SaveXOVERLineForPost(headers, groupname, id_message, msgnum_str)
 
 	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
 	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)

@@ -9,7 +9,7 @@ import (
     "../backend/"
 )
 
-var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
+var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nXOVER\nOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
 
 
 func NNTP_Frontend() {
