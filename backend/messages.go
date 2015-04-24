@@ -140,7 +140,7 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if strings.Count(article , "@") == 1 { sz := strings.len(article)
+    if strings.Count(article , "@") == 1 { sz := len(article)
                                           article = article[:sz-11]
                                          }
 
@@ -176,7 +176,7 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if strings.Count(article , "@") == 1 { sz := strings.len(article)
+    if strings.Count(article , "@") == 1 { sz := len(article)
                                           article = article[:sz-11]
                                          }
 
@@ -209,7 +209,7 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if strings.Count(article , "@") == 1 { sz := strings.len(article)
+    if strings.Count(article , "@") == 1 { sz := len(article)
                                           article = article[:sz-11]
                                          }
 
