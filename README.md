@@ -31,7 +31,7 @@ all files will be stored in local ~/news folder.
 Naming convention will be the following: 
 
 <pre>
-~/news/messages/x-groupname-SERIAL-ID
+~/news/messages/x-groupname-SERIAL-UUID@TIMESTAMP
 </pre>
 
 Being the '-' a separator, it will not be possible to have groups with '-' in the name.
@@ -43,7 +43,8 @@ where:
 2. _groupname_ is the name of the group (z.b. de.mahl.zeit) , to keep easy  "find all files for a group"
 3. _SERIAL_ is a unique identifier of the message, by group.
 4. _ID_ is a unique identifier of the message, to avoid duplicates.
-5. One file, one message.
+5. _TIMESTAMP_ is time of submission in format: YYMMDDHHMM
+6. One file, one message.
 
 Peers will be saved in 
 
