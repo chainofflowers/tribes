@@ -42,7 +42,7 @@ where:
 1. _y_ is "h" for headers, "b" for bodies, "x" for XOVER database
 2. _groupname_ is the name of the group (z.b. de.mahl.zeit) , no "-" char allowed.
 3. _SERIAL_ is a unique identifier of the message, by group: 6 decimal digits.
-4. _ID_ is a unique identifier of the message, to avoid duplicates: 38 chars [a-z][A-Z].
+4. _UUID_ is a unique identifier of the message in general, to avoid duplicates: 38 chars [a-z][A-Z].
 6. _@_ to respect RFC850 
 7. _TIMESTAMP_ is time of submission in format: YYMMDDHHMM
 8. One file, one message.
