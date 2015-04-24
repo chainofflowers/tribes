@@ -70,7 +70,7 @@ a running task will take care of pruning groups.all making it equal to groups.ac
 storing things in such a way will make easier to delete old files by group, 
 even manually/cronjob if needed. I am still a  sysadmin :)
 
-I will make it assuming Linux/Unix. If it doesn't works in windows, please restart your PC.
+I will make it assuming it runs on Linux/Unix. If it doesn't works in windows, please restart your PC.
 
 I will choose a set of libraries to use, until they have documentation (**code is not documentation.** If you think code is a good documentation, just work alone) and good examples. Everything which has an incomplete/shitty documentation will be outscoped from the project. 
 
