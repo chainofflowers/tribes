@@ -1,5 +1,5 @@
 # averno
-Small, local NNTP server using HTTP  for peering.
+Small, local NNTP server using P2P  for peering.
 
 
 I will  write 4 components:
