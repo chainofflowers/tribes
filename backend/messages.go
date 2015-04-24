@@ -9,15 +9,15 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-    "time"
+	"time"
 )
 
 func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
-    const layout = "0601021504"
-    orario := time.Now()
+	const layout = "0601021504"
+	orario := time.Now()
 
-	id_message := tools.RandSeq(32) + "@" +orario.Format(layout)
+	id_message := tools.RandSeq(38) + "@" + orario.Format(layout)
 
 	answer_ok := "340 Ok, recommended ID <" + id_message + ">\r\n"
 	conn.Write([]byte(answer_ok))
@@ -65,12 +65,12 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 			continue
 		}
 
-        if strings.HasPrefix(line, "Xref:") {
+		if strings.HasPrefix(line, "Xref:") {
 			log.Printf("[WARN] not permitted to set Xref: ->%s<-", line)
 			continue
 		}
 
-        if strings.HasPrefix(line, "Path:") {
+		if strings.HasPrefix(line, "Path:") {
 			log.Printf("[WARN] not permitted to set Path ->%s<-", line)
 			continue
 		}
@@ -106,9 +106,9 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
 	headers = append(headers, "Xref: averno "+groupname+":"+msgnum_str)
-    headers = append(headers, "Path: averno")
+	headers = append(headers, "Path: averno")
 
-    SaveXOVERLineForPost(headers, groupname, id_message, msgnum_str)
+	SaveXOVERLineForPost(headers, groupname, id_message, msgnum_str)
 
 	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
 	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
@@ -140,11 +140,10 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if strings.Count(article , "@") == 1 { sz := len(article)
-                                          article = article[:sz-11]
-                                         }
-
-
+	if strings.Count(article, "@") == 1 {
+		sz := len(article)
+		article = article[:sz-11]
+	}
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s  ", article_id, groupname)
@@ -176,9 +175,10 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if strings.Count(article , "@") == 1 { sz := len(article)
-                                          article = article[:sz-11]
-                                         }
+	if strings.Count(article, "@") == 1 {
+		sz := len(article)
+		article = article[:sz-11]
+	}
 
 	if files, err := filepath.Glob(messages_folder + "/b-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
@@ -209,9 +209,10 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
-    if strings.Count(article , "@") == 1 { sz := len(article)
-                                          article = article[:sz-11]
-                                         }
+	if strings.Count(article, "@") == 1 {
+		sz := len(article)
+		article = article[:sz-11]
+	}
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
