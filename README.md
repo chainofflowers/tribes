@@ -34,7 +34,7 @@ Naming convention will be the following:
 ~/news/messages/y-groupname-SERIAL-UUID@TIMESTAMP
 </pre>
 
-Being the '-' a separator, it will not be possible to have groups with '-' in the name.
+Being the '-' a separator, it won't be possible to have groups with '-' in the name.
 
 
 where:
