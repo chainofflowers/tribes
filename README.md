@@ -31,7 +31,7 @@ all files will be stored in local ~/news folder.
 Naming convention will be the following: 
 
 <pre>
-~/news/messages/x-groupname-SERIAL-UUID@TIMESTAMP
+~/news/messages/y-groupname-SERIAL-UUID@TIMESTAMP
 </pre>
 
 Being the '-' a separator, it will not be possible to have groups with '-' in the name.
@@ -39,7 +39,7 @@ Being the '-' a separator, it will not be possible to have groups with '-' in th
 
 where:
 
-1. _x_ is "h" for headers, "b" for bodies.
+1. _y_ is "h" for headers, "b" for bodies, "x" for XOVER database
 2. _groupname_ is the name of the group (z.b. de.mahl.zeit) , no "-" char allowed.
 3. _SERIAL_ is a unique identifier of the message, by group: 6 decimal digits.
 4. _ID_ is a unique identifier of the message, to avoid duplicates: 38 chars [a-z][A-Z].
