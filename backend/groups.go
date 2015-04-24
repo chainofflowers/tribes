@@ -10,7 +10,7 @@ import (
 
 func GetNumFilesByGroup(groupname string) string {
 
-	if files, err := filepath.Glob(messages_folder + "/h-*" + groupname + "*"); err != nil {
+	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*"); err != nil {
 		log.Printf("[SOB] No messages for group %s, %s ")
 		return "0"
 	} else {
@@ -25,7 +25,7 @@ func GetNumFilesByGroup(groupname string) string {
 
 func GetFirstNumByGroup(groupname string) string {
 
-	if files, err := filepath.Glob(messages_folder + "/h-*" + groupname + "*"); err != nil {
+	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*"); err != nil {
 		log.Printf("[SOB] No first message for group %s ", groupname)
 		return "0"
 	} else {
@@ -43,7 +43,7 @@ func GetFirstNumByGroup(groupname string) string {
 }
 
 func GetLastNumByGroup(groupname string) string {
-	if files, err := filepath.Glob(messages_folder + "/h-*" + groupname + "*"); err != nil {
+	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*"); err != nil {
 		log.Printf("[SOB] No messages for group %s ", groupname)
 		return "0"
 	} else {

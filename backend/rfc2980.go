@@ -23,14 +23,9 @@ func SaveXOVERLineForPost(header []string, groupname string, message_id string, 
 		hdr[elem[0]] = strings.Trim(elem[1], " ")
         log.Printf("[FYI] header %s: saved as %s", elem[0], hdr[elem[0]])
 	}
-    log.Printf("[XOVER] preparing for write" )
 
 	xover_line = append(xover_line, fmt.Sprintf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tXref: %s", msgnum_str, hdr["Subject"], hdr["From"],hdr["Date"], hdr["Message-ID"], hdr["References"], hdr["Bytes"], hdr["Lines"], hdr["Xref"]) )
 
-
-
-
-    log.Printf("[XOVER] string composed" )
 
 	xover_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+message_id)
 

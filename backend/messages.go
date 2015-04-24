@@ -9,11 +9,15 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+    "time"
 )
 
 func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
-	id_message := tools.RandSeq(42) + "@averno"
+    const layout = "0601021504"
+    orario := time.Now()
+
+	id_message := tools.RandSeq(32) + "@" +orario.Format(layout)
 
 	answer_ok := "340 Ok, recommended ID <" + id_message + ">\r\n"
 	conn.Write([]byte(answer_ok))
@@ -136,6 +140,12 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
+    if strings.Count(article , "@") == 1 { sz := strings.len(article)
+                                          article = article[:sz-11]
+                                         }
+
+
+
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s  ", article_id, groupname)
 		conn.Write([]byte("430 no such article found\r\n"))
@@ -166,6 +176,10 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
 
+    if strings.Count(article , "@") == 1 { sz := strings.len(article)
+                                          article = article[:sz-11]
+                                         }
+
 	if files, err := filepath.Glob(messages_folder + "/b-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
 		conn.Write([]byte("430 no such article found\r\n"))
@@ -194,6 +208,10 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 
 	article := strings.Trim(article_id, "<")
 	article = strings.Trim(article_id, ">")
+
+    if strings.Count(article , "@") == 1 { sz := strings.len(article)
+                                          article = article[:sz-11]
+                                         }
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
