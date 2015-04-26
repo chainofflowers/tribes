@@ -63,12 +63,12 @@ func ResponseToNNTPGROUP(groupname string) string {
 	if strings.Contains(groupname, "-") {
 		response := "411 no such news group\n"
 		log.Printf("[ERR] invalid group name %s ", groupname)
-        return response
+		return response
 	} else {
 
 		response := "211 " + GetNumFilesByGroup(groupname) + " " + GetFirstNumByGroup(groupname) + " " + GetLastNumByGroup(groupname) + " " + groupname + " group selected\r\n"
-        log.Printf("[OK] answering back %s ", response)
-        return response
+		log.Printf("[OK] answering back %s ", response)
+		return response
 	}
 
 }

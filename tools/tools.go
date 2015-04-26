@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -84,12 +85,34 @@ func SetLogFolder() {
 
 	var user_home = GetHomeDir()
 	avernologfile := filepath.Join(user_home, "News", "averno.log")
-    fmt.Println("Logfile is: "+ avernologfile )
+	fmt.Println("Logfile is: " + avernologfile)
 
 	f, err := os.OpenFile(avernologfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		fmt.Println("Error opening " + avernologfile )
+		fmt.Println("Error opening " + avernologfile)
 	}
 
 	log.SetOutput(f)
+}
+
+// Checks if a string is in a slice
+
+func GrepASlice(str string, list []string) bool {
+	for _, v := range list {
+		if strings.Contains(v, str) {
+			return true
+		}
+	}
+	return false
+}
+
+// find the position of a string in the slice
+
+func StringPosInSlice(str string, list []string) int {
+	for i, v := range list {
+		if strings.Contains(v, str) {
+			return i
+		}
+	}
+	return -1
 }

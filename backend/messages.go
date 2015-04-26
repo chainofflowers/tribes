@@ -100,13 +100,15 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	headers = append(headers, "Lines: "+strconv.Itoa(body_lines))
 	headers = append(headers, "Bytes: "+strconv.Itoa(body_bytes))
 
-	num_message, _ := strconv.Atoi(GetNumFilesByGroup(groupname))
+	num_message, _ := strconv.Atoi(GetLastNumByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
 	headers = append(headers, "Xref: averno "+groupname+":"+msgnum_str)
 	headers = append(headers, "Path: averno")
+
+	headers = HeaderCompliance(headers)
 
 	SaveXOVERLineForPost(headers, groupname, id_message, msgnum_str)
 
@@ -143,6 +145,9 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 	if strings.Count(article, "@") == 1 {
 		sz := len(article)
 		article = article[:sz-11]
+	} else {
+		article_i, _ := strconv.Atoi(article)
+		article = fmt.Sprintf("%05d", article_i)
 	}
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
@@ -164,6 +169,7 @@ func NNTP_HEAD_ReturnHEADER(conn net.Conn, groupname string, article_id string) 
 		}
 
 	}
+	conn.Write([]byte(".\r\n"))
 }
 
 func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
@@ -178,6 +184,9 @@ func NNTP_BODY_ReturnBODY(conn net.Conn, groupname string, article_id string) {
 	if strings.Count(article, "@") == 1 {
 		sz := len(article)
 		article = article[:sz-11]
+	} else {
+		article_i, _ := strconv.Atoi(article)
+		article = fmt.Sprintf("%05d", article_i)
 	}
 
 	if files, err := filepath.Glob(messages_folder + "/b-" + groupname + "-*" + article + "*"); err != nil {
@@ -212,6 +221,9 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 	if strings.Count(article, "@") == 1 {
 		sz := len(article)
 		article = article[:sz-11]
+	} else {
+		article_i, _ := strconv.Atoi(article)
+		article = fmt.Sprintf("%05d", article_i)
 	}
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
