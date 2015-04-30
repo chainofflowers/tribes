@@ -17,23 +17,14 @@ var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 func ReadIpFromHost() string {
 
-	host, err := os.Hostname()
-
-	if err == nil {
-		log.Printf("[INFO] Own Hostname is: %s", host)
-	} else {
-		log.Printf("[WTF] Can't get my own hostname? SYSADMIN!")
-		os.Exit(1)
+	conn, err := net.Dial("udp", "example.com:80")
+	if err != nil {
+		log.Printf("[TOOLS] SYSADMIIIIIN : cannot use UDP")
+		return "0.0.0.0"
 	}
-
-	addrs, err := net.LookupIP(host)
-	if err == nil {
-		log.Printf("[INFO] Own IP is: %s", addrs[0].String())
-	} else {
-		log.Printf("[WTF] Can't get my own IP? SYSADMIN!")
-		os.Exit(1)
-	}
-	return addrs[0].String()
+	defer conn.Close()
+	torn := strings.Split(conn.LocalAddr().String(), ":")
+	return torn[0]
 }
 
 func RandSeq(n int) string {
