@@ -72,18 +72,32 @@ func WriteMessages(lines []string, path string) error {
 	return w.Flush()
 }
 
+// sets the log folder
+
 func SetLogFolder() {
 
-	var user_home = GetHomeDir()
-	avernologfile := filepath.Join(user_home, "News", "averno.log")
-	fmt.Println("Logfile is: " + avernologfile)
+	const layout = "2006-Jan-02.15"
 
-	f, err := os.OpenFile(avernologfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Println("Error opening " + avernologfile)
+	logfile_renew := time.NewTicker(time.Hour)
+
+	for {
+
+		orario := time.Now()
+
+		var user_home = GetHomeDir()
+		avernologfile := filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
+		fmt.Println("Logfile is: " + avernologfile)
+
+		f, err := os.OpenFile(avernologfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		if err != nil {
+			fmt.Println("Error opening " + avernologfile)
+		}
+
+		log.SetOutput(f)
+
+		<-logfile_renew.C
 	}
 
-	log.SetOutput(f)
 }
 
 // Checks if a string is in a slice

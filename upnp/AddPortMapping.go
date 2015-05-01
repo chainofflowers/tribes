@@ -15,8 +15,18 @@ type AddPortMapping struct {
 
 func (this *AddPortMapping) Send(localPort, remotePort int, protocol string) bool {
 	request := this.buildRequest(localPort, remotePort, protocol)
-	response, _ := http.DefaultClient.Do(request)
-	resultBody, _ := ioutil.ReadAll(response.Body)
+	response, err := http.DefaultClient.Do(request)
+
+	if err != nil {
+		return false
+	}
+
+	resultBody, err := ioutil.ReadAll(response.Body)
+
+	if err != nil {
+		return false
+	}
+
 	if response.StatusCode == 200 {
 		this.resolve(string(resultBody))
 		return true
@@ -60,8 +70,13 @@ func (this *AddPortMapping) buildRequest(localPort, remotePort int, protocol str
 	body.AddChild(childOne)
 	bodyStr := body.BuildXML()
 
-	request, _ := http.NewRequest("POST", "http://"+this.upnp.Gateway.Host+this.upnp.CtrlUrl,
+	request, err := http.NewRequest("POST", "http://"+this.upnp.Gateway.Host+this.upnp.CtrlUrl,
 		strings.NewReader(bodyStr))
+
+	if err != nil {
+		return nil
+	}
+
 	request.Header = header
 	request.Header.Set("Content-Length", strconv.Itoa(len([]byte(bodyStr))))
 	return request

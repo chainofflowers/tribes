@@ -14,8 +14,18 @@ type DelPortMapping struct {
 
 func (this *DelPortMapping) Send(remotePort int, protocol string) bool {
 	request := this.buildRequest(remotePort, protocol)
-	response, _ := http.DefaultClient.Do(request)
-	resultBody, _ := ioutil.ReadAll(response.Body)
+	response, err := http.DefaultClient.Do(request)
+
+	if err != nil {
+		return false
+	}
+
+	resultBody, err := ioutil.ReadAll(response.Body)
+
+	if err != nil {
+		return false
+	}
+
 	if response.StatusCode == 200 {
 		// log.Println(string(resultBody))
 		this.resolve(string(resultBody))
@@ -48,8 +58,12 @@ func (this *DelPortMapping) buildRequest(remotePort int, protocol string) *http.
 	body.AddChild(childOne)
 	bodyStr := body.BuildXML()
 
-	request, _ := http.NewRequest("POST", "http://"+this.upnp.Gateway.Host+this.upnp.CtrlUrl,
+	request, err := http.NewRequest("POST", "http://"+this.upnp.Gateway.Host+this.upnp.CtrlUrl,
 		strings.NewReader(bodyStr))
+
+	if err != nil {
+		return nil
+	}
 	request.Header = header
 	request.Header.Set("Content-Length", strconv.Itoa(len([]byte(bodyStr))))
 	return request

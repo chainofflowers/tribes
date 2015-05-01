@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./tools/"
 	"./nntp/"
+	"./tools/"
 	"./upnp/"
 	"log"
 	"os"
@@ -12,11 +12,8 @@ import (
 
 func init() {
 
-
-
-	tools.SetLogFolder()
-
-    log.Printf("\n\n[OMG] %s", "AVERNO starts now!")
+	log.Printf("\n\n[OMG] %s", "AVERNO starts now!")
+	go tools.SetLogFolder()
 
 	if (os.Getuid() == 0) || (os.Getgid() == 0) {
 		log.Printf("[OMG] %s", "AAAARGH! ROOT! ROOT! ROOOOOT! ")
