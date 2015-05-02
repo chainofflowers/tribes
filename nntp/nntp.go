@@ -40,6 +40,7 @@ func NNTP_Frontend() {
 			log.Printf("[WTF] NNTP something went wrong at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 		}
 
+// start the NNTP interpreter in background.
 		go NNTP_Interpret(server)
 
 	}
