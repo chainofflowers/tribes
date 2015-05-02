@@ -27,6 +27,9 @@ func init() {
 	os.MkdirAll(filepath.Join(user_home, "News", "peers"), 0755)
 	os.MkdirAll(filepath.Join(user_home, "News", "messages"), 0755)
 	os.MkdirAll(filepath.Join(user_home, "News", "logs"), 0755)
+	os.MkdirAll(filepath.Join(user_home, "News", "tls"), 0755)
+	os.MkdirAll(filepath.Join(user_home, "News", "3be"), 0755)
+
 }
 
 // gets the active NG and sends them to the given sockets
