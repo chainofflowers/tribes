@@ -66,12 +66,12 @@ Newsgroup will be stored as:
 ~/news/groups/ng.all      //all the groups we know. 
 </pre>
 
-a running task will take care of pruning groups.all. Pruning means "making it equal to groups.active". 
+a running task will take care of pruning ng.all. Pruning means "making it equal to ng.active". 
 
 Storing informations in such a way will make easier to delete old files by group 
 Also  manual/cronjob deletion if needed. I am still a  sysadmin :)
 
-I am  assuming it runs on Linux/Unix. If it doesn't works in windows, please restart your PC.
+I assume it runs on Linux/Unix. If it doesn't works in windows, please restart your PC.
 
 I will choose a set of libraries to use, if/when needed:
 
