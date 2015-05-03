@@ -61,9 +61,9 @@ A worker thread will keep updated the "active" list. Also it will prune the "all
 Newsgroup will be stored as:
 
 <pre>
-~/news/groups/groups.local  // groups which are created locally. Always considered "new". To be exposed to peers
-~/news/groups/groups.active   // groups which are subscribed by the local client.
-~/news/groups/groups.all      //all the groups we know. 
+~/news/groups/ng.local  // groups which are created locally. Always considered "new". To be exposed to peers
+~/news/groups/ng.active   // groups which are subscribed by the local client.
+~/news/groups/ng.all      //all the groups we know. 
 </pre>
 
 a running task will take care of pruning groups.all. Pruning means "making it equal to groups.active". 

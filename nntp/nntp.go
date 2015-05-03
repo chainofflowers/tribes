@@ -21,6 +21,7 @@ func NNTP_Frontend() {
 
 	} else {
 		log.Printf("[WTF] TCP CANNOT listen at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
+		return
 	}
 
 	defer ln.Close()

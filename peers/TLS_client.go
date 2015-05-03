@@ -5,6 +5,7 @@ import (
 	"crypto/x509"
 	"io/ioutil"
 	"log"
+	"strings"
 )
 
 // worked with the playground . to adapt
@@ -32,7 +33,13 @@ func TLS_socket_Create(peer_addressandport string) tls.Conn {
 		PrivateKey:  priv2,
 	}
 
-	config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
+	torn := strings.Split(peer_addressandport, ":")
+
+	config := tls.Config{
+		Certificates:       []tls.Certificate{cert},
+		InsecureSkipVerify: true,
+		ServerName:         torn[0], // to put here a slice of the server
+	}
 	conn, err := tls.Dial("tcp", peer_addressandport, &config)
 	if err != nil {
 		log.Println("[TLS] Client problem on dial: %s", err)

@@ -7,6 +7,13 @@ import (
 	"io/ioutil"
 	"log"
 	"net"
+	"sync"
+)
+
+var (
+	runserver   = make(chan bool) // runserver <- false to stop the server
+	server_dead sync.WaitGroup    // server_dead.Wait() to be sure the server dies.
+
 )
 
 // worked in playground, now  make it safe
@@ -57,19 +64,19 @@ func TLS_Frontend(local_ipandport string) {
 
 	listener, err := tls.Listen("tcp", local_ipandport, &config)
 	if err != nil {
-		log.Fatalf("[TLS] Server cannot listen ar %s: %s", local_ipandport, err)
+		log.Println("[TLS] Server cannot listen ar %s: %s", local_ipandport, err)
 	} else {
-		log.Print("[TLS] Server listening at %s: ", local_ipandport)
+		log.Println("[TLS] Server listening at %s: ", local_ipandport)
 	}
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			log.Printf("[TLS] Server cannot answer: %s", err)
+			log.Println("[TLS] Server cannot answer: %s", err)
 			break
 		} else {
 			defer conn.Close()
-			log.Printf("[TLS] Server  accepted client from %s", conn.RemoteAddr())
+			log.Println("[TLS] Server  accepted client from %s", conn.RemoteAddr())
 			go handleClient(conn)
 		}
 	}
@@ -82,9 +89,7 @@ func handleClient(conn net.Conn) {
 		log.Print("server: conn: waiting")
 		n, err := conn.Read(buf)
 		if err != nil {
-			if err != nil {
-				log.Printf("server: conn: read: %s", err)
-			}
+			log.Printf("server: conn: read: %s", err)
 			break
 		}
 
