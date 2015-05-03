@@ -1,4 +1,4 @@
-# averno
+# Tribes
 Small, local NNTP server using P2P  for peering.
 
 
@@ -90,7 +90,7 @@ Everything which has an incomplete/shitty documentation will be outscoped.
 To compile it:
 
 1. Download the code.
-2. Enter the folder averno
+2. Enter the folder tribes
 3. go get ; go build
 
 done.
