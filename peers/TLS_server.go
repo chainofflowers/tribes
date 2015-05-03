@@ -47,7 +47,7 @@ func TLS_Frontend(local_ipandport string) {
 	}
 
 	config := tls.Config{
-		ClientAuth:   tls.RequireAndVerifyClientCert,
+		ClientAuth:   tls.RequireAnyClientCert,
 		Certificates: []tls.Certificate{cert},
 		ClientCAs:    pool,
 	}
