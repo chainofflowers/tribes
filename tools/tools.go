@@ -74,29 +74,35 @@ func WriteMessages(lines []string, path string) error {
 
 // sets the log folder
 
+func RotateLogFolder() {
+
+	log.Println("[TOOLS] LogRotation engine started")
+
+	for {
+
+		time.Sleep(1 * time.Hour)
+		SetLogFolder()
+
+	}
+
+}
+
 func SetLogFolder() {
 
 	const layout = "2006-Jan-02.15"
 
-	logfile_renew := time.NewTicker(time.Hour)
+	orario := time.Now()
 
-	for {
+	var user_home = GetHomeDir()
+	avernologfile := filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
+	log.Println("[TOOLS] Logfile is: " + avernologfile)
 
-		orario := time.Now()
-
-		var user_home = GetHomeDir()
-		avernologfile := filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
-		fmt.Println("Logfile is: " + avernologfile)
-
-		f, err := os.OpenFile(avernologfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-		if err != nil {
-			fmt.Println("Error opening " + avernologfile)
-		}
-
-		log.SetOutput(f)
-
-		<-logfile_renew.C
+	f, err := os.OpenFile(avernologfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Println("[TOOLS] Error opening logfile: %s " + avernologfile)
 	}
+
+	log.SetOutput(f)
 
 }
 

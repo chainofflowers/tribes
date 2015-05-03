@@ -8,32 +8,41 @@ import (
 	"path/filepath"
 )
 
+var (
+	def_TLSPORT       string = "21000"
+	def_BootStrapNode string = "boseburo.ddns.net:30000"
+	def_MyPublicHost  string = "whatever.example.com"
+)
+
 func init() {
+
+	var user_home = tools.GetHomeDir()
+	config_path := filepath.Join(user_home, "News")
+	config_file := filepath.Join(user_home, "News", "config.toml")
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
-	viper.AddConfigPath("$HOME/News/")
+	viper.AddConfigPath(config_path)
 
 	err := viper.ReadInConfig() // Find and read the config file
 
 	if err != nil { // Handle errors reading the config file
 		log.Printf("[OMG] Cannot read config file : %s", err)
-		viper.SetDefault("DHTPORT", "30000")
-		viper.SetDefault("BootstrapNode", "boseburo.ddns.net:30000")
+		viper.SetDefault("TLSPORT", def_TLSPORT)
+		viper.SetDefault("BootStrapNode", def_BootStrapNode)
+		viper.SetDefault("MyPublicHost", def_MyPublicHost)
 
-		var user_home = tools.GetHomeDir()
-		config_file := filepath.Join(user_home, "News", "config.toml")
-		os.MkdirAll(filepath.Join(user_home, "News"), 0755)
+		os.MkdirAll(config_path, 0755)
 		f, _ := os.Create(config_file)
-		_, _ = f.WriteString("DHTPORT = \"21000\"\n")
-		_, _ = f.WriteString("BootstrapNode = \"boseburo.ddns.net:30000\"\n")
-		_, _ = f.WriteString("MyPublicHost = \"whatever.ddns.net\"\n")
+		_, _ = f.WriteString("TLSPORT = \"" + def_TLSPORT + "\"\n")
+		_, _ = f.WriteString("BootStrapNode = \"" + def_BootStrapNode + "\"\n")
+		_, _ = f.WriteString("MyPublicHost = \"" + def_MyPublicHost + "\"\n")
 		f.Close()
 	}
 }
 
 func GetClusterPort() int {
-	return viper.GetInt("DHTPORT")
+	return viper.GetInt("TLSPORT")
 }
 
 func GetBootstrapNode() string {

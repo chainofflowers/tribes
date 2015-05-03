@@ -40,7 +40,7 @@ func NNTP_Frontend() {
 			log.Printf("[WTF] NNTP something went wrong at %s. SYSADMIIIIN!!", "127.0.0.1:11119")
 		}
 
-// start the NNTP interpreter in background.
+		// start the NNTP interpreter in background.
 		go NNTP_Interpret(server)
 
 	}
@@ -56,8 +56,9 @@ func NNTP_Interpret(conn net.Conn) {
 	greetings := "200 averno.node AVERNO Version 01 beta, S0, posting OK"
 	conn.Write([]byte(greetings + "\r\n"))
 	for {
+		linea := make([]byte, 1024)
 
-		linea, _, _ := bufio.NewReader(conn).ReadLine()
+		linea, _, _ = bufio.NewReader(conn).ReadLine()
 
 		message := string(linea)
 

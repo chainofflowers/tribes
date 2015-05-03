@@ -1,4 +1,4 @@
-package tls
+package peers
 
 import (
 	"crypto/rand"
@@ -9,14 +9,34 @@ import (
 	"net"
 )
 
-// worked in playground, now to make it safe
+// worked in playground, now  make it safe
 
-func TLS_Frontend() {
+func TLS_Frontend(local_ipandport string) {
 
-	ca_b, _ := ioutil.ReadFile("ca.pem")
-	ca, _ := x509.ParseCertificate(ca_b)
-	priv_b, _ := ioutil.ReadFile("ca.key")
-	priv, _ := x509.ParsePKCS1PrivateKey(priv_b)
+	ca_b, err := ioutil.ReadFile(server_pemfile)
+
+	if err != nil {
+		log.Println("[TLS] Cannot read server certificate %s : %s", server_pemfile, err)
+		return
+	}
+
+	ca, err := x509.ParseCertificate(ca_b)
+	if err != nil {
+		log.Println("[TLS] Cannot parse server certificate %s: %s", server_pemfile, err)
+		return
+	}
+
+	priv_b, err := ioutil.ReadFile(server_keyfile)
+	if err != nil {
+		log.Println("[TLS] Cannot read server key %s : %s", server_keyfile, err)
+		return
+	}
+
+	priv, err := x509.ParsePKCS1PrivateKey(priv_b)
+	if err != nil {
+		log.Println("[TLS] Cannot parse server key %s : %s", server_keyfile, err)
+		return
+	}
 
 	pool := x509.NewCertPool()
 	pool.AddCert(ca)
@@ -35,22 +55,23 @@ func TLS_Frontend() {
 
 	// to put my IP and port of the tribe
 
-	service := "0.0.0.0:443"
-	listener, err := tls.Listen("tcp", service, &config)
+	listener, err := tls.Listen("tcp", local_ipandport, &config)
 	if err != nil {
-		log.Fatalf("server: listen: %s", err)
+		log.Fatalf("[TLS] Server cannot listen ar %s: %s", local_ipandport, err)
+	} else {
+		log.Print("[TLS] Server listening at %s: ", local_ipandport)
 	}
-	log.Print("server: listening")
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			log.Printf("server: accept: %s", err)
+			log.Printf("[TLS] Server cannot answer: %s", err)
 			break
+		} else {
+			defer conn.Close()
+			log.Printf("[TLS] Server  accepted client from %s", conn.RemoteAddr())
+			go handleClient(conn)
 		}
-		defer conn.Close()
-		log.Printf("server: accepted from %s", conn.RemoteAddr())
-		go handleClient(conn)
 	}
 }
 
