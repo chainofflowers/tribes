@@ -2,7 +2,7 @@
 *.o
 *.a
 *.so
-averno
+tribes
 notes.txt
 
 # Folders
