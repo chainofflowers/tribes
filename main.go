@@ -18,7 +18,6 @@ func init() {
 		os.Exit(1)
 	}
 
-	go tools.RotateLogFolder()
 	go upnp.AllUpnpOpen()
 	go peers.RotateKeysAndCert()
 
@@ -27,8 +26,6 @@ func init() {
 // main will only manage local data
 
 func main() {
-
-	tools.SetLogFolder()
 
 	log.Println("[TLS] Initializing engine")
 	peers.CreateKeysAndCert(tools.RandSeq(6), tools.RandSeq(8), tools.RandSeq(7))

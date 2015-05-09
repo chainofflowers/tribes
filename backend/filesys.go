@@ -10,9 +10,12 @@ import (
 	"strings"
 )
 
-var active_ng_file string = "/News/groups/ng.active"
-var new_ng_file string = "/News/groups/ng.local"
-var messages_folder string = "/News/messages/"
+var (
+	active_ng_file  string = "/News/groups/ng.active"
+	new_ng_file     string = "/News/groups/ng.local"
+	all_ng_file     string = "/News/groups/ng.all"
+	messages_folder string = "/News/messages/"
+)
 
 // initializes everything
 
@@ -21,6 +24,7 @@ func init() {
 	var user_home = tools.GetHomeDir()
 	active_ng_file = filepath.Join(user_home, active_ng_file)
 	new_ng_file = filepath.Join(user_home, new_ng_file)
+	all_ng_file = filepath.Join(user_home, all_ng_file)
 	messages_folder = filepath.Join(user_home, messages_folder)
 
 	os.MkdirAll(filepath.Join(user_home, "News", "groups"), 0755)
@@ -30,12 +34,16 @@ func init() {
 	os.MkdirAll(filepath.Join(user_home, "News", "tls"), 0755)
 	os.MkdirAll(filepath.Join(user_home, "News", "3be"), 0755)
 
-	if exists, _ := tools.TheFileExists(active_ng_file); exists == false {
+	if tools.TheFileExists(active_ng_file) == false {
 		log.Printf("[BE-FS] creating file %s", active_ng_file)
 		os.Create(active_ng_file)
 	}
-	if exists, _ := tools.TheFileExists(new_ng_file); exists == false {
-		log.Printf("[BE-FS] Creating File %s", active_ng_file)
+	if tools.TheFileExists(new_ng_file) == false {
+		log.Printf("[BE-FS] Creating File %s", new_ng_file)
+		os.Create(new_ng_file)
+	}
+	if tools.TheFileExists(all_ng_file) == false {
+		log.Printf("[BE-FS] Creating File %s", all_ng_file)
 		os.Create(new_ng_file)
 	}
 

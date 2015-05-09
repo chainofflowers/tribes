@@ -30,7 +30,7 @@ func init() {
 	client_pemfile = filepath.Join(user_home, client_pemfile)
 	server_keyfile = filepath.Join(user_home, server_keyfile)
 	server_pemfile = filepath.Join(user_home, server_pemfile)
-	log.Println("[TLS] Engine INIT: %s", TLS_engine)
+	log.Println("[TLS] Engine INIT: ", TLS_engine)
 }
 
 func RotateKeysAndCert() {

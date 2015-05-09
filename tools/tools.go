@@ -15,6 +15,19 @@ import (
 
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
+type tribesfile struct {
+	filename string
+	logfile  *os.File
+}
+
+func init() {
+
+	var mylogfile tribesfile
+	mylogfile.SetLogFolder()
+	go mylogfile.RotateLogFolder()
+
+}
+
 func ReadIpFromHost() string {
 
 	conn, err := net.Dial("udp", "example.com:80")
@@ -36,12 +49,14 @@ func RandSeq(n int) string {
 	return string(b)
 }
 
-func TheFileExists(filename string) (bool, error) {
-	_, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false, nil
+func TheFileExists(filename string) bool {
+
+	list, err := filepath.Glob(filename)
+	if err != nil {
+		return false
 	}
-	return err != nil, err
+	return list != nil
+
 }
 
 // just gets the home directory. to be moved in "tools"
@@ -74,35 +89,38 @@ func WriteMessages(lines []string, path string) error {
 
 // sets the log folder
 
-func RotateLogFolder() {
+func (f tribesfile) RotateLogFolder() {
 
 	log.Println("[TOOLS] LogRotation engine started")
 
 	for {
 
 		time.Sleep(1 * time.Hour)
-		SetLogFolder()
+		if f.logfile != nil {
+			err := f.logfile.Close()
+			log.Println("[TOOLS] close logfile returned: ", err)
+		}
+
+		f.SetLogFolder()
 
 	}
 
 }
 
-func SetLogFolder() {
+func (f tribesfile) SetLogFolder() {
 
 	const layout = "2006-Jan-02.15"
 
 	orario := time.Now()
 
 	var user_home = GetHomeDir()
-	avernologfile := filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
-	log.Println("[TOOLS] Logfile is: " + avernologfile)
+	f.filename = filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
+	log.Println("[TOOLS] Logfile is: " + f.filename)
 
-	f, err := os.OpenFile(avernologfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Println("[TOOLS] Error opening logfile: %s " + avernologfile)
-	}
+	f.logfile, _ = os.Create(f.filename)
 
-	log.SetOutput(f)
+	log.SetPrefix("TRIBES ")
+	log.SetOutput(f.logfile)
 
 }
 
