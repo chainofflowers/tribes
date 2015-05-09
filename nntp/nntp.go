@@ -7,6 +7,7 @@ import (
 	"net"
 	"regexp"
 	"strings"
+	"time"
 )
 
 var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nIHAVE\nXOVER\nOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
@@ -154,7 +155,7 @@ func NNTP_Interpret(conn net.Conn) {
 			continue
 		}
 
-		if matches, _ := regexp.MatchString("(?i)^POST.*", message); matches == true {
+		if matches, _ := regexp.MatchString("(?i)^POST[ ]*$", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			backend.NNTP_POST_ReadAndSave(conn, current_group)
 			continue
@@ -165,21 +166,18 @@ func NNTP_Interpret(conn net.Conn) {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^CAPABILITIES.*", message); matches == true {
+		if matches, _ := regexp.MatchString("(?i)^CAPABILITIES[ ]*$", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			conn.Write([]byte(capab_out))
 			continue
 
 		}
-		if matches, _ := regexp.MatchString("(?i)^MODE.*READER.*", message); matches == true {
+		if matches, _ := regexp.MatchString("(?i)^MODE[ ]*READER[ ]*$", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			conn.Write([]byte("200 Hello, you can post\r\n"))
 			continue
 		}
-		if matches, _ := regexp.MatchString("(?i)^AUTHINFO.*", message); matches == true {
-			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
-			continue
-		}
+
 		if matches, _ := regexp.MatchString("(?i)^NEWGROUPS.*", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			conn.Write([]byte("231 New newsgroups since whatever follow" + "\r\n"))
@@ -201,10 +199,12 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 
 		if message == "" {
+			time.Sleep(1 * time.Second)
 			continue
 		}
 
 		log.Printf("[INFO] NNTP BULLSHIT >%s< from %s ", message, remote_client)
+		time.Sleep(1 * time.Second)
 		conn.Write([]byte("500 Command not understood\r\n"))
 
 	}
