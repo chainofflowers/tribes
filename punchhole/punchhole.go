@@ -31,15 +31,16 @@ func (h *MyPunchHole) OpenNatUDPport() {
 		return
 	}
 
-	log.Printf("[NATUDP] UDP ready from %s:%d to %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port, h.MyRemoteAddr.IP, h.MyRemoteAddr.Port)
+	_, h.MyError = h.MyUdpConn.Write([]byte("Punch Hole!"))
+
+	if h.MyError == nil {
+		log.Printf("[NATUDP] UDP ready from %s:%d to %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port, h.MyRemoteAddr.IP, h.MyRemoteAddr.Port)
+	}else{
+		log.Printf("[NATUDP] UDP BLOCKED from %s:%d to %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port, h.MyRemoteAddr.IP, h.MyRemoteAddr.Port)
+	}
 
 	h.MyUdpConn.Close()
-	h.MyUdpConn, h.MyError = net.ListenUDP("udp", &h.MyLocalAddr)
 
-	if h.MyError != nil {
-		log.Printf("[NATUDP] UDP cannot listen on %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port)
-	} else {
-		log.Printf("[NATUDP] UDP listening on %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port)
 
 	}
 }
@@ -52,9 +53,7 @@ func (h *MyPunchHole) RefreshPunchHole() {
 
 		h.OpenNatUDPport()
 		time.Sleep(2 * time.Minute)
-		log.Printf("[NATUDP] Closing the old port")
-		h.MyUdpConn.Close()
-		log.Printf("[NATUDP] Refreshing the Hole Punch")
+		log.Printf("[NATUDP] Refreshing the Hole Punch...")
 
 	}
 
