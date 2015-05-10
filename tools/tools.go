@@ -35,7 +35,7 @@ func ReadIpFromHost() string {
 		log.Printf("[TOOLS] SYSADMIIIIIN : cannot use UDP")
 		return "0.0.0.0"
 	}
-	defer conn.Close()
+	conn.Close()
 	torn := strings.Split(conn.LocalAddr().String(), ":")
 	return torn[0]
 }
@@ -119,7 +119,7 @@ func (f tribesfile) SetLogFolder() {
 
 	f.logfile, _ = os.Create(f.filename)
 
-	log.SetPrefix("TRIBES ")
+	log.SetPrefix("TRIBES> ")
 	log.SetOutput(f.logfile)
 
 }

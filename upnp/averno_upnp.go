@@ -10,13 +10,13 @@ import (
 func AllUpnpOpen() {
 
 	upnp_renew := time.NewTicker(5 * time.Minute)
+	mapping_http := new(Upnp)
+
 	for {
 
 		log.Printf("[UPnP] Renew the UPnP lease")
 
 		ClusterPort := config.GetClusterPort()
-
-		mapping_http := new(Upnp)
 
 		err := mapping_http.SearchGateway()
 		if err != nil {
@@ -52,6 +52,8 @@ func AllUpnpOpen() {
 		}
 
 		<-upnp_renew.C
+
+		mapping_http.
 
 	}
 
