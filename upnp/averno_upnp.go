@@ -36,13 +36,6 @@ func AllUpnpOpen() {
 
 		}
 
-		log.Printf("[UPnP] UPnP on TCP %d...", ClusterPort)
-		if err = mapping_http.AddPortMapping(ClusterPort, ClusterPort, "TCP"); err == nil {
-			log.Printf("[UpNp] UPnP redirect TCP %d : no errors from %s", ClusterPort, mapping_http.Gateway.Host)
-		} else {
-			log.Printf("[UPnP] No UPnP on TCP %d:  %s", ClusterPort, err.Error())
-		}
-
 		log.Printf("[UPnP] UPnP on UDP %d...", ClusterPort)
 
 		if err = mapping_http.AddPortMapping(ClusterPort, ClusterPort, "UDP"); err == nil {
@@ -52,8 +45,6 @@ func AllUpnpOpen() {
 		}
 
 		<-upnp_renew.C
-
-		mapping_http.
 
 	}
 

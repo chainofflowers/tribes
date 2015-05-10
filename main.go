@@ -3,6 +3,7 @@ package main
 import (
 	"./nntp/"
 	"./peers/"
+	"./punchhole/"
 	"./tools/"
 	"./upnp/"
 	"log"
@@ -17,6 +18,9 @@ func init() {
 		log.Printf("[OMG] %s", "AAAARGH! ROOT! ROOT! ROOOOOT! ")
 		os.Exit(1)
 	}
+
+	var TribesHole punchhole.MyPunchHole
+	go TribesHole.RefreshPunchHole()
 
 	go upnp.AllUpnpOpen()
 	go peers.RotateKeysAndCert()
