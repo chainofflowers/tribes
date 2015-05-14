@@ -25,15 +25,15 @@ type MyEncryption struct {
 func init() {
 
 	var LocalTribe MyEncryption
+	var thekey string
 	log.Println("[AES] Engine started")
-	thekey := config.GetTribeID()
 
-	if len(thekey) != 32 {
+	if thekey = config.GetTribeID(); len(thekey) != 32 {
 		log.Println("[AES] EEK: TribeID shorter than 32 bytes. Cannot start tribes")
 		os.Exit(3)
 	}
 
-	LocalTribe.MyAES_key = []byte(config.GetTribeID())
+	LocalTribe.MyAES_key = []byte(thekey)
 	log.Println("[AES] TribeID is: ", string(LocalTribe.MyAES_key))
 	LocalTribe.MyText_cleartext = []byte(tools.RandSeq(33))
 	log.Println("[AES] TribeGreeting before is: " + string(LocalTribe.MyText_cleartext))
