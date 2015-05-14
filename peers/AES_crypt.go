@@ -39,12 +39,13 @@ func init() {
 	log.Println("[AES] TribeGreeting before is: " + string(LocalTribe.MyText_cleartext))
 	LocalTribe.encrypt()
 	log.Println("[AES] test Encryption executed")
+	LocalTribe.MyText_cleartext = []byte("WRONG")
 	LocalTribe.decrypt()
 	log.Println("[AES] TribeGreeting after  is: " + string(LocalTribe.MyText_cleartext))
 }
 
 func AES_Engine_Start() {
-	log.Println("[AES] Invoked AES Engine")
+	log.Println("[AES] Invoked")
 
 }
 
