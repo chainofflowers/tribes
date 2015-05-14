@@ -10,6 +10,7 @@ import (
 	"errors"
 	"io"
 	"log"
+	"os"
 )
 
 type MyEncryption struct {
@@ -25,6 +26,12 @@ func init() {
 
 	var LocalTribe MyEncryption
 	log.Println("[AES] Engine started")
+	thekey := config.GetTribeID()
+
+	if len(thekey) != 32 {
+		log.Println("[AES] EEK: TribeID shorter than 32 bytes. Cannot start tribes")
+		os.Exit(3)
+	}
 
 	LocalTribe.MyAES_key = []byte(config.GetTribeID())
 	log.Println("[AES] TribeID is: ", string(LocalTribe.MyAES_key))
