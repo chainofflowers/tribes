@@ -83,7 +83,7 @@ Everything which has an incomplete/shitty documentation will be outscoped.
 
 
 1. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977) - DONE -
-2. NAT UDP: [http://tools.ietf.org/html/rfc4787](http://tools.ietf.org/html/rfc4787)
+2. NAT UDP: [http://tools.ietf.org/html/rfc4787](http://tools.ietf.org/html/rfc4787) - DONE -
 3. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper) - **DONE** - 
 4. 3be: still testing it.
 
