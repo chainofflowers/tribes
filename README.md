@@ -81,11 +81,11 @@ I will choose a set of libraries to use, if/when needed:
 
 Everything which has an incomplete/shitty documentation will be outscoped.
 
-1. HTTP: [http://tools.ietf.org/html/rfc2616](http://tools.ietf.org/html/rfc2616)[http://tools.ietf.org/html/rfc1945](http://tools.ietf.org/html/rfc1945)
-2. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977) - IN PROGRESS -
-3. UPnP: [https://github.com/prestonTao/upnp](https://github.com/prestonTao/upnp) - **DONE** -
-3. NAT UDP: [http://tools.ietf.org/html/rfc4787](http://tools.ietf.org/html/rfc4787)
-4. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper) - **DONE** - 
+
+1. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977) - DONE -
+2. NAT UDP: [http://tools.ietf.org/html/rfc4787](http://tools.ietf.org/html/rfc4787)
+3. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper) - **DONE** - 
+4. 3be: To be invented by me.
 
 
 To compile it:
