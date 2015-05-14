@@ -4,9 +4,7 @@ import (
 	"../config/"
 	"../tools/"
 	"log"
-	"math/rand"
 	"net"
-	"strconv"
 	"time"
 )
 
@@ -17,57 +15,42 @@ type MyPunchHole struct {
 	MyError      error
 }
 
-func (h *MyPunchHole) OpenNatUDPport() {
+func (this *MyPunchHole) OpenNatUDPport() {
 
-	h.MyLocalAddr.IP = net.ParseIP(tools.ReadIpFromHost())
-	h.MyLocalAddr.Port = config.GetClusterPort()
-	h.MyRemoteAddr.IP = net.ParseIP(RandomIPAddress())
-	h.MyRemoteAddr.Port = config.GetClusterPort()
+	this.MyLocalAddr.IP = net.ParseIP(tools.ReadIpFromHost())
+	this.MyLocalAddr.Port = config.GetClusterPort()
+	this.MyRemoteAddr.IP = net.ParseIP(tools.RandomIPAddress())
+	this.MyRemoteAddr.Port = config.GetClusterPort()
 
-	h.MyUdpConn, h.MyError = net.DialUDP("udp", &h.MyLocalAddr, &h.MyRemoteAddr)
+	this.MyUdpConn, this.MyError = net.DialUDP("udp", &this.MyLocalAddr, &this.MyRemoteAddr)
 
-	if h.MyError != nil {
-		log.Printf("[NATUDP] Cannot open UDP from %s:%d to %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port, h.MyRemoteAddr.IP, h.MyRemoteAddr.Port)
+	if this.MyError != nil {
+		log.Printf("[NATUDP] Cannot open UDP from %s:%d to %s:%d", this.MyLocalAddr.IP, this.MyLocalAddr.Port, this.MyRemoteAddr.IP, this.MyRemoteAddr.Port)
 		return
 	}
 
-	_, h.MyError = h.MyUdpConn.Write([]byte("Punch Hole!"))
+	_, this.MyError = this.MyUdpConn.Write([]byte(tools.RandSeq(16)))
 
-	if h.MyError == nil {
-		log.Printf("[NATUDP] UDP ready from %s:%d to %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port, h.MyRemoteAddr.IP, h.MyRemoteAddr.Port)
-	}else{
-		log.Printf("[NATUDP] UDP BLOCKED from %s:%d to %s:%d", h.MyLocalAddr.IP, h.MyLocalAddr.Port, h.MyRemoteAddr.IP, h.MyRemoteAddr.Port)
+	if this.MyError == nil {
+		log.Printf("[NATUDP] UDP ready from %s:%d to %s:%d", this.MyLocalAddr.IP, this.MyLocalAddr.Port, this.MyRemoteAddr.IP, this.MyRemoteAddr.Port)
+	} else {
+		log.Printf("[NATUDP] UDP BLOCKED from %s:%d to %s:%d", this.MyLocalAddr.IP, this.MyLocalAddr.Port, this.MyRemoteAddr.IP, this.MyRemoteAddr.Port)
 	}
 
-	h.MyUdpConn.Close()
+	this.MyUdpConn.Close()
 
-
-	}
 }
 
-func (h *MyPunchHole) RefreshPunchHole() {
+func (this *MyPunchHole) RefreshPunchHole() {
 
 	log.Printf("[NATUDP] Starting UDP HolePunch Engine")
 
 	for {
 
-		h.OpenNatUDPport()
+		this.OpenNatUDPport()
 		time.Sleep(2 * time.Minute)
 		log.Printf("[NATUDP] Refreshing the Hole Punch...")
 
 	}
-
-}
-
-func RandomIPAddress() string {
-
-	var IPfields string
-	rand.Seed(time.Now().Unix())
-	IPfields += strconv.Itoa(rand.Intn(254)) + "."
-	IPfields += strconv.Itoa(rand.Intn(254)) + "."
-	IPfields += strconv.Itoa(rand.Intn(254)) + "."
-	IPfields += strconv.Itoa(rand.Intn(254))
-
-	return IPfields
 
 }

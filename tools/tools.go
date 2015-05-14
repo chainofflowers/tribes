@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -89,7 +90,7 @@ func WriteMessages(lines []string, path string) error {
 
 // sets the log folder
 
-func (f tribesfile) RotateLogFolder() {
+func (f *tribesfile) RotateLogFolder() {
 
 	log.Println("[TOOLS] LogRotation engine started")
 
@@ -107,7 +108,7 @@ func (f tribesfile) RotateLogFolder() {
 
 }
 
-func (f tribesfile) SetLogFolder() {
+func (f *tribesfile) SetLogFolder() {
 
 	const layout = "2006-Jan-02.15"
 
@@ -144,4 +145,17 @@ func StringPosInSlice(str string, list []string) int {
 		}
 	}
 	return -1
+}
+
+func RandomIPAddress() string {
+
+	var IPfields string
+	rand.Seed(time.Now().Unix())
+	IPfields += strconv.Itoa(rand.Intn(254)) + "."
+	IPfields += strconv.Itoa(rand.Intn(254)) + "."
+	IPfields += strconv.Itoa(rand.Intn(254)) + "."
+	IPfields += strconv.Itoa(rand.Intn(254))
+
+	return IPfields
+
 }

@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	def_TLSPORT       string = "21000"
-	def_BootStrapNode string = "boseburo.ddns.net:30000"
-	def_MyPublicHost  string = "whatever.example.com"
+	def_TLSPORT      string = "21000"
+	def_TribeID      string = "AdzfNdsMAajMMuPpVsNXvWWxIDohwppzuIuejf"
+	def_MyPublicHost string = "whatever.example.com"
 )
 
 func init() {
@@ -29,13 +29,13 @@ func init() {
 	if err != nil { // Handle errors reading the config file
 		log.Printf("[OMG] Cannot read config file : %s", err)
 		viper.SetDefault("TLSPORT", def_TLSPORT)
-		viper.SetDefault("BootStrapNode", def_BootStrapNode)
 		viper.SetDefault("MyPublicHost", def_MyPublicHost)
+		viper.SetDefault("MyTribeID", def_TribeID)
 
 		os.MkdirAll(config_path, 0755)
 		f, _ := os.Create(config_file)
 		_, _ = f.WriteString("TLSPORT = \"" + def_TLSPORT + "\"\n")
-		_, _ = f.WriteString("BootStrapNode = \"" + def_BootStrapNode + "\"\n")
+		_, _ = f.WriteString("MyTribeID = \"" + def_TribeID + "\"\n")
 		_, _ = f.WriteString("MyPublicHost = \"" + def_MyPublicHost + "\"\n")
 		f.Close()
 	}
@@ -45,8 +45,8 @@ func GetClusterPort() int {
 	return viper.GetInt("TLSPORT")
 }
 
-func GetBootstrapNode() string {
-	return viper.GetString("BootStrapNode")
+func GetTribeID() string {
+	return viper.GetString("TribeID")
 }
 
 func GetPublicHost() string {
