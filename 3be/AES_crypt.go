@@ -1,4 +1,4 @@
-package peers
+package tribe
 
 import (
 	"../config/"
@@ -37,10 +37,10 @@ func init() {
 	log.Println("[AES] TribeID is: ", string(LocalTribe.MyAES_key))
 	LocalTribe.MyText_cleartext = []byte(tools.RandSeq(33))
 	log.Println("[AES] TribeGreeting before is: " + string(LocalTribe.MyText_cleartext))
-	LocalTribe.encrypt()
+	LocalTribe.AESencrypt()
 	log.Println("[AES] test Encryption executed")
-	LocalTribe.MyText_cleartext = []byte("WRONG")
-	LocalTribe.decrypt()
+	copy(LocalTribe.MyText_cleartext, []byte("WRONG"))
+	LocalTribe.AESdecrypt()
 	log.Println("[AES] TribeGreeting after  is: " + string(LocalTribe.MyText_cleartext))
 }
 
@@ -49,7 +49,7 @@ func AES_Engine_Start() {
 
 }
 
-func (this *MyEncryption) encrypt() {
+func (this *MyEncryption) AESencrypt() {
 	this.MyCypherBlock, this.MyAES_Error = aes.NewCipher(this.MyAES_key)
 	if this.MyAES_Error != nil {
 		log.Println("[AES] Cannot add NewCipher: ", this.MyAES_Error)
@@ -73,7 +73,7 @@ func (this *MyEncryption) encrypt() {
 // Decryption function
 //=================
 
-func (this *MyEncryption) decrypt() {
+func (this *MyEncryption) AESdecrypt() {
 	this.MyCypherBlock, this.MyAES_Error = aes.NewCipher(this.MyAES_key)
 	if this.MyAES_Error != nil {
 		log.Println("[AES] Cannot add NewCipher: ", this.MyAES_Error)
@@ -96,4 +96,14 @@ func (this *MyEncryption) decrypt() {
 
 	}
 	return
+}
+
+//
+// Returns armored AES encrypted
+//
+
+func (this *MyEncryption) AESArmored() string {
+
+	return base64.StdEncoding.EncodeToString(this.MyText_encrypted)
+
 }

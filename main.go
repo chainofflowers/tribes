@@ -1,8 +1,8 @@
 package main
 
 import (
+	"./3be/"
 	"./nntp/"
-	"./peers/"
 	"./punchhole/"
 	"log"
 	"os"
@@ -27,7 +27,7 @@ func init() {
 func main() {
 
 	log.Println("[OMG] AVERNO starts now!")
-	peers.AES_Engine_Start()
+	tribe.AES_Engine_Start()
 
 	nntp.NNTP_Frontend()
 
