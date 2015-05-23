@@ -42,6 +42,8 @@ func init() {
 	copy(LocalTribe.MyText_cleartext, []byte("WRONG"))
 	LocalTribe.AESdecrypt()
 	log.Println("[AES] TribeGreeting after  is: " + string(LocalTribe.MyText_cleartext))
+	log.Println("[UDP] Now Starting UDP listener ")
+	Udp_Server()
 }
 
 func AES_Engine_Start() {
@@ -105,5 +107,26 @@ func (this *MyEncryption) AESdecrypt() {
 func (this *MyEncryption) AESArmored() string {
 
 	return base64.StdEncoding.EncodeToString(this.MyText_encrypted)
+
+}
+
+func EasyCrypt(text, key string) string {
+
+	var aes_tmp MyEncryption
+
+	aes_tmp.MyText_cleartext = []byte(text)
+	aes_tmp.MyAES_key = []byte(key)
+	aes_tmp.AESencrypt()
+	return aes_tmp.AESArmored()
+
+}
+
+func EasyDeCrypt(text, key string) string {
+
+	var aes_tmp MyEncryption
+	aes_tmp.MyText_encrypted = []byte(text)
+	aes_tmp.MyAES_key = []byte(key)
+	aes_tmp.AESdecrypt()
+	return string(aes_tmp.MyText_cleartext)
 
 }
