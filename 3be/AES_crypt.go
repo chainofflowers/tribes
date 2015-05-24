@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
 )
 
 type MyEncryption struct {
@@ -43,7 +44,10 @@ func init() {
 	LocalTribe.AESdecrypt()
 	log.Println("[AES] TribeGreeting after  is: " + string(LocalTribe.MyText_cleartext))
 	log.Println("[UDP] Now Starting UDP listener ")
-	Udp_Server()
+
+	var TribeSrv TribeServer
+	TribeSrv.TSPort = ":" + strconv.Itoa(config.GetClusterPort())
+	go TribeSrv.Udp_Server()
 }
 
 func AES_Engine_Start() {

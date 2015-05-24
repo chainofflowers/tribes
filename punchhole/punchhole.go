@@ -26,6 +26,7 @@ func (this *MyPunchHole) OpenNatUDPport() {
 
 	if this.MyError != nil {
 		log.Printf("[NATUDP] Cannot open UDP from %s:%d to %s:%d", this.MyLocalAddr.IP, this.MyLocalAddr.Port, this.MyRemoteAddr.IP, this.MyRemoteAddr.Port)
+		log.Printf("[NATUDP] Error: " + this.MyError.Error())
 		return
 	}
 
