@@ -3,7 +3,6 @@ package main
 import (
 	"./3be/"
 	"./nntp/"
-	"./punchhole/"
 	"log"
 	"os"
 )
@@ -16,9 +15,6 @@ func init() {
 		log.Printf("[OMG] %s", "AAAARGH! ROOT! ROOT! ROOOOOT! ")
 		os.Exit(1)
 	}
-
-	var TribesHole punchhole.MyPunchHole
-	go TribesHole.RefreshPunchHole()
 
 }
 

@@ -31,7 +31,7 @@ func init() {
 
 func ReadIpFromHost() string {
 
-	conn, err := net.Dial("udp", "example.com:80")
+	conn, err := net.Dial("udp", RandomIPAddress()+":80")
 	if err != nil {
 		log.Printf("[TOOLS] SYSADMIIIIIN : cannot use UDP")
 		return "0.0.0.0"

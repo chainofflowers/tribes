@@ -1,15 +1,21 @@
 package tribe
 
 import (
+	"../config"
+	"../tools/"
 	"log"
 	"net"
+	"strconv"
+	"time"
 )
 
 type TribeServer struct {
-	TSAddr *net.UDPAddr
-	TSConn *net.UDPConn
-	TSPort string
-	TSErr  error
+	TSLAddr *net.UDPAddr // local udp address
+	TSRAddr *net.UDPAddr // remote udp address
+	TSConn  *net.UDPConn // connection in use
+	TSRun   bool
+	TSPort  string
+	TSErr   error
 }
 
 type TribePayload struct {
@@ -19,19 +25,34 @@ type TribePayload struct {
 	TPErr    error
 }
 
+func init() {
+
+	var TribeSrv TribeServer
+	TribeSrv.TSRun = false
+	TribeSrv.TSPort = tools.ReadIpFromHost() + ":" + strconv.Itoa(config.GetClusterPort())
+	go TribeSrv.RefreshPunchHole()
+
+}
+
 func (this *TribeServer) Udp_Server() {
 
-	this.TSAddr, this.TSErr = net.ResolveUDPAddr("udp", this.TSPort)
+	this.TSLAddr, this.TSErr = net.ResolveUDPAddr("udp", this.TSPort)
+
 	if this.TSErr != nil {
-		log.Printf("[UDP] Cannot resolve UDP address : %s", this.TSErr)
+		log.Printf("[UDP] Cannot resolve UDP address : %s", this.TSErr.Error())
 
 	}
 
 	/* Now listen at selected port */
-	this.TSConn, this.TSErr = net.ListenUDP("udp", this.TSAddr)
+	this.TSConn, this.TSErr = net.ListenUDP("udp", this.TSLAddr)
 
 	if this.TSErr != nil {
-		log.Printf("[UDP] Cannot bind on listening port : %s", this.TSErr)
+		log.Printf("[UDP] Cannot bind on listening port : %s", this.TSErr.Error())
+		this.TSRun = false
+
+	} else {
+		log.Printf("[UDP] Bound on listening port %s", this.TSPort)
+		this.TSRun = true
 
 	}
 
@@ -45,12 +66,52 @@ func (this *TribeServer) Udp_Server() {
 		Payload.TPsize, Payload.TPsender, Payload.TPErr = this.TSConn.ReadFromUDP(Payload.TPbuffer)
 
 		if Payload.TPErr != nil {
-			log.Printf("[UDP] Cannot read on UDP socket : %s", Payload.TPErr)
+			log.Printf("[UDP] Cannot read on UDP socket : %s", Payload.TPErr.Error())
 		} else {
-			log.Printf("[UDP] Received ", string(Payload.TPbuffer[0:Payload.TPsize]), " from ", Payload.TPsender, "bytes: ", Payload.TPsize)
+			log.Printf("[UDP] Received %d bytes", Payload.TPsize)
+			log.Printf("[UDP] Received from: %v", Payload.TPsender)
+			log.Printf("[UDP] Received string follows: %s", string(Payload.TPbuffer[0:Payload.TPsize]))
 		}
 
 		//		Tribes_Interpreter(string(buf[0:n]))
 
 	}
+
+}
+
+func (this *TribeServer) OpenNatUDPport() {
+
+	this.TSRAddr, this.TSErr = net.ResolveUDPAddr("udp", tools.RandomIPAddress()+this.TSPort)
+
+	if this.TSErr != nil {
+		log.Printf("[NATUDP] Cannot resolve UDP address : %s", this.TSErr.Error())
+
+	}
+
+	_, this.TSErr = this.TSConn.WriteToUDP([]byte(tools.RandSeq(16)), this.TSRAddr)
+
+	if this.TSErr == nil {
+		log.Printf("[NATUDP] UDP ready from %s to %s", this.TSLAddr, this.TSRAddr)
+	} else {
+		log.Printf("[NATUDP] UDP BLOCKED from %s to %s: %s", this.TSLAddr, this.TSRAddr, this.TSErr.Error())
+	}
+
+}
+
+func (this *TribeServer) RefreshPunchHole() {
+
+	go this.Udp_Server()
+
+	log.Printf("[NATUDP] Starting UDP HolePunch Engine")
+
+	for {
+
+		if this.TSRun == true {
+			this.OpenNatUDPport()
+		}
+		time.Sleep(2 * time.Minute)
+		log.Printf("[NATUDP] Refreshing the Hole Punch...")
+
+	}
+
 }
