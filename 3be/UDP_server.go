@@ -40,7 +40,6 @@ func (this *TribeServer) Udp_Server() {
 
 	if this.TSErr != nil {
 		log.Printf("[UDP] Cannot resolve UDP address : %s", this.TSErr.Error())
-
 	}
 
 	/* Now listen at selected port */
@@ -49,11 +48,9 @@ func (this *TribeServer) Udp_Server() {
 	if this.TSErr != nil {
 		log.Printf("[UDP] Cannot bind on listening port : %s", this.TSErr.Error())
 		this.TSRun = false
-
 	} else {
 		log.Printf("[UDP] Bound on listening port %s", this.TSPort)
 		this.TSRun = true
-
 	}
 
 	defer this.TSConn.Close()
@@ -73,7 +70,7 @@ func (this *TribeServer) Udp_Server() {
 			log.Printf("[UDP] Received string follows: %s", string(Payload.TPbuffer[0:Payload.TPsize]))
 		}
 
-		//		Tribes_Interpreter(string(buf[0:n]))
+		this.Tribes_Interpreter(Payload)
 
 	}
 
@@ -112,6 +109,21 @@ func (this *TribeServer) RefreshPunchHole() {
 		time.Sleep(2 * time.Minute)
 		log.Printf("[NATUDP] Refreshing the Hole Punch...")
 
+	}
+
+}
+
+// sends a JSON []byte packet to someone. The Tribe Payload is used to know the address
+// the Tribeserver is needed to know the UDP server port and IP
+
+func (this *TribeServer) Shoot_JSON(recv TribePayload, bullet []byte) {
+
+	_, err := this.TSConn.WriteToUDP(bullet, recv.TPsender)
+
+	if err == nil {
+		log.Printf("[JSON-UDP] UDP ready from %s to %s", this.TSLAddr, recv.TPsender)
+	} else {
+		log.Printf("[JSON-UDP] UDP BLOCKED from %s to %s: %s", this.TSLAddr, recv.TPsender, err.Error())
 	}
 
 }
