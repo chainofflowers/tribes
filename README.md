@@ -82,7 +82,7 @@ I will choose a set of libraries to use, if/when needed:
 Everything which has an incomplete/shitty documentation will be outscoped.
 
 
-1. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977) - **99% DONE** -
+1. NNTP: [https://tools.ietf.org/html/rfc977](https://tools.ietf.org/html/rfc977) - **DONE** (tested with slrn, thunderbird , Pan, MacSoup) -
 2. NAT UDP: [http://tools.ietf.org/html/rfc4787](http://tools.ietf.org/html/rfc4787) - **DONE** -
 3. CONF: [https://github.com/spf13/viper](https://github.com/spf13/viper) - **DONE** - 
 4. 3be: **IN PROGRESS**

@@ -8,8 +8,10 @@ import (
 // assuming whatever kind of message we receive, it has a "COMMAND" field in JSON
 // this field will be encrypted in the future.
 
-type BareCommand struct { // this is a structure only needed to check the command.
-	Command  string // this is where I expect to see a command
+type BareCommand struct {
+	// this is a structure only needed to check the command.
+	Command string
+	// this is where I expect to see a command
 	Whatever string
 }
 
