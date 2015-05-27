@@ -3,6 +3,7 @@ package main
 import (
 	"./3be/"
 	"./nntp/"
+	"./tools/"
 	"log"
 	"os"
 )
@@ -12,9 +13,13 @@ import (
 func init() {
 
 	if (os.Getuid() == 0) || (os.Getgid() == 0) {
-		log.Printf("[OMG] %s", "AAAARGH! ROOT! ROOT! ROOOOOT! ")
+		log.Printf("[OMG] AAAARGH! ROOT! ROOT! ROOOOOT! ")
 		os.Exit(1)
 	}
+
+	tools.Log_Engine_Start()
+	tribe.AES_Engine_Start()
+	nntp.NNTP_Engine_Start()
 
 }
 
@@ -23,11 +28,8 @@ func init() {
 func main() {
 
 	log.Println("[OMG] AVERNO starts now!")
-	tribe.AES_Engine_Start()
 
-	nntp.NNTP_Frontend()
-
-	//	select {}
+	select {}
 
 	os.Exit(0)
 
