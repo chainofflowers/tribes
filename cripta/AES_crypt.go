@@ -29,9 +29,10 @@ func init() {
 	log.Println("[AES] Engine started")
 
 	if thekey = config.GetTribeID(); len(thekey) != 32 {
-		log.Println("[AES] EEK: TribeID %d :", len(thekey))
-		log.Println("[AES] EEK: TribeID shorter than 32 bytes. Cannot start tribes")
-		os.Exit(3)
+		log.Println("[AES] EEK: TribeID %d ", len(thekey))
+		log.Println("[AES] EEK: TribeID shorter than 32 bytes. Generating a random one")
+		thekey = tools.RandSeq(32)
+		log.Println("[AES] your 1-node tribe is: " + thekey)
 	}
 
 	LocalTribe.MyAES_key = []byte(thekey)
@@ -40,7 +41,7 @@ func init() {
 	log.Println("[AES] TribeGreeting before is: " + string(LocalTribe.MyText_cleartext))
 	LocalTribe.AESencrypt()
 	log.Println("[AES] test Encryption executed")
-	copy(LocalTribe.MyText_cleartext, []byte("WRONG:>>"))
+	copy(LocalTribe.MyText_cleartext, []byte("WRONG->"))
 	LocalTribe.AESdecrypt()
 	log.Println("[AES] TribeGreeting after  is: " + string(LocalTribe.MyText_cleartext))
 	log.Println("[UDP] Now Starting UDP listener ")

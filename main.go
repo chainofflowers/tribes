@@ -18,6 +18,8 @@ func init() {
 		os.Exit(1)
 	}
 
+	// now start all the engines asyncronously.
+
 	tools.Log_Engine_Start()
 	cripta.AES_Engine_Start()
 	nntp.NNTP_Engine_Start()
@@ -29,7 +31,7 @@ func init() {
 
 func main() {
 
-	log.Println("[OMG] AVERNO starts now!")
+	log.Println("[OMG] TRIBES starts now!")
 
 	select {}
 
