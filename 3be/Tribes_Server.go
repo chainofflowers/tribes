@@ -84,6 +84,9 @@ func (this *TribeServer) Udp_Server() {
 
 func (this *TribeServer) OpenNatUDPport() {
 
+	// this will be changed. Instead of using random IP, it will hit peers
+	// doing a REGISTER
+
 	this.TSRAddr, this.TSErr = net.ResolveUDPAddr("udp", tools.RandomIPAddress()+":"+strconv.Itoa(config.GetClusterPort()))
 
 	if this.TSErr != nil {

@@ -43,14 +43,18 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 		// Implementation of single post exchange
 	case "HEREPOST":
 		// herepost just returns the requested post
-		Tribes_BE_POST(mypayload.TPbuffer)
+		err := Tribes_BE_POST(mypayload.TPbuffer)
+		if err != nil {
+			log.Println("[UDP-INT] Cannot execute POST %s", err.Error())
+		}
 		// each function should have the full buffer when starting
 		// the ones with BE are saving something.
 		// the ones with FE are answeing back (so they need to know who to answer
 		// all FE functions will return a []byte to shoot with Shoot_JSON
 	case "GIMMEPOST":
 		// gimmepost just requires to send a post back
-		// those functions are asked to reply to the peer
+		// giving the messageID as argument
+		// those functions starting with GIMME are asked to reply to the peer
 		//
 		// Implementation of PEERS exchange
 	case "HEREPEERS":
