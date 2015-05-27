@@ -34,6 +34,12 @@ func init() {
 
 }
 
+func Start3beEngine() {
+
+	log.Printf("[UDP] Tribes Engine starting")
+
+}
+
 func (this *TribeServer) Udp_Server() {
 
 	this.TSLAddr, this.TSErr = net.ResolveUDPAddr("udp", this.TSPort)

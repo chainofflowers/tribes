@@ -1,4 +1,4 @@
-package tribe
+package cripta
 
 import (
 	"../config/"

@@ -2,6 +2,7 @@ package main
 
 import (
 	"./3be/"
+	"./cripta"
 	"./nntp/"
 	"./tools/"
 	"log"
@@ -18,8 +19,9 @@ func init() {
 	}
 
 	tools.Log_Engine_Start()
-	tribe.AES_Engine_Start()
+	cripta.AES_Engine_Start()
 	nntp.NNTP_Engine_Start()
+	tribe.Start3beEngine()
 
 }
 
