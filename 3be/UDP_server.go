@@ -84,11 +84,11 @@ func (this *TribeServer) Udp_Server() {
 
 func (this *TribeServer) OpenNatUDPport() {
 
-	this.TSRAddr, this.TSErr = net.ResolveUDPAddr("udp", tools.RandomIPAddress()+this.TSPort)
+	this.TSRAddr, this.TSErr = net.ResolveUDPAddr("udp", tools.RandomIPAddress()+":"+strconv.Itoa(config.GetClusterPort()))
 
 	if this.TSErr != nil {
 		log.Printf("[NATUDP] Cannot resolve UDP address : %s", this.TSErr.Error())
-
+		return
 	}
 
 	_, this.TSErr = this.TSConn.WriteToUDP([]byte(tools.RandSeq(16)), this.TSRAddr)
@@ -97,6 +97,7 @@ func (this *TribeServer) OpenNatUDPport() {
 		log.Printf("[NATUDP] UDP ready from %s to %s", this.TSLAddr, this.TSRAddr)
 	} else {
 		log.Printf("[NATUDP] UDP BLOCKED from %s to %s: %s", this.TSLAddr, this.TSRAddr, this.TSErr.Error())
+		return
 	}
 
 }

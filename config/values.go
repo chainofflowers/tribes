@@ -10,7 +10,7 @@ import (
 
 var (
 	def_TLSPORT      string = "21000"
-	def_TribeID      string = "AdzfNdsMAajMMuPpVsNXvWWxIDohwppzuIuejf"
+	def_TribeID      string = "AdzfNdsMAajMMuPpVsNXvWWxIDohwppz"
 	def_MyPublicHost string = "whatever.example.com"
 )
 
@@ -46,7 +46,7 @@ func GetClusterPort() int {
 }
 
 func GetTribeID() string {
-	return viper.GetString("TribeID")
+	return viper.GetString("MyTribeID")
 }
 
 func GetPublicHost() string {

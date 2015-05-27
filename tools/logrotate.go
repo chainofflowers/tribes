@@ -14,6 +14,11 @@ type tribeslogfile struct {
 
 func init() {
 
+	// just the first time
+	var user_home = GetHomeDir()
+	os.MkdirAll(filepath.Join(user_home, "News", "logs"), 0755)
+	//
+
 	var mylogfile tribeslogfile
 	mylogfile.SetLogFolder()
 	go mylogfile.RotateLogFolder()
@@ -47,7 +52,7 @@ func (this *tribeslogfile) SetLogFolder() {
 	orario := time.Now()
 
 	var user_home = GetHomeDir()
-	this.filename = filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
+	this.filename = filepath.Join(user_home, "News", "logs", "tribes."+orario.Format(layout)+"00.log")
 	log.Println("[LOG] Logfile is: " + this.filename)
 
 	this.logfile, _ = os.Create(this.filename)
