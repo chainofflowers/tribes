@@ -5,7 +5,7 @@ package tribe
 import (
 	"../backend/"
 	"../tools"
-	"bufio"
+
 	"encoding/base64" // we will need this also
 	"encoding/json"   // commented to avoid compiler error in coding phase
 	"fmt"
@@ -109,24 +109,5 @@ func Tribes_BE_POST(mybuffer []byte) error {
 	// done, so no errors
 
 	return nil
-
-}
-
-// just a functional for saving file quickly
-// to move in tools, maybe
-
-func ShootStringToFile(mystring string, filename string) error {
-
-	file, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	w := bufio.NewWriter(file)
-
-	fmt.Fprint(w, mystring)
-
-	return w.Flush()
 
 }

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"io"
 	"log"
-	"os"
 )
 
 type MyEncryption struct {
