@@ -16,19 +16,6 @@ import (
 
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
-type tribesfile struct {
-	filename string
-	logfile  *os.File
-}
-
-func init() {
-
-	var mylogfile tribesfile
-	mylogfile.SetLogFolder()
-	go mylogfile.RotateLogFolder()
-
-}
-
 func ReadIpFromHost() string {
 
 	conn, err := net.Dial("udp", RandomIPAddress()+":80")
@@ -86,43 +73,6 @@ func WriteMessages(lines []string, path string) error {
 		fmt.Fprintln(w, line)
 	}
 	return w.Flush()
-}
-
-// sets the log folder
-
-func (f *tribesfile) RotateLogFolder() {
-
-	log.Println("[TOOLS] LogRotation engine started")
-
-	for {
-
-		time.Sleep(1 * time.Hour)
-		if f.logfile != nil {
-			err := f.logfile.Close()
-			log.Println("[TOOLS] close logfile returned: ", err)
-		}
-
-		f.SetLogFolder()
-
-	}
-
-}
-
-func (f *tribesfile) SetLogFolder() {
-
-	const layout = "2006-Jan-02.15"
-
-	orario := time.Now()
-
-	var user_home = GetHomeDir()
-	f.filename = filepath.Join(user_home, "News", "logs", "averno."+orario.Format(layout)+"00.log")
-	log.Println("[TOOLS] Logfile is: " + f.filename)
-
-	f.logfile, _ = os.Create(f.filename)
-
-	log.SetPrefix("TRIBES> ")
-	log.SetOutput(f.logfile)
-
 }
 
 // Checks if a string is in a slice

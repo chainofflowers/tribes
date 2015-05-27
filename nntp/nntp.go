@@ -12,6 +12,12 @@ import (
 
 var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nSTAT\nXOVER\nOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
 
+func init() {
+
+	go NNTP_Frontend()
+
+}
+
 func NNTP_Frontend() {
 
 	// setting up the tcp connection
@@ -209,4 +215,10 @@ func NNTP_Interpret(conn net.Conn) {
 
 	}
 	conn.Close()
+}
+
+func NNTP_Engine_Start() {
+
+	log.Printf("[NNTP] NNTP Engine Starting")
+
 }
