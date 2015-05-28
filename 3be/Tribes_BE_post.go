@@ -33,10 +33,10 @@ var (
 )
 
 func init() {
-	var user_home = tools.GetHomeDir()
-	var messages_folder string = "/News/messages/"
+	user_home = tools.GetHomeDir()
+	messages_folder = "/News/messages/"
 	messages_folder = filepath.Join(user_home, messages_folder)
-	os.MkdirAll(filepath.Join(user_home, "News", "messages"), 0755) // overkill. Just to be sure it exists.
+	os.MkdirAll(messages_folder, 0755) // overkill. Just to be sure it exists.
 }
 
 func Tribes_BE_POST(mybuffer []byte) error {

@@ -43,7 +43,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 		// Implementation of single post exchange
 	case "HEREPOST":
 		// herepost just returns the requested post
-		err := Tribes_BE_POST(mypayload.TPbuffer)
+		err := Tribes_BE_POST(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
 			log.Println("[UDP-INT] Cannot execute POST %s", err.Error())
 		}
@@ -58,6 +58,10 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 		//
 		// Implementation of PEERS exchange
 	case "HEREPEERS":
+		err := Tribes_BE_PEERS(mypayload.TPbuffer[0:mypayload.TPsize])
+		if err != nil {
+			log.Println("[UDP-INT] Cannot execute PEERS %s", err.Error())
+		}
 		// herepeers gives a list of known peers
 	case "GIMMEPEERS":
 		// asks for a list of known peers
