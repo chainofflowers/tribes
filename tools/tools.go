@@ -21,7 +21,7 @@ func ReadIpFromHost() string {
 	conn, err := net.Dial("udp", "255.255.255.255:80")
 	if err != nil {
 		log.Printf("[TOOLS] SYSADMIIIIIN : cannot use UDP")
-		return "127.0.0.1"
+		return "127.0.0.1" // wanted to use 0.0.0.0 but golang didn't get this
 	}
 	conn.Close()
 	torn := strings.Split(conn.LocalAddr().String(), ":")
