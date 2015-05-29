@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"time"
 	"tribes/config"
 	"tribes/cripta"
 )
@@ -31,9 +32,9 @@ func ShootStringToFile(mystring string, filename string) error {
 
 }
 
-// functional for retrieving peers from the file, adding one and saving back
+// functional for adding peers from the file, adding one and saving back
 
-func AddPeerToFile(peer string, filename string) error {
+func AddLineToFile(peer string, filename string) error {
 
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -90,8 +91,29 @@ func SplitStringInLines(myblock string) []string {
 
 func ProofIsOk(proof string) bool {
 
-	const pad string = "F01123581321345589144233377610987"
+	const layout = "06010215"
+	orario := time.Now()
 
-	return cripta.EasyDeCrypt(proof, config.GetTribeID()) == pad
+	// the Prood will contain pad +  a random string at beginning and end.
+	var pad string = "F01123581321345589144233377610987" + orario.Format(layout)
+
+	tmp_decrypt := cripta.EasyDeCrypt(proof, config.GetTribeID())
+
+	return strings.Contains(tmp_decrypt, pad)
+
+}
+
+// generating a Proof
+
+func GenerateProof() string {
+
+	const layout = "06010215"
+	orario := time.Now()
+
+	var pad string = "F01123581321345589144233377610987" + orario.Format(layout)
+
+	tmp_key := config.GetTribeID()
+
+	return cripta.EasyCrypt(pad, tmp_key)
 
 }

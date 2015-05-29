@@ -67,7 +67,6 @@ func Tribes_BE_POST(mybuffer []byte) error {
 	}
 
 	// converting from pure-strings
-	// in the future I will add encryption here
 
 	body_hex, _ := base64.StdEncoding.DecodeString(mypost.Body)
 	header_hex, _ := base64.StdEncoding.DecodeString(mypost.Headers)

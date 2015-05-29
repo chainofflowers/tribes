@@ -3,7 +3,9 @@ package tribe
 // this is going to contain all the BE functionalities
 
 import (
+	"encoding/base64"
 	"encoding/json" // commented to avoid compiler error in coding phase
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -12,14 +14,13 @@ import (
 
 type TribesJsonPeers struct {
 	Command string // a Command field is mandatory for any communication
-	Peers   string
+	Peers   string // base64 encoded list of peers, one per line
 	Proof   string
 }
 
 var (
-	peers_folder       string
-	peers_active_file  string //actually something equivalent to dht cache
-	peers_initial_file string
+	peers_folder      string
+	peers_active_file string //actually something equivalent to dht cache
 )
 
 func init() {
@@ -28,7 +29,6 @@ func init() {
 	peers_folder = filepath.Join(user_home, peers_folder)
 	os.MkdirAll(peers_folder, 0755) // overkill. Just to be sure it exists.
 	peers_active_file = filepath.Join(user_home, peers_folder, "peers.active")
-	peers_initial_file = filepath.Join(user_home, peers_folder, "peers.initial")
 
 }
 
@@ -52,11 +52,14 @@ func Tribes_BE_PEERS(mybuffer []byte) error {
 		return err
 	}
 
-	mypeers := SplitStringInLines(string(mybuffer))
+	// base64 encoded
+	mypost_Peers, _ := base64.StdEncoding.DecodeString(mypost.Peers)
+
+	mypeers := SplitStringInLines(string(mypost_Peers))
 
 	for peername := range mypeers {
 
-		err = AddPeerToFile(mypeers[peername], peers_active_file)
+		err = AddLineToFile(mypeers[peername], peers_active_file)
 		if err == nil {
 			log.Println("[UDP-PEER] Written the peers to: %s", peers_active_file)
 		} else {

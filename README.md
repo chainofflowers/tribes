@@ -51,9 +51,9 @@ Please notice: being the '-' a separator, it won't be possible to have groups wi
 Peers will be saved in 
 
 <pre>
-~/news/peers/peers.initial  // the first host to connect to download other peers.
-~/news/peers/peers.active   // the peers we can reach. This is the list to be shared
-~/news/peers/peers.all      // all the peers we know from others
+~/News/peers/peers.initial  // the first host to connect to download other peers.
+~/News/peers/peers.active   // the peers we can reach. This is the list to be shared
+~/News/peers/peers.all      // all the peers we know from others
 </pre>
 
 A worker thread will keep updated the "active" list. Also it will prune the "all" list.
@@ -61,9 +61,9 @@ A worker thread will keep updated the "active" list. Also it will prune the "all
 Newsgroup will be stored as:
 
 <pre>
-~/news/groups/ng.local  // groups which are created locally. Always considered "new". To be exposed to peers
-~/news/groups/ng.active   // groups which are subscribed by the local client.
-~/news/groups/ng.all      //all the groups we know. 
+~/News/groups/ng.local  // groups which are created locally. Always considered "new". To be exposed to peers
+~/News/groups/ng.active   // groups which are subscribed by the local client.
+~/News/groups/ng.all      //all the groups we know. 
 </pre>
 
 a running task will take care of pruning ng.all. Pruning means "making it equal to ng.active". 

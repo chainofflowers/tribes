@@ -23,7 +23,6 @@ type MyEncryption struct {
 
 func init() {
 
-	var LocalTribe MyEncryption
 	var thekey string
 	log.Println("[AES] Engine started")
 
@@ -34,16 +33,14 @@ func init() {
 		log.Println("[AES] your 1-node tribe is: " + thekey)
 	}
 
-	LocalTribe.MyAES_key = []byte(thekey)
-	log.Println("[AES] TribeID is: ", string(LocalTribe.MyAES_key))
-	LocalTribe.MyText_cleartext = []byte(tools.RandSeq(33))
-	log.Println("[AES] TribeGreeting before is: " + string(LocalTribe.MyText_cleartext))
-	LocalTribe.AESencrypt()
-	log.Println("[AES] test Encryption executed")
-	copy(LocalTribe.MyText_cleartext, []byte("WRONG->"))
-	LocalTribe.AESdecrypt()
-	log.Println("[AES] TribeGreeting after  is: " + string(LocalTribe.MyText_cleartext))
-	log.Println("[UDP] Now Starting UDP listener ")
+	log.Println("[AES] TribeID is: " + thekey)
+	test_cleartext := tools.RandSeq(33)
+	log.Println("[AES] TribeGreeting before is: " + test_cleartext)
+	test_aestext := EasyCrypt(test_cleartext, thekey)
+	log.Println("[AES] test Encryption executed: " + test_aestext)
+	test_newcleartext := EasyDeCrypt(test_aestext, thekey)
+	log.Println("[AES] TribeGreeting after  is: " + test_newcleartext)
+	log.Println("[AES] AES Integrity: ", test_cleartext == test_newcleartext)
 
 }
 
@@ -125,7 +122,7 @@ func EasyCrypt(text, key string) string {
 func EasyDeCrypt(text, key string) string {
 
 	var aes_tmp MyEncryption
-	aes_tmp.MyText_encrypted = []byte(text)
+	aes_tmp.MyText_encrypted, _ = base64.StdEncoding.DecodeString(text)
 	aes_tmp.MyAES_key = []byte(key)
 	aes_tmp.AESdecrypt()
 	return string(aes_tmp.MyText_cleartext)

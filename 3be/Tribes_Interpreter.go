@@ -45,7 +45,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 		// herepost just returns the requested post
 		err := Tribes_BE_POST(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Println("[UDP-INT] Cannot execute POST %s: ", err.Error())
+			log.Println("[UDP-INT] Cannot execute HEREPOST: %s ", err.Error())
 		}
 		// each function should have the full buffer when starting
 		// the ones with BE are saving something.
@@ -60,7 +60,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 	case "HEREPEERS":
 		err := Tribes_BE_PEERS(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Println("[UDP-INT] Cannot execute PEERS %s: ", err.Error())
+			log.Println("[UDP-INT] Cannot execute HEREPEERS: %s ", err.Error())
 		}
 		// herepeers gives a list of known peers
 	case "GIMMEPEERS":
@@ -68,7 +68,11 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 		//
 		// Implementation of GROUPS exchange
 	case "HEREGROUPS":
-		// Sends the list of active groups
+		err := Tribes_BE_Groups(mypayload.TPbuffer[0:mypayload.TPsize])
+		if err != nil {
+			log.Println("[UDP-GRP] Cannot execute HEREGROUPS: %s ", err.Error())
+		}
+		// Receives the list of active groups
 	case "GIMMEGROUPS":
 		// Asks for the list of active groups
 		//
@@ -82,7 +86,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 	case "REGISTER":
 		err := Tribes_BE_REG(mypayload)
 		if err != nil {
-			log.Println("[UDP-INT] Cannot REGISTER %s: ", err.Error())
+			log.Println("[UDP-INT] Cannot REGISTER: %s ", err.Error())
 		}
 
 		// a peer asks to be registered

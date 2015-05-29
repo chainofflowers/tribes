@@ -6,8 +6,6 @@ import (
 	"encoding/json" // commented to avoid compiler error in coding phase
 	"fmt"
 	"log"
-	"tribes/config"
-	"tribes/cripta"
 )
 
 type TribesJsonRegister struct {
@@ -37,7 +35,7 @@ func Tribes_BE_REG(mypayload TribePayload) error {
 
 	// Write the peer in the active peers file
 
-	err = AddPeerToFile(mypayload.TPsender.String(), peers_active_file)
+	err = AddLineToFile(mypayload.TPsender.String(), peers_active_file)
 	if err != nil {
 		return err
 	}
