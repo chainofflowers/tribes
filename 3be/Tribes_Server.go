@@ -34,7 +34,7 @@ func init() {
 
 }
 
-func Start3beEngine() {
+func Tribe_Engine_Start() {
 
 	log.Printf("[UDP] Tribes Engine starting")
 
