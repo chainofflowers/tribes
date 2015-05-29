@@ -18,27 +18,26 @@ type TribesJsonRegister struct {
 func Tribes_BE_REG(mypayload TribePayload) error {
 
 	var mypost TribesJsonRegister
-	const proof string = "01123581321345589144233377610987"
 
 	err := json.Unmarshal(mypayload.TPbuffer[0:mypayload.TPsize], &mypost)
 
 	if err == nil {
-		log.Println("[UDP-PEER] Received a: %s", mypost.Command)
+		log.Println("[UDP-REG] Received a: %s", mypost.Command)
 	} else {
-		log.Println("[UDP-PEER] Wrong post format: %s", err.Error())
+		log.Println("[UDP-REG] Wrong post format: %s", err.Error())
 		return err
 	}
 
-	mykey := config.GetTribeID()
 	// Decrypt the Proof
 
-	if cripta.EasyDeCrypt(mypost.Proof, mykey) != proof {
-		err := fmt.Errorf("Wrong proof, not our tribe")
+	if ProofIsOk(mypost.Proof) == false {
+		err := fmt.Errorf("Not our tribe")
 		return err
 	}
 
-	err = AddPeerToFile(mypayload.TPsender.String(), peers_active_file)
+	// Write the peer in the active peers file
 
+	err = AddPeerToFile(mypayload.TPsender.String(), peers_active_file)
 	if err != nil {
 		return err
 	}

@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"tribes/config"
+	"tribes/cripta"
 )
 
 // just a functional for saving file quickly
@@ -81,5 +83,15 @@ func SplitStringInLines(myblock string) []string {
 	lines := strings.FieldsFunc(myblock, splitter)
 
 	return lines
+
+}
+
+// Checks if the proof is ok and the tribe is ok.
+
+func ProofIsOk(proof string) bool {
+
+	const pad string = "F01123581321345589144233377610987"
+
+	return cripta.EasyDeCrypt(proof, config.GetTribeID()) == pad
 
 }
