@@ -8,9 +8,6 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
-	"time"
-	"tribes/config"
-	"tribes/cripta"
 )
 
 // just a functional for saving file quickly
@@ -84,36 +81,5 @@ func SplitStringInLines(myblock string) []string {
 	lines := strings.FieldsFunc(myblock, splitter)
 
 	return lines
-
-}
-
-// Checks if the proof is ok and the tribe is ok.
-
-func ProofIsOk(proof string) bool {
-
-	const layout = "06010215"
-	orario := time.Now()
-
-	// the Prood will contain pad +  a random string at beginning and end.
-	var pad string = "F01123581321345589144233377610987" + orario.Format(layout)
-
-	tmp_decrypt := cripta.EasyDeCrypt(proof, config.GetTribeID())
-
-	return strings.Contains(tmp_decrypt, pad)
-
-}
-
-// generating a Proof
-
-func GenerateProof() string {
-
-	const layout = "06010215"
-	orario := time.Now()
-
-	var pad string = "F01123581321345589144233377610987" + orario.Format(layout)
-
-	tmp_key := config.GetTribeID()
-
-	return cripta.EasyCrypt(pad, tmp_key)
 
 }

@@ -4,13 +4,12 @@ package tribe
 
 import (
 	"encoding/json" // commented to avoid compiler error in coding phase
-	"fmt"
 	"log"
 )
 
 type TribesJsonRegister struct {
 	Command string // a Command field is mandatory for any communication
-	Proof   string // Fibo 01123581321345589144233377610987 encrypted with TribeID
+	Fill    string // 32 random chars to reach the AES block size
 }
 
 func Tribes_BE_REG(mypayload TribePayload) error {
@@ -23,13 +22,6 @@ func Tribes_BE_REG(mypayload TribePayload) error {
 		log.Println("[UDP-REG] Received a: %s", mypost.Command)
 	} else {
 		log.Println("[UDP-REG] Wrong post format: %s", err.Error())
-		return err
-	}
-
-	// Decrypt the Proof
-
-	if ProofIsOk(mypost.Proof) == false {
-		err := fmt.Errorf("Not our tribe")
 		return err
 	}
 

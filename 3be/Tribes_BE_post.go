@@ -24,7 +24,7 @@ type TribesJsonPost struct {
 	Headers   string
 	Body      string
 	Xover     string
-	Proof     string // the proof sender is part of the tribe
+	Fill      string // the proof sender is part of the tribe
 }
 
 var (
@@ -49,13 +49,6 @@ func Tribes_BE_POST(mybuffer []byte) error {
 		log.Println("[UDP-POST] Received a: %s", mypost.Command)
 	} else {
 		log.Println("[UDP-POST] Wrong post format: %s", err.Error())
-		return err
-	}
-
-	// Decrypt the Proof
-
-	if ProofIsOk(mypost.Proof) == false {
-		err := fmt.Errorf("Not our tribe")
 		return err
 	}
 

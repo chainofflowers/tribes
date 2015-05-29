@@ -5,7 +5,7 @@ package tribe
 import (
 	"encoding/base64"
 	"encoding/json" // commented to avoid compiler error in coding phase
-	"fmt"
+
 	"log"
 	"os"
 	"path/filepath"
@@ -15,7 +15,7 @@ import (
 type TribesJsonPeers struct {
 	Command string // a Command field is mandatory for any communication
 	Peers   string // base64 encoded list of peers, one per line
-	Proof   string
+	Fill    string // 32 random chars to reach the AES blocksize
 }
 
 var (
@@ -42,13 +42,6 @@ func Tribes_BE_PEERS(mybuffer []byte) error {
 		log.Println("[UDP-PEER] Received a: %s", mypost.Command)
 	} else {
 		log.Println("[UDP-PEER] Wrong post format: %s", err.Error())
-		return err
-	}
-
-	// Decrypt the Proof
-
-	if ProofIsOk(mypost.Proof) == false {
-		err := fmt.Errorf("Not our tribe")
 		return err
 	}
 

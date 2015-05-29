@@ -5,7 +5,7 @@ package tribe
 import (
 	"encoding/base64"
 	"encoding/json" // commented to avoid compiler error in coding phase
-	"fmt"
+
 	"log"
 	"os"
 	"path/filepath"
@@ -15,7 +15,7 @@ import (
 type TribesJsonGroups struct {
 	Command string // a Command field is mandatory for any communication
 	Groups  string // base64 encoded list of groups, one per line
-	Proof   string
+	Fill    string // 32 random char to reach the AES block
 }
 
 var (
@@ -42,13 +42,6 @@ func Tribes_BE_Groups(mybuffer []byte) error {
 		log.Println("[UDP-GRP] Received a: %s", mypost.Command)
 	} else {
 		log.Println("[UDP-GRP] Wrong post format: %s", err.Error())
-		return err
-	}
-
-	// Decrypt the Proof
-
-	if ProofIsOk(mypost.Proof) == false {
-		err := fmt.Errorf("Not our tribe")
 		return err
 	}
 
