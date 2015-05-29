@@ -3,12 +3,11 @@ package tribe
 // this is going to contain all the BE functionalities
 
 import (
-	"../tools"
 	"encoding/json" // commented to avoid compiler error in coding phase
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
+	"tribes/tools"
 )
 
 type TribesJsonPeers struct {
@@ -45,12 +44,7 @@ func Tribes_BE_PEERS(mybuffer []byte) error {
 		return err
 	}
 
-	// create a splitter because "split" adds an empty line after the last \n
-	splitter := func(c rune) bool {
-		return (c == '\n' || c == '\r') // this is for windows and unix like EOL
-	}
-
-	mypeers := strings.FieldsFunc(mypost.Peers, splitter)
+	mypeers := SplitStringInLines(string(mybuffer))
 
 	for peername := range mypeers {
 

@@ -1,11 +1,11 @@
 package config
 
 import (
-	"../tools/"
 	"github.com/spf13/viper"
 	"log"
 	"os"
 	"path/filepath"
+	"tribes/tools"
 )
 
 var (

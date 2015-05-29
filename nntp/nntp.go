@@ -1,13 +1,13 @@
 package nntp
 
 import (
-	"../backend/"
 	"bufio"
 	"log"
 	"net"
 	"regexp"
 	"strings"
 	"time"
+	"tribes/backend"
 )
 
 var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nSTAT\nXOVER\nOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"

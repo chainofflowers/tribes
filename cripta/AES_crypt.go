@@ -1,8 +1,6 @@
 package cripta
 
 import (
-	"../config/"
-	"../tools/"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -10,6 +8,8 @@ import (
 	"errors"
 	"io"
 	"log"
+	"tribes/config"
+	"tribes/tools"
 )
 
 type MyEncryption struct {

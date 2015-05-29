@@ -55,13 +55,31 @@ func AddPeerToFile(peer string, filename string) error {
 
 }
 
+// retrieves an entire file into a string
+
 func RetrieveStringFromFile(filename string) string {
 
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return ""
+		return "EMPTY FILE"
 	}
 
 	return string(content)
+
+}
+
+// splits a string in lines
+// regardless EOL is Windows or UNIX
+
+func SplitStringInLines(myblock string) []string {
+
+	// create a splitter because "split" adds an empty line after the last \n
+	splitter := func(c rune) bool {
+		return (c == '\n' || c == '\r') // this is for windows and unix like EOL
+	}
+
+	lines := strings.FieldsFunc(myblock, splitter)
+
+	return lines
 
 }

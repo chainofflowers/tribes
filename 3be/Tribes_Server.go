@@ -1,12 +1,12 @@
 package tribe
 
 import (
-	"../config"
-	"../tools/"
 	"log"
 	"net"
 	"strconv"
 	"time"
+	"tribes/config"
+	"tribes/tools"
 )
 
 type TribeServer struct {

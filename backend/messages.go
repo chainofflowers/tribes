@@ -1,7 +1,6 @@
 package backend
 
 import (
-	"../tools/"
 	"bufio"
 	"fmt"
 	"log"
@@ -10,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"tribes/tools"
 )
 
 func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {

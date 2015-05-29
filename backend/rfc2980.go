@@ -1,7 +1,6 @@
 package backend
 
 import (
-	"../tools"
 	"fmt"
 	"log"
 	"net"
@@ -11,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"tribes/tools"
 )
 
 func HeaderCompliance(header []string) (safe_header []string) {

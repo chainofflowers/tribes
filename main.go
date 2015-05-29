@@ -1,12 +1,12 @@
 package main
 
 import (
-	"./3be/"
-	"./cripta"
-	"./nntp/"
-	"./tools/"
 	"log"
 	"os"
+	"tribes/3be"
+	"tribes/cripta"
+	"tribes/nntp"
+	"tribes/tools"
 )
 
 // No root. End of story

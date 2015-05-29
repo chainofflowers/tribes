@@ -3,9 +3,6 @@ package tribe
 // this is going to contain all the BE functionalities
 
 import (
-	"../backend/"
-	"../tools"
-
 	"encoding/base64" // we will need this also
 	"encoding/json"   // commented to avoid compiler error in coding phase
 	"fmt"
@@ -14,6 +11,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
+	"tribes/backend"
+	"tribes/tools"
 )
 
 // Empty Tribes_Execute_POST(mybuffer)

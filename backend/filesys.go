@@ -1,13 +1,13 @@
 package backend
 
 import (
-	"../tools/"
 	"bufio"
 	"log"
 	"net"
 	"os"
 	"path/filepath"
 	"strings"
+	"tribes/tools"
 )
 
 var (
