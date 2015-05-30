@@ -21,22 +21,22 @@ func TextZip(text string) string {
 
 func TextUnzip(text string) string {
 
-	buff := []byte(text)
-
-	deflated := bytes.NewReader(buff)
+	deflated := bytes.NewReader([]byte(text))
 
 	enflated, err := zlib.NewReader(deflated)
 
 	if err != nil {
-		log.Println("[ZIP] Impossible to create the enflated io.ReadCloser")
+		log.Println("[ZIP] Input was not compressed")
+		return text
 	}
 
 	if s, err := ioutil.ReadAll(enflated); err == nil {
 		return string(s)
 	} else {
-		log.Println("[ZIP] Can't read from zlib closer")
+		log.Println("[ZIP] Empty content ")
+		return ""
 	}
 
-	return "ZIP"
+	return text
 
 }
