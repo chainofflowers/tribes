@@ -34,13 +34,11 @@ func init() {
 	}
 
 	log.Println("[AES] TribeID is: " + thekey)
-	test_cleartext := tools.RandSeq(33)
-	log.Println("[AES] TribeGreeting before is: " + test_cleartext)
-	test_aestext := EasyCrypt(test_cleartext, thekey)
-	log.Println("[AES] test Encryption executed: " + test_aestext)
-	test_newcleartext := EasyDeCrypt(test_aestext, thekey)
-	log.Println("[AES] TribeGreeting after  is: " + test_newcleartext)
-	log.Println("[AES] AES Integrity: ", test_cleartext == test_newcleartext)
+	test_cleartext := tools.RandSeq(65507)
+	log.Println("[AES] AES Integrity test initiated")
+	log.Println("[AES] AES Integrity successful: ", test_cleartext == EasyDeCrypt(EasyCrypt(test_cleartext, thekey), thekey))
+	log.Println("[ZIP] ZIP Integrity test initiated")
+	log.Println("[ZIP] Zip Integrity successful: ", test_cleartext == TextUnzip(TextZip(test_cleartext)))
 
 }
 
@@ -56,6 +54,7 @@ func (this *MyEncryption) AESencrypt() {
 		return
 	}
 	b := base64.StdEncoding.EncodeToString(this.MyText_cleartext)
+	//b := hex.EncodeToString(this.MyText_cleartext)
 
 	this.MyText_encrypted = make([]byte, aes.BlockSize+len(b))
 	this.MyIv = this.MyText_encrypted[:aes.BlockSize]
@@ -89,6 +88,9 @@ func (this *MyEncryption) AESdecrypt() {
 	this.MyText_encrypted = this.MyText_encrypted[aes.BlockSize:]
 	cfb := cipher.NewCFBDecrypter(this.MyCypherBlock, this.MyIv)
 	cfb.XORKeyStream(this.MyText_encrypted, this.MyText_encrypted)
+
+	// this.MyText_cleartext, this.MyAES_Error = hex.DecodeString(string(this.MyText_encrypted))
+
 	this.MyText_cleartext, this.MyAES_Error = base64.StdEncoding.DecodeString(string(this.MyText_encrypted))
 	if this.MyAES_Error != nil {
 		log.Println("[AES] Error while decrypting ", this.MyAES_Error)
@@ -105,6 +107,8 @@ func (this *MyEncryption) AESdecrypt() {
 func (this *MyEncryption) AESArmored() string {
 
 	return base64.StdEncoding.EncodeToString(this.MyText_encrypted)
+
+	//return hex.EncodeToString(this.MyText_encrypted)
 
 }
 
