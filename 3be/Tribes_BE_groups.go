@@ -5,7 +5,6 @@ package tribe
 import (
 	"encoding/base64"
 	"encoding/json" // commented to avoid compiler error in coding phase
-
 	"log"
 	"os"
 	"path/filepath"

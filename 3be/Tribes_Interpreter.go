@@ -5,6 +5,12 @@ import (
 	"log"
 )
 
+type TribePayload struct {
+	TPbuffer []byte
+	TPsize   int
+	TPErr    error
+}
+
 // assuming whatever kind of message we receive, it has a "COMMAND" field in JSON
 // this field will be encrypted in the future.
 
@@ -31,7 +37,7 @@ func GetJSONCommand(mybuffer []byte) string {
 // now let's go with the interpreter
 // it needs to know about the connection to write to, and to know about who sent the payload
 
-func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
+func Tribes_Interpreter(mypayload TribePayload) {
 
 	mycommand := GetJSONCommand(mypayload.TPbuffer)
 
@@ -45,7 +51,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 		// herepost just returns the requested post
 		err := Tribes_BE_POST(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Println("[UDP-INT] Cannot execute HEREPOST: %s ", err.Error())
+			log.Printf("[UDP-INT] Cannot execute HEREPOST: %s ", err.Error())
 		}
 		// each function should have the full buffer when starting
 		// the ones with BE are saving something.
@@ -60,7 +66,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 	case "HEREPEERS":
 		err := Tribes_BE_PEERS(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Println("[UDP-INT] Cannot execute HEREPEERS: %s ", err.Error())
+			log.Printf("[UDP-INT] Cannot execute HEREPEERS: %s ", err.Error())
 		}
 		// herepeers gives a list of known peers
 	case "GIMMEPEERS":
@@ -70,7 +76,7 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 	case "HEREGROUPS":
 		err := Tribes_BE_Groups(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Println("[UDP-GRP] Cannot execute HEREGROUPS: %s ", err.Error())
+			log.Printf("[UDP-GRP] Cannot execute HEREGROUPS: %s ", err.Error())
 		}
 		// Receives the list of active groups
 	case "GIMMEGROUPS":
@@ -82,14 +88,6 @@ func (this *TribeServer) Tribes_Interpreter(mypayload TribePayload) {
 	case "GIMMEINDEX":
 		// Asks for a list of posts in a specified group
 		//
-		// Now registering peers, let's copy SIP
-	case "REGISTER":
-		err := Tribes_BE_REG(mypayload)
-		if err != nil {
-			log.Println("[UDP-INT] Cannot REGISTER: %s ", err.Error())
-		}
-
-		// a peer asks to be registered
 
 	// whatever else is lost
 	default:
