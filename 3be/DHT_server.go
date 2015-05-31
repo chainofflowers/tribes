@@ -40,8 +40,11 @@ func init() {
 	go cluster.Listen()
 	log.Printf("[DHT] Listening")
 
-	cluster.Join(config.GetBootStrapHost(), config.GetBootStrapPort())
-	log.Printf("[DHT] Joined cluster ")
+	if tmp_boot := config.GetBootStrapHost(); tmp_boot != "127.0.0.1" {
+		tmp_port := config.GetBootStrapPort()
+		cluster.Join(tmp_boot, tmp_port)
+		log.Printf("[DHT] Trying to join cluster at %s:%d", tmp_boot, tmp_port)
+	}
 
 	app := &WendyApplication{}
 	cluster.RegisterCallback(app)

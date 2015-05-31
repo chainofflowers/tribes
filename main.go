@@ -10,7 +10,7 @@ import (
 )
 
 // No root. End of story
-
+// This is only to force all engines to start the init()
 func init() {
 
 	if (os.Getuid() == 0) || (os.Getgid() == 0) {
@@ -27,8 +27,7 @@ func init() {
 
 }
 
-// main will only manage local data
-
+// main will only wait , doing nothing
 func main() {
 
 	log.Println("[OMG] TRIBES starts now!")
