@@ -1,5 +1,5 @@
 # Tribes
-Small, local NNTP server using P2P  for peering.
+Small, local NNTP server **using P2P**  for peering each others.
 
 
 I will  write several components:
@@ -95,3 +95,4 @@ To compile it:
 3. go get ; go build
 
 done.
+
