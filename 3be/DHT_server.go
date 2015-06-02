@@ -13,7 +13,7 @@ type WendyApplication struct {
 var (
 	cluster  *wendy.Cluster
 	id       wendy.NodeID
-	node     *wendy.Node
+	mynode   *wendy.Node
 	err      error
 	cred     wendy.Credentials
 	AllNodes map[wendy.NodeID]wendy.Node
@@ -32,12 +32,12 @@ func init() {
 		log.Printf("[DHT] Can't create the NodeID: %s", WendyID)
 	}
 
-	node = wendy.NewNode(id, tools.ReadIpFromHost(), tools.ReadIpFromHost(), "Tribes", config.GetClusterPort())
+	mynode = wendy.NewNode(id, tools.ReadIpFromHost(), tools.ReadIpFromHost(), "Tribes", config.GetClusterPort())
 	log.Printf("[DHT] Node created")
 
 	cred = wendy.Passphrase(TribeID)
 
-	cluster = wendy.NewCluster(node, cred)
+	cluster = wendy.NewCluster(mynode, cred)
 	log.Printf("[DHT] Cluster initialized")
 
 	go cluster.Listen()
