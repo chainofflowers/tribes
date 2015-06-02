@@ -11,14 +11,17 @@ type WendyApplication struct {
 }
 
 var (
-	cluster *wendy.Cluster
-	id      wendy.NodeID
-	node    *wendy.Node
-	err     error
-	cred    wendy.Credentials
+	cluster  *wendy.Cluster
+	id       wendy.NodeID
+	node     *wendy.Node
+	err      error
+	cred     wendy.Credentials
+	AllNodes map[wendy.NodeID]wendy.Node
 )
 
 func init() {
+
+	AllNodes = make(map[wendy.NodeID]wendy.Node)
 
 	TribeID := config.GetTribeID()
 	WendyID := tools.RandSeq(42)
@@ -49,6 +52,9 @@ func init() {
 	app := &WendyApplication{}
 	cluster.RegisterCallback(app)
 	log.Printf("[DHT] Engine functional ")
+
+	cluster.SetHeartbeatFrequency(5)
+	cluster.SetNetworkTimeout(300)
 
 }
 
@@ -81,10 +87,12 @@ func (app *WendyApplication) OnNewLeaves(leaves []*wendy.Node) {
 }
 
 func (app *WendyApplication) OnNodeJoin(node wendy.Node) {
+	AllNodes[node.ID] = node
 	log.Println("[DHT] Node joined: ", node.ID)
 }
 
 func (app *WendyApplication) OnNodeExit(node wendy.Node) {
+	delete(AllNodes, node.ID)
 	log.Println("[DHT] Node left: ", node.ID)
 }
 
