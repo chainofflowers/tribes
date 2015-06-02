@@ -3,6 +3,7 @@ package tribe
 import (
 	"github.com/secondbit/wendy"
 	"log"
+	"math"
 	"tribes/config"
 	"tribes/tools"
 )
@@ -16,12 +17,12 @@ var (
 	mynode   *wendy.Node
 	err      error
 	cred     wendy.Credentials
-	AllNodes map[wendy.NodeID]wendy.Node
+	AllNodes map[wendy.NodeID]string
 )
 
 func init() {
 
-	AllNodes = make(map[wendy.NodeID]wendy.Node)
+	AllNodes = make(map[wendy.NodeID]string)
 
 	TribeID := config.GetTribeID()
 	WendyID := tools.RandSeq(16)
@@ -75,6 +76,12 @@ func (app *WendyApplication) OnDeliver(msg wendy.Message) {
 	mypayload.TPbuffer = []byte(msg.String())
 	mypayload.TPsize = len(mypayload.TPbuffer)
 	Tribes_Interpreter(mypayload)
+
+	if msg.Purpose > 30 {
+		newpurpose := msg.Purpose - 1
+		AnyCastSpread(newpurpose, msg, cluster)
+	}
+
 }
 
 func (app *WendyApplication) OnForward(msg *wendy.Message, next wendy.NodeID) bool {
@@ -87,7 +94,7 @@ func (app *WendyApplication) OnNewLeaves(leaves []*wendy.Node) {
 }
 
 func (app *WendyApplication) OnNodeJoin(node wendy.Node) {
-	AllNodes[node.ID] = node
+	AllNodes[node.ID] = "active"
 	log.Println("[DHT] Node joined: ", node.ID)
 }
 
@@ -98,4 +105,39 @@ func (app *WendyApplication) OnNodeExit(node wendy.Node) {
 
 func (app *WendyApplication) OnHeartbeat(node wendy.Node) {
 	log.Println("[DHT] Received heartbeat from ", node.ID)
+}
+
+//We will use something similar to AnyCast from IPv6 to spread the messages around.
+//Since Wendy says we can only use n > 16 as a "purpose", I will use the purpose as TTL
+//So the purpose of 30 will be = 0. 31 will be TTL=1 , 32 will be TTL =2 , and so on.
+//the idea is "each node will advertise each other node it kows about a new message,
+//until the TTL will expire. Given a separation layer 6 (globally), TTL=10 is overkill.
+func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster) {
+
+	for nID, _ := range AllNodes {
+		if nID != mynode.ID {
+			msg := mycluster.NewMessage(TTL, nID, []byte(mymessage.String()))
+			err := mycluster.Send(msg)
+			if err != nil {
+				log.Println("[DHT] Can't send a message to: ", nID)
+			}
+		}
+	}
+
+}
+
+// This is how we initiate a broadcast. We choose the TTL as log2 of the amount of machines
+// into the cluster. Then we spread it around using AnyCastSpread.
+func WendyBroadcast(message wendy.Message) {
+
+	var myTTL uint8
+	myTTL = 1
+	nodeNum := float64(len(AllNodes))
+	if ll := math.Log2(nodeNum); ll > 1 {
+		myTTL = 30 + uint8(ll)
+		AnyCastSpread(myTTL, message, cluster)
+	} else {
+		log.Println("[DHT] Only node in the cluster, nothing to do")
+	}
+
 }
