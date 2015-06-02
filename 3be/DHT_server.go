@@ -24,7 +24,7 @@ func init() {
 	AllNodes = make(map[wendy.NodeID]wendy.Node)
 
 	TribeID := config.GetTribeID()
-	WendyID := tools.RandSeq(42)
+	WendyID := tools.RandSeq(16)
 	log.Printf("[DHT] Volatile node ID: %s", WendyID)
 
 	id, err = wendy.NodeIDFromBytes([]byte(WendyID))
