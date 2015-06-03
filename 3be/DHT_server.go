@@ -95,6 +95,15 @@ func (app *WendyApplication) OnForward(msg *wendy.Message, next wendy.NodeID) bo
 func (app *WendyApplication) OnNewLeaves(leaves []*wendy.Node) {
 
 	log.Println("[DHT] New leaves: ", leaves)
+
+	for wItem := range leaves {
+
+		nID := leaves[wItem]
+
+		AllNodes[nID.ID] = "active"
+		log.Printf("[DHT]Leave %s added", nID.ID)
+	}
+
 }
 
 // add the node we know entered
