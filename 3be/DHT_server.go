@@ -64,6 +64,7 @@ func Tribe_Engine_Start() {
 
 }
 
+// we don't like crashes, so we just log it.
 func (app *WendyApplication) OnError(err error) {
 	log.Printf("[DHT] OOPS: %s", err.Error())
 
@@ -77,6 +78,7 @@ func (app *WendyApplication) OnDeliver(msg wendy.Message) {
 	mypayload.TPsize = len(mypayload.TPbuffer)
 	Tribes_Interpreter(mypayload)
 
+	// we forward with a lesser TTL
 	if msg.Purpose > 30 {
 		newpurpose := msg.Purpose - 1
 		AnyCastSpread(newpurpose, msg, cluster)
@@ -84,33 +86,39 @@ func (app *WendyApplication) OnDeliver(msg wendy.Message) {
 
 }
 
+// just let it forward
 func (app *WendyApplication) OnForward(msg *wendy.Message, next wendy.NodeID) bool {
 	log.Printf("[DHT] Forwarding message %s to node %s.", msg.Key, next)
 	return true // return false if you don't want the message forwarded
 }
 
 func (app *WendyApplication) OnNewLeaves(leaves []*wendy.Node) {
+
 	log.Println("[DHT] New leaves: ", leaves)
 }
 
+// add the node we know entered
 func (app *WendyApplication) OnNodeJoin(node wendy.Node) {
 	AllNodes[node.ID] = "active"
 	log.Println("[DHT] Node joined: ", node.ID)
 }
 
+// remove the node which exited
 func (app *WendyApplication) OnNodeExit(node wendy.Node) {
 	delete(AllNodes, node.ID)
 	log.Println("[DHT] Node left: ", node.ID)
 }
 
+// if we receive an heartbit, we know this node is active
 func (app *WendyApplication) OnHeartbeat(node wendy.Node) {
+	AllNodes[node.ID] = "active"
 	log.Println("[DHT] Received heartbeat from ", node.ID)
 }
 
 //We will use something similar to AnyCast from IPv6 to spread the messages around.
 //Since Wendy says we can only use n > 16 as a "purpose", I will use the purpose as TTL
-//So the purpose of 30 will be = 0. 31 will be TTL=1 , 32 will be TTL =2 , and so on.
-//the idea is "each node will advertise each other node it kows about a new message,
+//So the purpose of 30 will be TTL = 0. 31 will be TTL=1 , 32 will be TTL =2 , and so on.
+//the idea is "each node will advertise each other known nodes about a new message,
 //until the TTL will expire. Given a separation layer 6 (globally), TTL=10 is overkill.
 func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster) {
 
@@ -126,16 +134,16 @@ func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster)
 
 }
 
-// This is how we initiate a broadcast. We choose the TTL as log2 of the amount of machines
+// This is how we initiate a broadcast. We choose the TTL as log10 of the amount of machines
 // into the cluster. Then we spread it around using AnyCastSpread.
 func WendyBroadcast(message wendy.Message) {
 
 	var myTTL uint8
 	myTTL = 1
 	nodeNum := float64(len(AllNodes))
-	if ll := math.Log2(nodeNum); ll > 1 {
+	if ll := math.Log10(nodeNum); ll > 1 {
 		myTTL = 30 + uint8(ll)
-		AnyCastSpread(myTTL, message, cluster)
+		AnyCastSpread(byte(myTTL), message, cluster)
 	} else {
 		log.Println("[DHT] Only node in the cluster, nothing to do")
 	}
