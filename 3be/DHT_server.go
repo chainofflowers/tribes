@@ -129,6 +129,8 @@ func (app *WendyApplication) OnHeartbeat(node wendy.Node) {
 //So the purpose of 30 will be TTL = 0. 31 will be TTL=1 , 32 will be TTL =2 , and so on.
 //the idea is "each node will advertise each other known nodes about a new message,
 //until the TTL will expire. Given a separation layer 6 (globally), TTL=10 is overkill.
+//Given the fact the table is feed with the whole cluster information I need to check
+//if TTL is needed or not.
 func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster) {
 
 	for nID, _ := range AllNodes {
@@ -144,7 +146,8 @@ func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster)
 }
 
 // This is how we initiate a broadcast. We choose the TTL as log2 of the amount of machines
-// into the cluster. Then we spread it around using AnyCastSpread.
+// into the cluster. Then we spread it around using AnyCastSpread.Given the fact the table is feed with the whole cluster information
+// I need to check if TTL is needed or not
 func WendyBroadcast(message wendy.Message) {
 
 	var myTTL uint8

@@ -27,7 +27,7 @@ func GetJSONCommand(mybuffer []byte) string {
 
 	err := json.Unmarshal(mybuffer, &JSON_command)
 	if err != nil {
-		log.Println("[UDP-JSON] Cannot marshal the Payload: %s", err.Error())
+		log.Println("[DHT-JSON] Cannot marshal the Payload: %s", err.Error())
 		return "NOOP"
 	} else {
 		return JSON_command.Command
@@ -62,16 +62,6 @@ func Tribes_Interpreter(mypayload TribePayload) {
 		// those functions starting with GIMME are asked to reply to the peer
 		//
 		// Implementation of PEERS exchange
-	case "HEREPEERS":
-		err := Tribes_BE_PEERS(mypayload.TPbuffer[0:mypayload.TPsize])
-		if err != nil {
-			log.Printf("[DHT-INT] Cannot execute HEREPEERS: %s ", err.Error())
-		}
-		// herepeers gives a list of known peers
-	case "GIMMEPEERS":
-		// asks for a list of known peers
-		//
-		// Implementation of GROUPS exchange
 	case "HEREGROUPS":
 		err := Tribes_BE_Groups(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
