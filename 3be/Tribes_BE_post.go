@@ -24,7 +24,6 @@ type TribesJsonPost struct {
 	Headers   string
 	Body      string
 	Xover     string
-	Fill      string // the proof sender is part of the tribe
 }
 
 var (
@@ -46,16 +45,16 @@ func Tribes_BE_POST(mybuffer []byte) error {
 	err := json.Unmarshal(mybuffer, &mypost)
 
 	if err == nil {
-		log.Println("[UDP-POST] Received a: %s", mypost.Command)
+		log.Println("[DHT-POST] Received a: %s", mypost.Command)
 	} else {
-		log.Println("[UDP-POST] Wrong post format: %s", err.Error())
+		log.Println("[DHT-POST] Wrong post format: %s", err.Error())
 		return err
 	}
 
 	// now checking if the post exists already
 
 	if _, err := filepath.Glob(messages_folder + "/*" + mypost.MessageID + "*"); err == nil {
-		log.Printf("[UDP-POST] We have %s already, discarding", mypost.MessageID)
+		log.Printf("[DHT-POST] We have %s already, discarding", mypost.MessageID)
 		return nil
 	}
 
@@ -89,19 +88,19 @@ func Tribes_BE_POST(mybuffer []byte) error {
 	// this is for headers
 	err = ShootStringToFile(mypost.Headers, header_file)
 	if err != nil {
-		log.Printf("[UDP-POST] Problem saving %s for %s", header_file, mypost.MessageID)
+		log.Printf("[DHT-POST] Problem saving %s for %s", header_file, mypost.MessageID)
 		return err
 	}
 	// this is for body
 	err = ShootStringToFile(mypost.Body, body_file)
 	if err != nil {
-		log.Printf("[UDP-POST] Problem saving %s for %s", body_file, mypost.MessageID)
+		log.Printf("[DHT-POST] Problem saving %s for %s", body_file, mypost.MessageID)
 		return err
 	}
 	// this is for xover
 	err = ShootStringToFile(mypost.Xover, xover_file)
 	if err != nil {
-		log.Printf("[UDP-POST] Problem saving %s for %s", xover_file, mypost.MessageID)
+		log.Printf("[DHT-POST] Problem saving %s for %s", xover_file, mypost.MessageID)
 		return err
 	}
 

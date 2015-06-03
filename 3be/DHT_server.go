@@ -143,14 +143,14 @@ func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster)
 
 }
 
-// This is how we initiate a broadcast. We choose the TTL as log10 of the amount of machines
+// This is how we initiate a broadcast. We choose the TTL as log2 of the amount of machines
 // into the cluster. Then we spread it around using AnyCastSpread.
 func WendyBroadcast(message wendy.Message) {
 
 	var myTTL uint8
 	myTTL = 1
 	nodeNum := float64(len(AllNodes))
-	if ll := math.Log10(nodeNum); ll > 1 {
+	if ll := math.Log2(nodeNum); ll >= 1 {
 		myTTL = 30 + uint8(ll)
 		AnyCastSpread(byte(myTTL), message, cluster)
 	} else {

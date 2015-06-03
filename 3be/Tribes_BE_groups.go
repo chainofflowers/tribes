@@ -38,9 +38,9 @@ func Tribes_BE_Groups(mybuffer []byte) error {
 	err := json.Unmarshal(mybuffer, &mypost)
 
 	if err == nil {
-		log.Println("[UDP-GRP] Received a: %s", mypost.Command)
+		log.Println("[DHT-GRP] Received a: %s", mypost.Command)
 	} else {
-		log.Println("[UDP-GRP] Wrong post format: %s", err.Error())
+		log.Println("[DHT-GRP] Wrong post format: %s", err.Error())
 		return err
 	}
 
@@ -54,9 +54,9 @@ func Tribes_BE_Groups(mybuffer []byte) error {
 
 		err = AddLineToFile(mygroups[groupID], groups_active_file)
 		if err == nil {
-			log.Println("[UDP-GRP] Written the groups to: %s", groups_active_file)
+			log.Println("[DHT-GRP] Written the groups to: %s", groups_active_file)
 		} else {
-			log.Println("[UDP-GRP] Can't write groups to %s: %s", groups_active_file, err.Error())
+			log.Println("[DHT-GRP] Can't write groups to %s: %s", groups_active_file, err.Error())
 			return err
 		}
 

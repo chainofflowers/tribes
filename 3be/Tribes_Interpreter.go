@@ -11,9 +11,8 @@ type TribePayload struct {
 	TPErr    error
 }
 
-// assuming whatever kind of message we receive, it has a "COMMAND" field in JSON
-// this field will be encrypted in the future.
-
+// Interim type to get the command only.
+// according with golang specs, it should marshal only one field.
 type BareCommand struct {
 	// this is a structure only needed to check the command.
 	Command string
@@ -21,6 +20,7 @@ type BareCommand struct {
 	Whatever string
 }
 
+// returns the field "Command" in a JSON payload.
 func GetJSONCommand(mybuffer []byte) string {
 
 	var JSON_command BareCommand
@@ -34,9 +34,8 @@ func GetJSONCommand(mybuffer []byte) string {
 	}
 }
 
-// now let's go with the interpreter
-// it needs to know about the connection to write to, and to know about who sent the payload
-
+// Receives a JSON payload and decides what to do, looking at the "Command" field.
+// Please notice the payload is encrypted and zipped.
 func Tribes_Interpreter(mypayload TribePayload) {
 
 	mycommand := GetJSONCommand(mypayload.TPbuffer)
@@ -51,7 +50,7 @@ func Tribes_Interpreter(mypayload TribePayload) {
 		// herepost just returns the requested post
 		err := Tribes_BE_POST(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Printf("[UDP-INT] Cannot execute HEREPOST: %s ", err.Error())
+			log.Printf("[DHT-INT] Cannot execute HEREPOST: %s ", err.Error())
 		}
 		// each function should have the full buffer when starting
 		// the ones with BE are saving something.
@@ -66,7 +65,7 @@ func Tribes_Interpreter(mypayload TribePayload) {
 	case "HEREPEERS":
 		err := Tribes_BE_PEERS(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Printf("[UDP-INT] Cannot execute HEREPEERS: %s ", err.Error())
+			log.Printf("[DHT-INT] Cannot execute HEREPEERS: %s ", err.Error())
 		}
 		// herepeers gives a list of known peers
 	case "GIMMEPEERS":
@@ -76,7 +75,7 @@ func Tribes_Interpreter(mypayload TribePayload) {
 	case "HEREGROUPS":
 		err := Tribes_BE_Groups(mypayload.TPbuffer[0:mypayload.TPsize])
 		if err != nil {
-			log.Printf("[UDP-GRP] Cannot execute HEREGROUPS: %s ", err.Error())
+			log.Printf("[DHT-GRP] Cannot execute HEREGROUPS: %s ", err.Error())
 		}
 		// Receives the list of active groups
 	case "GIMMEGROUPS":

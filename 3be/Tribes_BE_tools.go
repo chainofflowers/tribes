@@ -10,9 +10,8 @@ import (
 	"strings"
 )
 
-// just a functional for saving file quickly
-// to move in tools, maybe
-
+// just a quick way for saving string in new files
+// please notice it will destroy the file , if existing
 func ShootStringToFile(mystring string, filename string) error {
 
 	file, err := os.Create(filename)
@@ -29,8 +28,7 @@ func ShootStringToFile(mystring string, filename string) error {
 
 }
 
-// functional for adding peers from the file, adding one and saving back
-
+// appends one line to tihe given file.
 func AddLineToFile(peer string, filename string) error {
 
 	content, err := ioutil.ReadFile(filename)
@@ -55,8 +53,7 @@ func AddLineToFile(peer string, filename string) error {
 
 }
 
-// retrieves an entire file into a string
-
+// returns a file into a single string
 func RetrieveStringFromFile(filename string) string {
 
 	content, err := ioutil.ReadFile(filename)
@@ -70,7 +67,6 @@ func RetrieveStringFromFile(filename string) string {
 
 // splits a string in lines
 // regardless EOL is Windows or UNIX
-
 func SplitStringInLines(myblock string) []string {
 
 	// create a splitter because "split" adds an empty line after the last \n
