@@ -7,6 +7,7 @@ import (
 	"tribes/cripta"
 	"tribes/nntp"
 	"tribes/tools"
+	"tribes/upnp"
 )
 
 // No root. End of story
@@ -24,6 +25,7 @@ func init() {
 	cripta.AES_Engine_Start()
 	nntp.NNTP_Engine_Start()
 	tribe.Tribe_Engine_Start()
+	upnp.UPNP_Engine_Start()
 
 }
 
