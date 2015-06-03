@@ -64,7 +64,7 @@ func (this *SearchGateway) send(c chan string) {
 	if err != nil {
 		log.Println("[UPnP] Multicast address is ok")
 	}
-	locaAddr, err := net.ResolveUDPAddr("udp", this.upnp.LocalHost+":")
+	locaAddr, err := net.ResolveUDPAddr("udp", this.upnp.LocalHost+":50700")
 
 	if err != nil {
 		log.Println("[UpnP] IP Format is Correct")
@@ -74,7 +74,9 @@ func (this *SearchGateway) send(c chan string) {
 	if err != nil {
 		log.Println("[UPnP] Error in listening to UDP")
 	}
-	_, err = conn.WriteToUDP([]byte(this.searchMessage), remotAddr)
+
+	conn.
+		_, err = conn.WriteToUDP([]byte(this.searchMessage), remotAddr)
 	if err != nil {
 		log.Println("[UPnP] Wrong Multicast Address")
 	}
