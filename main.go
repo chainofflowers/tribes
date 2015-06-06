@@ -22,7 +22,7 @@ func init() {
 	// now start all the engines asyncronously.
 
 	tools.Log_Engine_Start()
-	cripta.AES_Engine_Start()
+	cripta.GPG_Engine_Start()
 	nntp.NNTP_Engine_Start()
 	tribe.Tribe_Engine_Start()
 	upnp.UPNP_Engine_Start()

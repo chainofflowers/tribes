@@ -1,8 +1,8 @@
 package tribe
 
 import (
-	"encoding/json"
 	"log"
+	"tribes/cripta"
 )
 
 type TribePayload struct {
@@ -11,72 +11,41 @@ type TribePayload struct {
 	TPErr    error
 }
 
-// Interim type to get the command only.
-// according with golang specs, it should marshal only one field.
-type BareCommand struct {
-	// this is a structure only needed to check the command.
-	Command string
-	// this is where I expect to see a command
-	Whatever string
-}
+type DhtHeaders map[string]string
 
-// returns the field "Command" in a JSON payload.
-func GetJSONCommand(mybuffer []byte) string {
+// returns the field "Command" in a GPG payload
+func GetGPGCommand(mybuffer string) string {
 
-	var JSON_command BareCommand
-
-	err := json.Unmarshal(mybuffer, &JSON_command)
-	if err != nil {
-		log.Println("[DHT-JSON] Cannot marshal the Payload: %s", err.Error())
-		return "NOOP"
-	} else {
-		return JSON_command.Command
+	var tmp_map DhtHeaders
+	tmp_map = make(DhtHeaders)
+	tmp_map = cripta.GpgGetHeaders(mybuffer)
+	if val, ok := tmp_map["Command"]; ok {
+		return val
 	}
+	return "NOOP"
 }
 
 // Receives a JSON payload and decides what to do, looking at the "Command" field.
 // Please notice the payload is encrypted and zipped.
-func Tribes_Interpreter(mypayload TribePayload) {
+func Tribes_Interpreter(payload string) {
 
-	mycommand := GetJSONCommand(mypayload.TPbuffer)
+	mycommand := GetGPGCommand(payload)
+
+	log.Print("[DHT-PGP] Got headers from payload")
 
 	switch mycommand {
 
-	case "NOOP":
-		break // doing nothing
+	case TRIBES_NOOP:
+		break
+		// doing nothing
 		//
-		// Implementation of single post exchange
-	case "HEREPOST":
-		// herepost just returns the requested post
-		err := Tribes_BE_POST(mypayload.TPbuffer[0:mypayload.TPsize])
-		if err != nil {
-			log.Printf("[DHT-INT] Cannot execute HEREPOST: %s ", err.Error())
-		}
-		// each function should have the full buffer when starting
-		// the ones with BE are saving something.
-		// the ones with FE are answeing back (so they need to know who to answer
-		// all FE functions will return a []byte to shoot with Shoot_JSON
-	case "GIMMEPOST":
-		// gimmepost just requires to send a post back
-		// giving the messageID as argument
-		// those functions starting with GIMME are asked to reply to the peer
-		//
-		// Implementation of PEERS exchange
-	case "HEREGROUPS":
-		err := Tribes_BE_Groups(mypayload.TPbuffer[0:mypayload.TPsize])
-		if err != nil {
-			log.Printf("[DHT-GRP] Cannot execute HEREGROUPS: %s ", err.Error())
-		}
-		// Receives the list of active groups
-	case "GIMMEGROUPS":
-		// Asks for the list of active groups
-		//
-		// Implementation of group index: to have a list of messageIDs for a group
-	case "HEREINDEX":
-		// Gives a list of MessageIDs on a specified group
-	case "GIMMEINDEX":
-		// Asks for a list of posts in a specified group
-		//
+	case TRIBES_BODY:
+
+	case TRIBES_HEADER:
+
+	case TRIBES_NEWGROUP:
+
+	case TRIBES_XOVER:
 
 	// whatever else is lost
 	default:

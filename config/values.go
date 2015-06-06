@@ -1,8 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"log"
+	"net"
 	"os"
 	"path/filepath"
 	"tribes/tools"
@@ -38,11 +40,11 @@ func init() {
 
 		os.MkdirAll(config_path, 0755)
 		f, _ := os.Create(config_file)
-		_, _ = f.WriteString("TLSPORT = \"" + def_TLSPORT + "\"\n")
-		_, _ = f.WriteString("MyTribeID = \"" + def_TribeID + "\"\n")
-		_, _ = f.WriteString("MyPublicHost = \"" + def_MyPublicHost + "\"\n")
-		_, _ = f.WriteString("MyBootStrapHost = \"" + def_BootstrapHost + "\"\n")
-		_, _ = f.WriteString("MyBootStrapPort = \"" + def_BootstrapPort + "\"\n")
+		_, _ = fmt.Fprintf(f, "TLSPORT = %q\r\n", def_TLSPORT)
+		_, _ = fmt.Fprintf(f, "MyTribeID = %q\r\n", def_TribeID)
+		_, _ = fmt.Fprintf(f, "MyPublicHost = %q\r\n", def_MyPublicHost)
+		_, _ = fmt.Fprintf(f, "MyBootStrapHost = %q\r\n", def_BootstrapHost)
+		_, _ = fmt.Fprintf(f, "MyBootStrapPort = %q\r\n", def_BootstrapPort)
 		f.Close()
 	}
 }
@@ -65,4 +67,15 @@ func GetBootStrapHost() string {
 
 func GetBootStrapPort() int {
 	return viper.GetInt("MyBootStrapPort")
+}
+
+func GetIPFromHostname(hostname string) string {
+
+	address, err := net.LookupIP(hostname)
+	if err != nil {
+		log.Printf("[OMG] cant' resolve %s : %s", hostname, err)
+	}
+
+	return address[0].String()
+
 }

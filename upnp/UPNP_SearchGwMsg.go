@@ -20,6 +20,10 @@ type Gateway struct {
 	ServiceType   string
 }
 
+
+
+
+
 type SearchGateway struct {
 	searchMessage string
 	upnp          *Upnp

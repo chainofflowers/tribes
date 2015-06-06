@@ -72,11 +72,7 @@ func (app *WendyApplication) OnError(err error) {
 
 func (app *WendyApplication) OnDeliver(msg wendy.Message) {
 	log.Printf("[DHT] Received message: %s", msg.String())
-	var mypayload TribePayload
-
-	mypayload.TPbuffer = []byte(msg.String())
-	mypayload.TPsize = len(mypayload.TPbuffer)
-	Tribes_Interpreter(mypayload)
+	Tribes_Interpreter(msg.String())
 
 	// we forward with a lesser TTL
 	if msg.Purpose > 30 {
@@ -154,7 +150,7 @@ func WendyBroadcast(message wendy.Message) {
 	myTTL = 1
 	nodeNum := float64(len(AllNodes))
 	if ll := math.Log2(nodeNum); ll >= 1 {
-		myTTL = 30 + uint8(ll)
+		myTTL = 29 + uint8(ll)
 		AnyCastSpread(byte(myTTL), message, cluster)
 	} else {
 		log.Println("[DHT] Only node in the cluster, nothing to do")
