@@ -63,9 +63,7 @@ func HeaderCompliance(header []string) (safe_header []string) {
 
 }
 
-// Adds the xover file during the POST phase
-
-func SaveXOVERLineForPost(header []string, groupname string, message_id string, msgnum_str string) {
+func GenerateXOVERLineFromHeader(header []string, groupname string, message_id string, msgnum_str string) []string {
 	var hdr map[string]string
 	hdr = make(map[string]string)
 	var xover_line []string
@@ -84,6 +82,15 @@ func SaveXOVERLineForPost(header []string, groupname string, message_id string, 
 	}
 
 	xover_line = append(xover_line, fmt.Sprintf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tXref: %s", msgnum_str, hdr["Subject"], hdr["From"], hdr["Date"], hdr["Message-ID"], hdr["References"], hdr["Bytes"], hdr["Lines"], hdr["Xref"]))
+
+	return xover_line
+
+}
+
+// Adds the xover file during the POST phase
+func SaveXOVERLineForPost(header []string, groupname string, message_id string, msgnum_str string) {
+
+	xover_line := GenerateXOVERLineFromHeader(header, groupname, message_id, msgnum_str)
 
 	xover_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+message_id)
 
