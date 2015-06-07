@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// just a quick way for saving string in new files
+// ShootStringToFile : just a quick way for saving string in new files
 // please notice it will destroy the file , if existing
 func ShootStringToFile(mystring string, filename string) error {
 
@@ -28,7 +28,7 @@ func ShootStringToFile(mystring string, filename string) error {
 
 }
 
-// appends one line to tihe given file.
+// AddLineToFile : appends one line to tihe given file.
 func AddLineToFile(peer string, filename string) error {
 
 	content, err := ioutil.ReadFile(filename)
@@ -36,15 +36,15 @@ func AddLineToFile(peer string, filename string) error {
 		return err
 	}
 
-	content_string := string(content)
+	contentString := string(content)
 
-	if strings.Contains(content_string, peer) == false {
+	if strings.Contains(contentString, peer) == false {
 
-		content_string += "\n" + peer
+		contentString += "\n" + peer
 
 	}
 
-	err = ioutil.WriteFile(filename, []byte(content_string), 0755)
+	err = ioutil.WriteFile(filename, []byte(contentString), 0755)
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func AddLineToFile(peer string, filename string) error {
 
 }
 
-// returns a file into a single string
+// RetrieveStringFromFile returns a file into a single string
 func RetrieveStringFromFile(filename string) string {
 
 	content, err := ioutil.ReadFile(filename)
@@ -65,7 +65,7 @@ func RetrieveStringFromFile(filename string) string {
 
 }
 
-// splits a string in lines
+// SplitStringInLines splits a string in lines
 // regardless EOL is Windows or UNIX
 func SplitStringInLines(myblock string) []string {
 

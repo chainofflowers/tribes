@@ -25,7 +25,7 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
 	var body []string
 	var headers []string
-	var is_header bool = true
+	var is_header = true
 	var body_lines int = 0
 	var body_bytes int = 0
 
