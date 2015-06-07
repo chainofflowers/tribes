@@ -4,11 +4,12 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"golang.org/x/crypto/openpgp"
-	"golang.org/x/crypto/openpgp/armor"
 	"io/ioutil"
 	"log"
 	"tribes/config"
+
+	"golang.org/x/crypto/openpgp"
+	"golang.org/x/crypto/openpgp/armor"
 )
 
 func GpgEncrypt(text2encrypt string, headers map[string]string) string {

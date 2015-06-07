@@ -24,7 +24,7 @@ func init() {
 	tools.Log_Engine_Start()
 	cripta.GPG_Engine_Start()
 	nntp.NNTP_Engine_Start()
-	tribe.Tribe_Engine_Start()
+	tribe.TribeEngineStart()
 	upnp.UPNP_Engine_Start()
 
 }

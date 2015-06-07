@@ -1,22 +1,25 @@
 package tribe
 
 import (
-	"github.com/secondbit/wendy"
 	"log"
 	"math"
 	"tribes/config"
 	"tribes/tools"
+
+	"github.com/secondbit/wendy"
 )
 
+// WendyApplication type: This is to create the handler.
 type WendyApplication struct {
 }
 
 var (
-	cluster  *wendy.Cluster
-	id       wendy.NodeID
-	mynode   *wendy.Node
-	err      error
-	cred     wendy.Credentials
+	cluster *wendy.Cluster
+	id      wendy.NodeID
+	mynode  *wendy.Node
+	err     error
+	cred    wendy.Credentials
+	//AllNodes : maps all the cluster known nodes.
 	AllNodes map[wendy.NodeID]string
 )
 
@@ -44,10 +47,10 @@ func init() {
 	go cluster.Listen()
 	log.Printf("[DHT] Listening")
 
-	if tmp_boot := config.GetBootStrapHost(); tmp_boot != "127.0.0.1" {
-		tmp_port := config.GetBootStrapPort()
-		cluster.Join(tmp_boot, tmp_port)
-		log.Printf("[DHT] Trying to join cluster at %s:%d", tmp_boot, tmp_port)
+	if tmpBoot := config.GetBootStrapHost(); tmpBoot != "127.0.0.1" {
+		tmpPort := config.GetBootStrapPort()
+		cluster.Join(tmpBoot, tmpPort)
+		log.Printf("[DHT] Trying to join cluster at %s:%d", tmpBoot, tmpPort)
 	}
 
 	app := &WendyApplication{}
@@ -59,7 +62,8 @@ func init() {
 
 }
 
-func Tribe_Engine_Start() {
+// TribeEngineStart : empty function to trigger init() execution
+func TribeEngineStart() {
 	log.Printf("[DHT] DHT Engine Exists")
 
 }
@@ -129,7 +133,7 @@ func (app *WendyApplication) OnHeartbeat(node wendy.Node) {
 //if TTL is needed or not.
 func AnyCastSpread(TTL uint8, mymessage wendy.Message, mycluster *wendy.Cluster) {
 
-	for nID, _ := range AllNodes {
+	for nID := range AllNodes {
 		if nID != mynode.ID {
 			msg := mycluster.NewMessage(TTL, nID, []byte(mymessage.String()))
 			err := mycluster.Send(msg)
