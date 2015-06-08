@@ -19,7 +19,7 @@ func GetGPGCommand(mybuffer string) string {
 	var tmp_map DhtHeaders
 	tmp_map = make(DhtHeaders)
 	tmp_map = cripta.GpgGetHeaders(mybuffer)
-	if val, ok := tmp_map["Command"]; ok {
+	if val, ok := tmp_map[TRIBES_H_CMD]; ok {
 		return val
 	}
 	return "NOOP"
@@ -40,12 +40,15 @@ func Tribes_Interpreter(payload string) {
 		// doing nothing
 		//
 	case TRIBES_BODY:
+		DhtReceiveBody(payload)
 
 	case TRIBES_HEADER:
+		DhtReceiveHeaders(payload)
 
 	case TRIBES_NEWGROUP:
 
 	case TRIBES_XOVER:
+		DhtReceiveXover(payload)
 
 	// whatever else is lost
 	default:

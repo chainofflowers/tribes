@@ -1,0 +1,120 @@
+package tribe
+
+import (
+	"fmt"
+	"log"
+	"path/filepath"
+	"strconv"
+	"time"
+	be "tribes/backend"
+	dht "tribes/cripta"
+	to "tribes/tools"
+)
+
+func DhtReceiveBody(dhtPayload string) {
+
+	var user_home = to.GetHomeDir()
+	var messages_folder string = "/News/messages/"
+	messages_folder = filepath.Join(user_home, messages_folder)
+
+	var MyHeaders map[string]string
+	MyHeaders = make(map[string]string)
+
+	MyHeaders = dht.GpgGetHeaders(dhtPayload)
+
+	messageId := MyHeaders[TRIBES_H_MID]
+	groupname := MyHeaders[TRIBES_H_GID]
+
+	dhtContent := dht.GpgDecrypt(dhtPayload)
+
+	const layout = "0601021504"
+	orario := time.Now()
+
+	id_message := messageId + "@" + orario.Format(layout)
+
+	num_message, _ := strconv.Atoi(be.GetLastNumByGroup(groupname))
+	num_message++
+
+	msgnum_str := fmt.Sprintf("%05d", num_message)
+
+	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
+
+	if to.TheFileExists(body_file) == false {
+		ShootStringToFile(dhtContent, body_file)
+	} else {
+		log.Printf("[DHT-3BE] we have %s already: doing nothing on body", messageId)
+	}
+
+}
+
+func DhtReceiveHeaders(dhtPayload string) {
+
+	var user_home = to.GetHomeDir()
+	var messages_folder string = "/News/messages/"
+	messages_folder = filepath.Join(user_home, messages_folder)
+
+	var MyHeaders map[string]string
+	MyHeaders = make(map[string]string)
+
+	MyHeaders = dht.GpgGetHeaders(dhtPayload)
+
+	messageId := MyHeaders[TRIBES_H_MID]
+	groupname := MyHeaders[TRIBES_H_GID]
+
+	dhtContent := dht.GpgDecrypt(dhtPayload)
+
+	const layout = "0601021504"
+	orario := time.Now()
+
+	id_message := messageId + "@" + orario.Format(layout)
+
+	num_message, _ := strconv.Atoi(be.GetLastNumByGroup(groupname))
+	num_message++
+
+	msgnum_str := fmt.Sprintf("%05d", num_message)
+
+	body_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
+
+	if to.TheFileExists(body_file) == false {
+		ShootStringToFile(dhtContent, body_file)
+	} else {
+		log.Printf("[DHT-3BE] we have %s already: doing nothing on headers", messageId)
+	}
+
+}
+
+func DhtReceiveXover(dhtPayload string) {
+
+	var user_home = to.GetHomeDir()
+	var messages_folder string = "/News/messages/"
+	messages_folder = filepath.Join(user_home, messages_folder)
+
+	var MyHeaders map[string]string
+	MyHeaders = make(map[string]string)
+
+	MyHeaders = dht.GpgGetHeaders(dhtPayload)
+
+	messageId := MyHeaders[TRIBES_H_MID]
+	groupname := MyHeaders[TRIBES_H_GID]
+
+	dhtContent := dht.GpgDecrypt(dhtPayload)
+
+	const layout = "0601021504"
+	orario := time.Now()
+
+	id_message := messageId + "@" + orario.Format(layout)
+
+	num_message, _ := strconv.Atoi(be.GetLastNumByGroup(groupname))
+	num_message++
+
+	msgnum_str := fmt.Sprintf("%05d", num_message)
+
+	body_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+id_message)
+
+	if to.TheFileExists(body_file) == false {
+		ShootStringToFile(dhtContent, body_file)
+	} else {
+		log.Printf("[DHT-3BE] we have %s already: doing nothing on xover", messageId)
+	}
+
+}
