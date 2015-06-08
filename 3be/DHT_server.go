@@ -27,7 +27,7 @@ func init() {
 
 	AllNodes = make(map[wendy.NodeID]string)
 
-	TribeID := config.GetTribeID()
+	RandID := tools.RandSeq(24) // since it is sent in clear, we can't use TribeID
 	WendyID := tools.RandSeq(16)
 	log.Printf("[DHT] Volatile node ID: %s", WendyID)
 
@@ -39,7 +39,7 @@ func init() {
 	mynode = wendy.NewNode(id, tools.ReadIpFromHost(), tools.ReadIpFromHost(), "Tribes", config.GetClusterPort())
 	log.Printf("[DHT] Node created")
 
-	cred = wendy.Passphrase(TribeID)
+	cred = wendy.Passphrase(RandID)
 
 	cluster = wendy.NewCluster(mynode, cred)
 	log.Printf("[DHT] Cluster initialized")
