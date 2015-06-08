@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Tribes
 Small, local NNTP server **using P2P**  for peering each others.
 
@@ -97,9 +96,3 @@ To compile it:
 
 done.
 
-=======
-Tribes
-===============
-
-Small, local NNTP server using P2P for peering. STILL IN PROGRESS
->>>>>>> 88fb2bbce0d05f0bba706f8d7c3885eecab8f91c
