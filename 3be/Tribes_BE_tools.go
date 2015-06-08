@@ -28,7 +28,8 @@ func ShootStringToFile(mystring string, filename string) error {
 
 }
 
-// AddLineToFile : appends one line to tihe given file.
+// AddLineToFile : appends one line to the given file.
+// only when the line doesn't exists already
 func AddLineToFile(peer string, filename string) error {
 
 	content, err := ioutil.ReadFile(filename)

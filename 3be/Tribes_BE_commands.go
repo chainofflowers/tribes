@@ -118,3 +118,18 @@ func DhtReceiveXover(dhtPayload string) {
 	}
 
 }
+
+func DhtReceiveGroup(dhtPayload string) {
+
+	var user_home = to.GetHomeDir()
+	var active_ng_file string = "/News/groups/ng.active"
+	var all_ng_file string = "/News/groups/ng.all"
+	active_ng_file = filepath.Join(user_home, active_ng_file)
+	all_ng_file = filepath.Join(user_home, all_ng_file)
+
+	dhtContent := dht.GpgDecrypt(dhtPayload)
+
+	AddLineToFile(dhtContent, active_ng_file)
+	AddLineToFile(dhtContent, all_ng_file)
+
+}

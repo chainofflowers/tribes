@@ -46,6 +46,7 @@ func Tribes_Interpreter(payload string) {
 		DhtReceiveHeaders(payload)
 
 	case TRIBES_NEWGROUP:
+		DhtReceiveGroup(payload)
 
 	case TRIBES_XOVER:
 		DhtReceiveXover(payload)
