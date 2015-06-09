@@ -5,12 +5,6 @@ import (
 	"tribes/cripta"
 )
 
-type TribePayload struct {
-	TPbuffer []byte
-	TPsize   int
-	TPErr    error
-}
-
 type DhtHeaders map[string]string
 
 // returns the field "Command" in a GPG payload
