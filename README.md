@@ -8,17 +8,17 @@ This is why I call it "_personal server_".
 Each _personal server_ will use DHT [Pastry](http://en.wikipedia.org/wiki/Pastry_%28DHT%29)
 to exchange messages and newsgroups. Also it supports NAT-UpNP.
 
-Also, Tribes allows to create groups to each node. This means editing a text file
-and add there a line is enough to create a new newsgroup. 
+Also, Tribes allows each node to create newsgroups. This means editing a text file
+and add there a line is enough.
 
 To avoid spam and crimes, Tribes servers are grouped into "tribes" . A "Tribe" is nothing
-different than a passphrase, which needs to be the same for all the member of theretribe.
-From now on, we call it "TribeID"
+different than a passphrase, which needs to be the same for all the member of the tribe.
+From now on, we name this passphrase as "TribeID"
 
 The minimal lenght of the passphrase is 32 chars.
 
-Who doesn't knows the passphrase cannot join the tribe. Groups and folders are exchanged
-after encryption with PGP, using the TribeID.
+With no key, a peer cannot join a tribe. Groups and folders are exchanged
+after encryption with PGP, using the TribeID as a key.
 
 All files are stored into ${HOME}/News. 
 
@@ -29,22 +29,24 @@ will connect to the initial node, and it will join the DHT network. It will get
 the DHT cache, and now you are in.
 
 **NOTES FOR THE BETA RELEASE** you will receive any message posted **after** you joined
-the cluster. The full alignment will come later.
+the cluster. The "full alignment" will come later.
 
-You also need to set your TribeID in the config file, the TCP port you want to use,
-and (maybe) your home router, if it doesn't supports NAT-UpNP.
+You need to set your TribeID in the config file, and also the TCP port you want to use.
+
+If your router is not supporting NAT-UpNP, you''ll need to configure it accordingly.
 
 ## How so use it.
 
-Download the executable (or build it) and start it the first time.
+Download the executable (or build it) and start it once.
 On linux just type ""./tribes" , on Windows just open your terminal and do the same.
-Then shut it down.
+
+Then shut it  down, with CONTROL-C.
 
 This will create the folders and a default config file.
 
-You can find it in ${HOME}/News/config.toml
+You can find the configuration file in ${HOME}/News/config.toml
 
-Just open it with your editor.
+Just open it with your editor. You will see:
 
 <pre>
 TLSPORT = "21000"
@@ -59,21 +61,21 @@ will be advertised to the home router (if one) via NAT-UpNP. If your router
 is not NAT-UpNP ready, you need to forward this port manually.
 
 **MyTribeID** You need this to enter the tribe. Either you get this from other members
-of an existing tribe, or you want to create your tribe. If you want to create your
-own tribe, just invent one. It has to be longer than 32 chars.
+of an existing tribe, or you want to create your own tribe. If you want to create your
+own tribe, just invent a string. It has to be longer than 32 chars.
 
 **MyPublicHost** Currently not used, but planned for a future release.You can leave it 
 like it is.
 
 **MyBootStrapHost** The IP of the host you want to use as a bootstrap. beta0.1/2 only
-supports IP addresses. I will add DNS resolution later. If you want to be the bootstrap
+supports IP addresses. I will add DNS resolution soon. If you want to be the bootstrap
 node, just set as "127.0.0.1"
 
 **MyBootStrapPort** the port your bootstrap server is listening at. 
 
-Once you configured , just save and restart tribes using the command line.
+Once you configured , just save the file and restart tribes using the command line.
 
-Now you can open the Newsreader you like more, and set a newsserver as "127.0.0.1:11119"
+Now you can open the Newsreader you like , and set a newsserver as "127.0.0.1:11119"
 No autentication is needed.
 
 In case you want to configure your own newsgroups, just open the file ${HOME}/News/groups/ng.local
