@@ -60,7 +60,7 @@ func BCastMsgBody(payload []string, group string, messageID string) {
 
 	id, err := wendy.NodeIDFromBytes([]byte("FakeID"))
 	if err != nil {
-		log.Printf("[DHT-BCAST] Error creating fakenodeid %s", err.Error())
+		log.Printf("[DHT-BCAST] Error creating fake nodeid %s", err.Error())
 	}
 
 	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
@@ -85,7 +85,7 @@ func BCastMsgXover(payload []string, group string, messageID string) {
 
 	id, err := wendy.NodeIDFromBytes([]byte("FakeID"))
 	if err != nil {
-		log.Printf("[DHT-BCAST] Error creating fakenodeid %s", err.Error())
+		log.Printf("[DHT-BCAST] Error creating fake nodeid %s", err.Error())
 	}
 
 	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
@@ -93,5 +93,28 @@ func BCastMsgXover(payload []string, group string, messageID string) {
 	WendyBroadcast(msg)
 
 	log.Printf("[DHT-BCAST] spreading around XOVER for %s", messageID)
+
+}
+
+func BCastGroup(groupname string) {
+
+	var msgHdr map[string]string
+
+	msgHdr[TRIBES_H_CMD] = TRIBES_NEWGROUP
+
+	msgPayload := SliceToString(groupname) // we are printing it already when requested.
+
+	wendyMsgString := dht.GpgEncrypt(msgPayload, msgHdr)
+
+	id, err := wendy.NodeIDFromBytes([]byte("010203"))
+	if err != nil {
+		log.Printf("[DHT-BCAST] Error creating fake nodeid %s", err.Error())
+	}
+
+	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
+
+	WendyBroadcast(msg)
+
+	log.Printf("[DHT-BCAST] spreading around GROUP for %s", groupname)
 
 }
