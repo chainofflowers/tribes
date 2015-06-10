@@ -6,7 +6,10 @@ import (
 	"bufio"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -78,5 +81,23 @@ func SplitStringInLines(myblock string) []string {
 	lines := strings.FieldsFunc(myblock, splitter)
 
 	return lines
+
+}
+
+// CreateSerialByGroup : duplicate, creates a serial ID for a given group
+// to move in tools after the Tag #1
+func CreateSerialByGroup(groupname string) string {
+	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*"); err != nil {
+		log.Printf("[SOB] No messages for group %s ", groupname)
+		return "0"
+	} else {
+		if files == nil {
+			files = append(files, "bh-ng-0-sh1")
+		}
+		sort.Strings(files)
+		pieces := strings.Split(files[len(files)-1], "-")
+		log.Printf("[WOW] %s last message for %s ", pieces[2], groupname)
+		return pieces[2]
+	}
 
 }

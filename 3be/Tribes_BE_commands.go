@@ -6,16 +6,20 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
-	be "tribes/backend"
 	dht "tribes/cripta"
 	to "tribes/tools"
 )
 
-func DhtReceiveBody(dhtPayload string) {
+var messages_folder string = "/News/messages/"
+
+func init() {
 
 	var user_home = to.GetHomeDir()
-	var messages_folder string = "/News/messages/"
 	messages_folder = filepath.Join(user_home, messages_folder)
+
+}
+
+func DhtReceiveBody(dhtPayload string) {
 
 	var MyHeaders map[string]string
 	MyHeaders = make(map[string]string)
@@ -32,7 +36,7 @@ func DhtReceiveBody(dhtPayload string) {
 
 	id_message := messageId + "@" + orario.Format(layout)
 
-	num_message, _ := strconv.Atoi(be.GetLastNumByGroup(groupname))
+	num_message, _ := strconv.Atoi(CreateSerialByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
@@ -68,7 +72,7 @@ func DhtReceiveHeaders(dhtPayload string) {
 
 	id_message := messageId + "@" + orario.Format(layout)
 
-	num_message, _ := strconv.Atoi(be.GetLastNumByGroup(groupname))
+	num_message, _ := strconv.Atoi(CreateSerialByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
@@ -104,7 +108,7 @@ func DhtReceiveXover(dhtPayload string) {
 
 	id_message := messageId + "@" + orario.Format(layout)
 
-	num_message, _ := strconv.Atoi(be.GetLastNumByGroup(groupname))
+	num_message, _ := strconv.Atoi(CreateSerialByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)

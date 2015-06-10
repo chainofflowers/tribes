@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"tribes/3be"
 	"tribes/tools"
 )
 
@@ -17,7 +18,8 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	const layout = "0601021504"
 	orario := time.Now()
 
-	id_message := tools.RandSeq(38) + "@" + orario.Format(layout)
+	rawMsgId := tools.RandSeq(38)
+	id_message := rawMsgId + "@" + orario.Format(layout)
 
 	answer_ok := "340 Ok, recommended ID <" + id_message + ">\r\n"
 	conn.Write([]byte(answer_ok))
@@ -110,15 +112,19 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 
 	headers = HeaderCompliance(headers)
 
-	SaveXOVERLineForPost(headers, groupname, id_message, msgnum_str)
+	// SaveXOVERLineForPost(headers, groupname, id_message, msgnum_str)
+	var xover []string
+	xover = append(xover, GenerateXOVERLineFromHeader(headers, groupname, id_message, msgnum_str))
 
 	header_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
 	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
+	xover_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+id_message)
 
 	err := tools.WriteMessages(headers, header_file)
 	if err != nil {
 		log.Printf("[WTF] cannot write headers on %s", header_file)
 	} else {
+		tribe.BCastMsgHeaders(headers, groupname, rawMsgId)
 		log.Printf("[FYI] headers saved in %s", header_file)
 	}
 
@@ -126,7 +132,16 @@ func NNTP_POST_ReadAndSave(conn net.Conn, groupname string) {
 	if err != nil {
 		log.Printf("[WTF] cannot write body on %s", body_file)
 	} else {
+		tribe.BCastMsgBody(body, groupname, rawMsgId)
 		log.Printf("[FYI] body saved in %s", body_file)
+	}
+
+	err = tools.WriteMessages(xover, xover_file)
+	if err != nil {
+		log.Printf("[WTF] cannot write body on %s", body_file)
+	} else {
+		tribe.BCastMsgXover(xover, groupname, rawMsgId)
+		log.Printf("[FYI] Xover saved in %s", body_file)
 	}
 
 	conn.Write([]byte("240 article posted ok\r\n"))

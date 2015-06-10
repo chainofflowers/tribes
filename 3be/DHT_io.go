@@ -102,7 +102,7 @@ func BCastGroup(groupname string) {
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_NEWGROUP
 
-	msgPayload := SliceToString(groupname) // we are printing it already when requested.
+	msgPayload := groupname // we are printing it already when requested.
 
 	wendyMsgString := dht.GpgEncrypt(msgPayload, msgHdr)
 

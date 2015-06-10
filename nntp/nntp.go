@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"tribes/3be"
 	"tribes/backend"
 )
 
@@ -83,6 +84,7 @@ func NNTP_Interpret(conn net.Conn) {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			sinta := strings.Split(message, " ")
 			current_group = sinta[1]
+			tribe.BCastGroup(current_group)
 			conn.Write([]byte(backend.ResponseToNNTPGROUP(current_group)))
 			continue
 		}
