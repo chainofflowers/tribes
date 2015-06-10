@@ -123,7 +123,7 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. You could do testing, joining a test cluster. In such a case , you will be requested to join the Tribe , join discussions, and so on. In case you see a bug, just collect the logs and  send them to me. Logs are in ${HOME}\News\logs\tribes.2015-Jun-10.1700.log
 
 - Q. How it works this "_sent them to me_"?
-- A. Just write _gitadmin AT wolfstep.cc_ and ask to partecipate. Then we can use the GitBucket to open issues.
+- A. Just write _gitadmin AT wolfstep.cc_ and ask to help. Then we can use the GitBucket to open issues.
 
 - Q. Could I contribute to the code, also?
 - A. Being honest, no. This is something I do for fun, to experiment with golang, to implement stuffs. Don't take me wrong if I say no: is not about you. It is _my_ fun. :)
