@@ -143,8 +143,8 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - Q. May I give my friends the whole "config.toml" ready to use? My friends are not good in configurations.
 - A. Absolutely yes. You can do even more: just put the tribes executable into ${HOME}/News,add  the configuration you want to offer, and zip the folder. Your friends will just need to unpack the "News" folder into ${HOME} and start tribes from there.
 
-- Q. You did not implemented all of the NNTP protocol.Why?
-- A. NNTP protocol was designed by a barrel of drunken monkeys (Or something like that). All clients are behaving differently, and there is no server on the planet which is 100% compliant with it. Too much shit, I think. During the testing phase with MacSoup, Thunderbird, Pan , Slrn, leafnode,  I decided to implement a reasonable subset of it. Like everyone is doing.
+- Q. You did not implemented all of  NNTP protocol.Why?
+- A. NNTP protocol was designed by a barrel of drunken monkeys (Or something like that). Each newsreader is behaving differently, and there is no server on the planet which is 100% compliant with it. Too much shit, I think. During the testing phase with MacSoup, Thunderbird, Pan , Slrn, leafnode,  I decided to implement a reasonable subset of it. Like everyone is doing.
 
 - Q. The newsreader i love is not working with that.
 - A. Please send me the logs and I will see which spaghetti-NNTP-feature your client is trying to use. I will eventually add it,  I cannot say when.
