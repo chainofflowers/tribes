@@ -132,9 +132,9 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. Indeed, it is: I had lot of fun writing it. This was the goal since the beginning: I'm  not a PRO developer,  this is just my hobby.
 
 - Q. Imagine I create a "tribe" in my local net, and then I expose the NNTP port. Is this a replicated cluster of NNTP servers?
-- A. <u>Tribes was not designed for production use</u>. Btw, still is a _beta_. Functionally speaking: yes, you can get a replicated cluster of NNTP servers like this.
+- A. **Tribes was not designed for production use**. Btw, still is a _beta_. Functionally speaking: yes, you can get a replicated cluster of NNTP servers like this.
 
-- Q. I want to join the cluster, I have credentials, but the Bootstrap node is often slow. What can I do?
+- Q. I want to join the cluster, I have credentials, but the Bootstrap node is too slow. What can I do?
 - A. You can use any node to bootstrap. Until the node is part of a tribe, and you can reach it, it is a "bootstrap node". This is by design of DHT. There is no "designated" first node.
 
 - Q. I want to start a tribe.
