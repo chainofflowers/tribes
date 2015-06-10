@@ -138,7 +138,7 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. You can use any node to bootstrap. Until the node is part of a tribe, and you can reach it, it is a "bootstrap node". This is by design of DHT. There is no "designated" first node.
 
 - Q. I want to start a tribe.
-- A. Just decide your passphrase, and give to your friend your public IP, your port, and the TribeID itself. 
+- A. Just decide your passphrase, then give to your friends the public IP, the port, and the TribeID. 
 
 - Q. May I give my friends the whole "config.toml" ready to use? My friends are not good in configurations.
 - A. Absolutely yes. You can do even more: just put the tribes executable into ${HOME}/News, put the configuration you want to offer, and zip the folder. Your friends will just need to unpack the "News" folder into ${HOME} and start tribes from there.
