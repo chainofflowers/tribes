@@ -105,7 +105,7 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. If you like, **don't** just redirect tcp ports. Use a real Layer7 proxy, like leafnode. Still I think you should not.
 
 - Q. C'mon! What can happen if I expose the NNTP interface?
-- A. Spammers will flood you and your "tribe"'s member with bullshit: _there is no autentication_.
+- A. Spammers will flood you (and your "tribe"'s members) with bullshit: _there is no autentication_.
 
 - Q. Is it a darknet?
 - A. No. Encryption has the only goal of keeping people out of a tribe _until they can't get the TribeID_. As far I see, **pastry implementation is in clear text**.
