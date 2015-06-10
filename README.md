@@ -141,9 +141,9 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. Just decide your passphrase, then give to your friends the public IP, the port, and the TribeID. 
 
 - Q. May I give my friends the whole "config.toml" ready to use? My friends are not good in configurations.
-- A. Absolutely yes. You can do even more: just put the tribes executable into ${HOME}/News, put the configuration you want to offer, and zip the folder. Your friends will just need to unpack the "News" folder into ${HOME} and start tribes from there.
+- A. Absolutely yes. You can do even more: just put the tribes executable into ${HOME}/News,add  the configuration you want to offer, and zip the folder. Your friends will just need to unpack the "News" folder into ${HOME} and start tribes from there.
 
-- Q. You implemented just some pieces of the NNTP protocol.
+- Q. You did not implemented all of the NNTP protocol.Why?
 - A. NNTP protocol was designed by a barrel of drunken monkeys (Or something like that). All clients are behaving differently, and there is no server on the planet which is 100% compliant with it. Too much shit, I think. During the testing phase with MacSoup, Thunderbird, Pan , Slrn, leafnode,  I decided to implement a reasonable subset of it. Like everyone is doing.
 
 - Q. The newsreader i love is not working with that.
