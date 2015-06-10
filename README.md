@@ -147,6 +147,6 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. NNTP protocol was designed by a barrel of drunken monkeys (Or something like that). Each newsreader is behaving differently, and there is no server on the planet which is 100% compliant with the standard.  During the testing phase with MacSoup, Thunderbird, Pan , Slrn, leafnode,  I decided to implement a reasonable subset of it. Like everyone is doing.
 
 - Q. The newsreader i love is not working with that.
-- A. Please send me the logs and I will see which spaghetti-NNTP-feature your client is trying to use. I will eventually add it,  I cannot say when.
+- A. Please send me the logs and I will see which spaghetti-NNTP-feature your client is trying to use. I will eventually add it.
 
 
