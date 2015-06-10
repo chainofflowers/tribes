@@ -120,7 +120,7 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. Now we have beta0.2 . I will continue with beta0.X until I am sure "it just works" and the network protocol is consistent. Then I will do Release 1.0. After of this, I will add  everything I like.
 
 - Q. May I help? How?
-- A. You could do testing, joining a test cluster. In such a case , you will be requested to join the Tribe , join discussions, and so on. In case you see a bug, just collect the logs and then send them to me. Logs are in ${HOME}\News\logs\tribes.2015-Jun-10.1700.log
+- A. You could do testing, joining a test cluster. In such a case , you will be requested to join the Tribe , join discussions, and so on. In case you see a bug, just collect the logs and  send them to me. Logs are in ${HOME}\News\logs\tribes.2015-Jun-10.1700.log
 
 - Q. How it works this "_sent them to me_"?
 - A. Just write _gitadmin AT wolfstep.cc_ and ask to partecipate. Then we can use the GitBucket to open issues.
