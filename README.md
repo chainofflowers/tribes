@@ -9,7 +9,7 @@ Each _personal server_ will use DHT [Pastry](http://en.wikipedia.org/wiki/Pastry
 to exchange messages and newsgroups. Also it supports NAT-UpNP.
 
 Also, Tribes allows each node to create newsgroups. This means editing a text file
-and add there a line is enough.
+is enough.
 
 To avoid spam and crimes, Tribes servers are grouped into "tribes" . A "Tribe" is nothing
 different than a passphrase, which needs to be the same for all the member of the tribe.
@@ -17,7 +17,7 @@ From now on, we name this passphrase as "TribeID"
 
 The minimal lenght of the passphrase is 32 chars.
 
-With no key, a peer cannot join a tribe. Groups and folders are exchanged
+With no proper key, a peer cannot join a tribe. Groups and folders are exchanged
 after encryption with PGP, using the TribeID as a key.
 
 All files are stored into ${HOME}/News. 
@@ -35,7 +35,7 @@ You need to set your TribeID in the config file, and also the TCP port you want 
 
 If your router is not supporting NAT-UpNP, you''ll need to configure it accordingly.
 
-## How so use it.
+## How to use it.
 
 Download the executable (or build it) and start it once.
 On linux just type ""./tribes" , on Windows just open your terminal and do the same.
