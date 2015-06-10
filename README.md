@@ -114,7 +114,7 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 - A. USENET is a **public** space. When you are in public, **people can see you**.
 
 - Q. When you will finish it?
-- A. Dunno. I still have lot of ideas about it. So I will change the storage later, with a more efficient one. I will add a configuration web interface. There are many ways to do that. So I am still collecting ideas.
+- A. Dunno. I am still having fun with coding. So I will change the storage later, with a more efficient one. I will add a configuration web interface. There are many ways to do that. So I am still collecting ideas.
 
 - Q. So what's the plan?
 - A. Now we have beta0.2 . I will continue with beta0.X until I am sure "it just works" and the network protocol is consistent. Then I will do Release 1.0. After of this, I will add  everything I like.
