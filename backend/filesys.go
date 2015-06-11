@@ -30,7 +30,6 @@ func init() {
 	os.MkdirAll(filepath.Join(user_home, "News", "groups"), 0755)
 	os.MkdirAll(filepath.Join(user_home, "News", "messages"), 0755)
 	os.MkdirAll(filepath.Join(user_home, "News", "logs"), 0755)
-	os.MkdirAll(filepath.Join(user_home, "News", "3be"), 0755)
 
 	if tools.TheFileExists(active_ng_file) == false {
 		log.Printf("[BE-FS] creating file %s", active_ng_file)

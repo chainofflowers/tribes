@@ -117,3 +117,16 @@ func ShortenString(s string, i int) string {
 	}
 	return s
 }
+
+// Hpwd: the UNIX pwd
+func Hpwd() string {
+
+	tmpLoc, err := os.Getwd()
+
+	if err != nil {
+		tmpLoc = "/tmp"
+	}
+
+	return tmpLoc
+
+}
