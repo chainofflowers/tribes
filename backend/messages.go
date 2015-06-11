@@ -243,7 +243,7 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 
 	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-		conn.Write([]byte("430 no such article found\n"))
+		conn.Write([]byte("430 no such article found\r\n"))
 	} else {
 
 		if files == nil {
@@ -262,7 +262,7 @@ func NNTP_ARTICLE_ReturnALL(conn net.Conn, groupname string, article_id string) 
 
 	if files, err := filepath.Glob(messages_folder + "/b-" + groupname + "-*" + article + "*"); err != nil {
 		log.Printf("[SOB] Article %s not found in %s ", article_id, groupname)
-		conn.Write([]byte("430 no such article found\n"))
+		conn.Write([]byte("430 no such article found\r\n"))
 	} else {
 
 		if files == nil {

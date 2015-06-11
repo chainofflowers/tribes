@@ -24,6 +24,7 @@ func SliceToString(slice []string) string {
 func BCastMsgHeaders(payload []string, group string, messageID string) {
 
 	var msgHdr map[string]string
+	msgHdr = make(map[string]string)
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_HEADER
 	msgHdr[TRIBES_H_GID] = group
@@ -49,6 +50,7 @@ func BCastMsgHeaders(payload []string, group string, messageID string) {
 func BCastMsgBody(payload []string, group string, messageID string) {
 
 	var msgHdr map[string]string
+	msgHdr = make(map[string]string)
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_BODY
 	msgHdr[TRIBES_H_GID] = group
@@ -74,6 +76,7 @@ func BCastMsgBody(payload []string, group string, messageID string) {
 func BCastMsgXover(payload []string, group string, messageID string) {
 
 	var msgHdr map[string]string
+	msgHdr = make(map[string]string)
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_XOVER
 	msgHdr[TRIBES_H_GID] = group
@@ -99,6 +102,7 @@ func BCastMsgXover(payload []string, group string, messageID string) {
 func BCastGroup(groupname string) {
 
 	var msgHdr map[string]string
+	msgHdr = make(map[string]string)
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_NEWGROUP
 
