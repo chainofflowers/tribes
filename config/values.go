@@ -6,7 +6,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"path/filepath"
 	"tribes/tools"
 )
 
@@ -20,13 +19,9 @@ var (
 
 func init() {
 
-	var user_home = tools.GetHomeDir()
-	config_path := filepath.Join(user_home, "News")
-	config_file := filepath.Join(user_home, "News", "config.toml")
-
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
-	viper.AddConfigPath(config_path)
+	viper.AddConfigPath(tools.ConfigPath)
 
 	err := viper.ReadInConfig() // Find and read the config file
 
@@ -38,8 +33,8 @@ func init() {
 		viper.SetDefault("BootStrapHost", def_BootstrapHost)
 		viper.SetDefault("BootStrapPort", def_BootstrapPort)
 
-		os.MkdirAll(config_path, 0755)
-		f, _ := os.Create(config_file)
+		os.MkdirAll(tools.ConfigPath, 0755)
+		f, _ := os.Create(tools.ConfigFile)
 		_, _ = fmt.Fprintf(f, "TLSPORT = %q\r\n", def_TLSPORT)
 		_, _ = fmt.Fprintf(f, "MyTribeID = %q\r\n", def_TribeID)
 		_, _ = fmt.Fprintf(f, "MyPublicHost = %q\r\n", def_MyPublicHost)

@@ -5,53 +5,16 @@ import (
 	"log"
 	"net"
 	"os"
-	"path/filepath"
 	"strings"
-	"tribes/tools"
+	to "tribes/tools"
 )
-
-var (
-	active_ng_file  string = "/News/groups/ng.active"
-	new_ng_file     string = "/News/groups/ng.local"
-	all_ng_file     string = "/News/groups/ng.all"
-	messages_folder string = "/News/messages/"
-)
-
-// initializes everything
-
-func init() {
-
-	var user_home = tools.GetHomeDir()
-	active_ng_file = filepath.Join(user_home, active_ng_file)
-	new_ng_file = filepath.Join(user_home, new_ng_file)
-	all_ng_file = filepath.Join(user_home, all_ng_file)
-	messages_folder = filepath.Join(user_home, messages_folder)
-
-	os.MkdirAll(filepath.Join(user_home, "News", "groups"), 0755)
-	os.MkdirAll(filepath.Join(user_home, "News", "messages"), 0755)
-	os.MkdirAll(filepath.Join(user_home, "News", "logs"), 0755)
-
-	if tools.TheFileExists(active_ng_file) == false {
-		log.Printf("[BE-FS] creating file %s", active_ng_file)
-		os.Create(active_ng_file)
-	}
-	if tools.TheFileExists(new_ng_file) == false {
-		log.Printf("[BE-FS] Creating File %s", new_ng_file)
-		os.Create(new_ng_file)
-	}
-	if tools.TheFileExists(all_ng_file) == false {
-		log.Printf("[BE-FS] Creating File %s", all_ng_file)
-		os.Create(new_ng_file)
-	}
-
-}
 
 // gets the active NG and sends them to the given sockets
 
 func Trasmit_Active_NG(conn net.Conn) error {
-	file, err := os.Open(active_ng_file)
+	file, err := os.Open(to.ActiveNgFile)
 	if err != nil {
-		log.Printf("[BE-FS] can't open file %s", active_ng_file)
+		log.Printf("[BE-FS] can't open file %s", to.ActiveNgFile)
 		return err
 	}
 	defer file.Close()
@@ -71,9 +34,9 @@ func Trasmit_Active_NG(conn net.Conn) error {
 // transmits NEW newgroups (here "local") to the given socket
 
 func Trasmit_New_NG(conn net.Conn) error {
-	file, err := os.Open(new_ng_file)
+	file, err := os.Open(to.NewNgFile)
 	if err != nil {
-		log.Printf("[BE-FS] can't open file %s", new_ng_file)
+		log.Printf("[BE-FS] can't open file %s", to.NewNgFile)
 		return err
 	}
 	defer file.Close()

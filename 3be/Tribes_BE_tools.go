@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	to "tribes/tools"
 )
 
 // ShootStringToFile : just a quick way for saving string in new files
@@ -87,7 +88,7 @@ func SplitStringInLines(myblock string) []string {
 // CreateSerialByGroup : duplicate, creates a serial ID for a given group
 // to move in tools after the Tag #1
 func CreateSerialByGroup(groupname string) string {
-	if files, err := filepath.Glob(messages_folder + "/h-" + groupname + "-*"); err != nil {
+	if files, err := filepath.Glob(to.MessagesFolder + "/h-" + groupname + "-*"); err != nil {
 		log.Printf("[SOB] No messages for group %s ", groupname)
 		return "0"
 	} else {

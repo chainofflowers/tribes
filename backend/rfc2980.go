@@ -94,7 +94,7 @@ func SaveXOVERLineForPost(header []string, groupname string, message_id string, 
 
 	xover_line = append(xover_line, GenerateXOVERLineFromHeader(header, groupname, message_id, msgnum_str))
 
-	xover_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+message_id)
+	xover_file := filepath.Join(tools.MessagesFolder, "x-"+groupname+"-"+msgnum_str+"-"+message_id)
 
 	err := tools.WriteMessages(xover_line, xover_file)
 	if err != nil {
@@ -203,7 +203,7 @@ func NNTP_XOVER_ReturnByInterval(groupname string, conn net.Conn, m_low string, 
 
 	// retrieve all the xover info files for the group
 
-	if files, err := filepath.Glob(messages_folder + "/x-" + groupname + "-*"); err != nil {
+	if files, err := filepath.Glob(tools.MessagesFolder + "/x-" + groupname + "-*"); err != nil {
 		log.Printf("[SOB] Cannot search  in %s  ", groupname)
 		conn.Write([]byte("224 No articles in " + m_low + "-" + m_high + "\r\n"))
 		return err

@@ -10,15 +10,6 @@ import (
 	to "tribes/tools"
 )
 
-var messages_folder string = "/News/messages/"
-
-func init() {
-
-	var user_home = to.GetHomeDir()
-	messages_folder = filepath.Join(user_home, messages_folder)
-
-}
-
 func DhtReceiveBody(dhtPayload string) {
 
 	var MyHeaders map[string]string
@@ -41,7 +32,7 @@ func DhtReceiveBody(dhtPayload string) {
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
-	body_file := filepath.Join(messages_folder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
+	body_file := filepath.Join(to.MessagesFolder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
 
 	if to.TheFileExists(body_file) == false {
 		ShootStringToFile(dhtContent, body_file)

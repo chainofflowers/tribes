@@ -30,13 +30,14 @@ func init() {
 
 	UserHome = GetHomeDir()
 	TribesHome = Hpwd()
-	// defining all of them
 	ActiveNgFile = filepath.Join(UserHome, ActiveNgFile)
 	NewNgFile = filepath.Join(UserHome, NewNgFile)
 	AllNgFile = filepath.Join(UserHome, AllNgFile)
 	MessagesFolder = filepath.Join(UserHome, MessagesFolder)
 	LogFolder = filepath.Join(UserHome, LogFolder)
 	GroupsFolder = filepath.Join(UserHome, GroupsFolder)
+	ConfigFile = filepath.Join(UserHome, "News", "config.toml")
+	ConfigPath = filepath.Join(UserHome, "News")
 
 	// just in case, making sure the folder are existing
 	os.MkdirAll(MessagesFolder, 0755)
