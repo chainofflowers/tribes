@@ -1,8 +1,9 @@
 package tribe
 
 import (
-	"github.com/secondbit/wendy"
 	"log"
+
+	"github.com/secondbit/wendy"
 
 	dht "tribes/cripta"
 )
@@ -28,7 +29,7 @@ func BCastMsgHeaders(payload []string, group string, messageID string) {
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_HEADER
 	msgHdr[TRIBES_H_GID] = group
-	msgHdr[TRIBES_H_MID] = messageID
+	msgHdr[TRIBES_H_MID] = messageID + "@" + mynode.ID.String()
 
 	msgPayload := SliceToString(payload) + "\r\n.\r\n"
 
@@ -54,7 +55,7 @@ func BCastMsgBody(payload []string, group string, messageID string) {
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_BODY
 	msgHdr[TRIBES_H_GID] = group
-	msgHdr[TRIBES_H_MID] = messageID
+	msgHdr[TRIBES_H_MID] = messageID + "@" + mynode.ID.String()
 
 	msgPayload := SliceToString(payload) // we have this already in the body.
 
@@ -80,7 +81,7 @@ func BCastMsgXover(payload []string, group string, messageID string) {
 
 	msgHdr[TRIBES_H_CMD] = TRIBES_XOVER
 	msgHdr[TRIBES_H_GID] = group
-	msgHdr[TRIBES_H_MID] = messageID
+	msgHdr[TRIBES_H_MID] = messageID + "@" + mynode.ID.String()
 
 	msgPayload := SliceToString(payload) // we are printing it already when requested.
 

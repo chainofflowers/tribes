@@ -37,7 +37,7 @@ func init() {
 	}
 
 	mynode = wendy.NewNode(id, tools.ReadIpFromHost(), tools.ReadIpFromHost(), "Tribes", config.GetClusterPort())
-	log.Printf("[DHT] Node created")
+	log.Printf("[DHT] Node %s created for %s", mynode.ID.String(), WendyID)
 
 	cred = wendy.Passphrase(RandID)
 

@@ -47,7 +47,7 @@ func (this *tribeslogfile) RotateLogFolder() {
 
 func (this *tribeslogfile) SetLogFolder() {
 
-	const layout = "2006-Jan-02.15"
+	const layout = "2006-01-02.15"
 
 	orario := time.Now()
 

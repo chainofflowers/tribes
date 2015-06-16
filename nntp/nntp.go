@@ -11,7 +11,7 @@ import (
 	"tribes/backend"
 )
 
-var capab_out string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nSTAT\nXOVER\nOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
+var CapabResponse string = "101 Capability list:\nVERSION 2\nREADER\nPOST\nSTAT\nXOVER\nOVER\nLIST ACTIVE NEWSGROUPS OVERVIEW.FMT\n"
 
 func init() {
 
@@ -107,6 +107,7 @@ func NNTP_Interpret(conn net.Conn) {
 			conn.Write([]byte("215 list of newsgroups follows\r\n"))
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			backend.Trasmit_Active_NG(conn)
+			backend.Trasmit_New_NG(conn)
 			conn.Write([]byte(".\r\n"))
 			continue
 		}
@@ -176,7 +177,7 @@ func NNTP_Interpret(conn net.Conn) {
 		}
 		if matches, _ := regexp.MatchString("(?i)^CAPABILITIES[ ]*$", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
-			conn.Write([]byte(capab_out))
+			conn.Write([]byte(CapabResponse))
 			continue
 
 		}

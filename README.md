@@ -52,7 +52,6 @@ Just open it with your editor. You will see:
 <pre>
 TLSPORT = "21000"
 MyTribeID = "AdzfNdsMAajMMuPpVsNXvWWxIDohwppz"
-MyPublicHost = "whatever.example.com"
 MyBootStrapHost = "127.0.0.1"
 MyBootStrapPort = "21000"
 </pre>
