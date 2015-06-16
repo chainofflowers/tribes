@@ -51,11 +51,11 @@ func Trasmit_New_NG(conn net.Conn) error {
 	return scanner.Err()
 }
 
-func Transmit_Article(conn net.Conn, file_id string) {
-	log.Printf("[BE-FS] asked to open %s", file_id)
-	file, err := os.Open(file_id)
+func Transmit_Article(conn net.Conn, FileName string) {
+	log.Printf("[BE-FS] asked to open %s", FileName)
+	file, err := os.Open(FileName)
 	if err != nil {
-		log.Printf("[BE-FS] can't open file %s", file_id)
+		log.Printf("[BE-FS] can't open file %s", FileName)
 
 	}
 	defer file.Close()
