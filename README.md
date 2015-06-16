@@ -20,7 +20,8 @@ The minimal lenght of the passphrase is 32 chars.
 With no proper key, a peer cannot join a tribe. Groups and folders are exchanged
 after encryption with PGP, using the TribeID as a key.
 
-All files are stored into ${HOME}/News. 
+All files are stored into ${HOME}/News. This is the initial setup. The final is
+to have a single zip folder to be distributed.
 
 ## How it works 
 
