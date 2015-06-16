@@ -35,10 +35,10 @@ func init() {
 
 		os.MkdirAll(tools.ConfigPath, 0755)
 		f, _ := os.Create(tools.ConfigFile)
-		_, _ = fmt.Fprintf(f, "TLSPORT = %q\r\n", def_TLSPORT)
-		_, _ = fmt.Fprintf(f, "MyTribeID = %q\r\n", def_TribeID)
-		_, _ = fmt.Fprintf(f, "MyBootStrapHost = %q\r\n", def_BootstrapHost)
-		_, _ = fmt.Fprintf(f, "MyBootStrapPort = %q\r\n", def_BootstrapPort)
+		fmt.Fprintf(f, "TLSPORT = %q\r\n", def_TLSPORT)
+		fmt.Fprintf(f, "MyTribeID = %q\r\n", def_TribeID)
+		fmt.Fprintf(f, "MyBootStrapHost = %q\r\n", def_BootstrapHost)
+		fmt.Fprintf(f, "MyBootStrapPort = %q\r\n", def_BootstrapPort)
 		f.Close()
 	}
 }
@@ -52,17 +52,7 @@ func GetTribeID() string {
 }
 
 func GetBootStrapHost() string {
-	tmpBS := viper.GetString("MyBootStrapHost")
-
-	return resolveBootStrap(tmpBS)
-
-}
-
-func GetBootStrapPort() int {
-	return viper.GetInt("MyBootStrapPort")
-}
-
-func resolveBootStrap(host string) string {
+	host := viper.GetString("MyBootStrapHost")
 
 	conn, err := net.Dial("udp", host+":80")
 	if err != nil {
@@ -72,4 +62,9 @@ func resolveBootStrap(host string) string {
 	conn.Close()
 	torn := strings.Split(conn.RemoteAddr().String(), ":")
 	return torn[0]
+
+}
+
+func GetBootStrapPort() int {
+	return viper.GetInt("MyBootStrapPort")
 }
