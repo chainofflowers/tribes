@@ -67,6 +67,15 @@ func NNTP_Interpret(conn net.Conn) {
 			continue
 		}
 
+		if matches, _ := regexp.MatchString("(?i)^LIST[ ]*NEWSGROUPS[ ]*$", message); matches == true {
+			conn.Write([]byte("215 list of newsgroups follows\r\n"))
+			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
+			backend.Trasmit_Active_NG(conn)
+			backend.Trasmit_New_NG(conn)
+			conn.Write([]byte(".\r\n"))
+			continue
+		}
+
 		if matches, _ := regexp.MatchString("(?i)^LIST[ ]+OVERVIEW.FMT[ ]*$", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			backend.NNTP_LIST_OVERVIEW_FMT(conn)
