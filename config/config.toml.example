@@ -1,3 +1,4 @@
-DHTPORT = "21000"
-BootstrapNode = "boseburo.ddns.net"
-
+TLSPORT = "21000"
+MyTribeID = "AdzfNdsMAajMMuPpVsNXvWWxIDohwppz"
+MyBootStrapHost = "127.0.0.1
+MyBootStrapPort = "21000"

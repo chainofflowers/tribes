@@ -5,7 +5,6 @@ import (
 	"log"
 	"path/filepath"
 	"strconv"
-	"time"
 	dht "tribes/cripta"
 	to "tribes/tools"
 )
@@ -22,17 +21,12 @@ func DhtReceiveBody(dhtPayload string) {
 
 	dhtContent := dht.GpgDecrypt(dhtPayload)
 
-	const layout = "0601021504"
-	orario := time.Now()
-
-	id_message := messageId + "@" + orario.Format(layout)
-
 	num_message, _ := strconv.Atoi(CreateSerialByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
-	body_file := filepath.Join(to.MessagesFolder, "b-"+groupname+"-"+msgnum_str+"-"+id_message)
+	body_file := filepath.Join(to.MessagesFolder, "b-"+groupname+"-"+msgnum_str+"-"+messageId)
 
 	if to.TheFileExists(body_file) == false {
 		ShootStringToFile(dhtContent, body_file)
@@ -58,17 +52,12 @@ func DhtReceiveHeaders(dhtPayload string) {
 
 	dhtContent := dht.GpgDecrypt(dhtPayload)
 
-	const layout = "0601021504"
-	orario := time.Now()
-
-	id_message := messageId + "@" + orario.Format(layout)
-
 	num_message, _ := strconv.Atoi(CreateSerialByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
-	body_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+id_message)
+	body_file := filepath.Join(messages_folder, "h-"+groupname+"-"+msgnum_str+"-"+messageId)
 
 	if to.TheFileExists(body_file) == false {
 		ShootStringToFile(dhtContent, body_file)
@@ -94,17 +83,12 @@ func DhtReceiveXover(dhtPayload string) {
 
 	dhtContent := dht.GpgDecrypt(dhtPayload)
 
-	const layout = "0601021504"
-	orario := time.Now()
-
-	id_message := messageId + "@" + orario.Format(layout)
-
 	num_message, _ := strconv.Atoi(CreateSerialByGroup(groupname))
 	num_message++
 
 	msgnum_str := fmt.Sprintf("%05d", num_message)
 
-	body_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+id_message)
+	body_file := filepath.Join(messages_folder, "x-"+groupname+"-"+msgnum_str+"-"+messageId)
 
 	if to.TheFileExists(body_file) == false {
 		ShootStringToFile(dhtContent, body_file)
