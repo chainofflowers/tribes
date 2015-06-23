@@ -5,6 +5,7 @@ import (
 
 	"github.com/secondbit/wendy"
 
+	"time"
 	dht "tribes/cripta"
 )
 
@@ -27,9 +28,12 @@ func BCastMsgHeaders(payload []string, group string, messageID string) {
 	var msgHdr map[string]string
 	msgHdr = make(map[string]string)
 
+	const layout = "0601021504"
+	orario := time.Now()
+
 	msgHdr[TRIBES_H_CMD] = TRIBES_HEADER
 	msgHdr[TRIBES_H_GID] = group
-	msgHdr[TRIBES_H_MID] = messageID + "@" + mynode.ID.String()
+	msgHdr[TRIBES_H_MID] = messageID + "@" + orario.Format(layout)
 
 	msgPayload := SliceToString(payload) + "\r\n.\r\n"
 
@@ -53,9 +57,12 @@ func BCastMsgBody(payload []string, group string, messageID string) {
 	var msgHdr map[string]string
 	msgHdr = make(map[string]string)
 
+	const layout = "0601021504"
+	orario := time.Now()
+
 	msgHdr[TRIBES_H_CMD] = TRIBES_BODY
 	msgHdr[TRIBES_H_GID] = group
-	msgHdr[TRIBES_H_MID] = messageID + "@" + mynode.ID.String()
+	msgHdr[TRIBES_H_MID] = messageID + "@" + orario.Format(layout)
 
 	msgPayload := SliceToString(payload) // we have this already in the body.
 
@@ -79,9 +86,12 @@ func BCastMsgXover(payload []string, group string, messageID string) {
 	var msgHdr map[string]string
 	msgHdr = make(map[string]string)
 
+	const layout = "0601021504"
+	orario := time.Now()
+
 	msgHdr[TRIBES_H_CMD] = TRIBES_XOVER
 	msgHdr[TRIBES_H_GID] = group
-	msgHdr[TRIBES_H_MID] = messageID + "@" + mynode.ID.String()
+	msgHdr[TRIBES_H_MID] = messageID + "@" + orario.Format(layout)
 
 	msgPayload := SliceToString(payload) // we are printing it already when requested.
 
