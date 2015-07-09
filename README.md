@@ -94,58 +94,85 @@ named like "it.stinks", "it.stinks.more", "it.stinks.even.more".
 
 - Q. Do I need to connect to some ISP's news server?
 - A. No. The concept is to have a NNTP service with NO big servers involved. Just P2P.
+<br>
 
 - Q. May I use it as local NNTP server on my huge machine?
 - A. Well, it only listens on localhost. Maybe for local users? Dunno. Up to you.
+<br>
 
 - Q. Should I expose port 11119 to the internet?
 - A. No.I put little care about security when writing the _beloved_ NNTP interface.
+<br>
 
 - Q. But I want to use Tribes from the internet. Is there a way you suggest? haproxy, nginx?
 - A. If you like, **don't** just redirect tcp ports. Use a real Layer7 proxy, like leafnode. Still I think you should not.
+<br>
 
 - Q. C'mon! What can happen if I expose the NNTP interface?
 - A. Spammers will flood you (and your "tribe"'s members) with bullshit: _there is no autentication_.
+<br>
 
 - Q. Is it a darknet?
 - A. No. Encryption has the only goal of keeping people out of a tribe _until they can't get the TribeID_. As far I see, **pastry implementation is in clear text**.
 
+<br>
+
 - Q. Does it grants my privacy?
 - A. USENET is a **public** space. When you are in public, **people can see you**.
+<br>
+
 
 - Q. When you will finish it?
 - A. Dunno. I am still having fun with coding. So I will change the storage later, with a more efficient one. I will add a configuration web interface. There are many ways to do that. It's still work in progress.
+<br>
+
 
 - Q. So what's the plan?
 - A. Now we have beta0.2 . I will continue with beta0.X until I am sure "it just works" and the network protocol is consistent. Then I will do Release 1.0. After of this, I will add  everything I like.
+<br>
+
 
 - Q. May I help? How?
 - A. You could do testing, joining a test cluster. In such a case , you will be requested to join the Tribe , join discussions, and so on. In case you see a bug, just collect the logs and  send them to me. Logs are in ${HOME}\News\logs\tribes.2015-Jun-10.1700.log
 
+<br>
+
 - Q. How it works this "_sent them to me_"?
 - A. Just write _gitadmin AT wolfstep.cc_ and ask to help. Then we can use the GitBucket to open issues.
+
+<br>
 
 - Q. Could I contribute to the code, also?
 - A. Being honest, no. This is something I do for fun, to experiment with golang, to implement stuffs. Don't take me wrong if I say no: is not about you. It is _my_ fun. :)
 
+<br>
+
 - Q. Do you think it will be a success?
 - A. Indeed, it is: I had lot of fun writing it. This was the goal since the beginning: I'm  not a PRO developer,  this is just my hobby.
+
+<br>
 
 - Q. Imagine I create a "tribe" in my local net, and then I expose the NNTP port. Is this a replicated cluster of NNTP servers?
 - A. **Tribes was not designed for production use**. Btw, still is a _beta_. Functionally speaking: yes, you can get a replicated cluster of NNTP servers like this.
 
+<br>
+
 - Q. I want to join the cluster, I have credentials, but the Bootstrap node is too slow. What can I do?
 - A. You can use any node to bootstrap. Until the node is part of a tribe, and you can reach it, it is a "bootstrap node". This is by design of DHT. There is no "designated" first node.
+
+<br>
 
 - Q. I want to start a tribe.
 - A. Just decide your passphrase, then give to your friends the public IP, the port, and the TribeID. 
 
+<br>
 - Q. May I give my friends the whole "config.toml" ready to use? My friends are not good in configurations.
 - A. Absolutely yes. You can do even more: just put the tribes executable into ${HOME}/News,add  the configuration you want to offer, and zip the folder. Your friends will just need to unpack the "News" folder into ${HOME} and start tribes from there.
+<br>
 
 - Q. You did not implemented all of  NNTP protocol.Why?
 - A. NNTP protocol was designed by a barrel of drunken monkeys (Or something like that). Each newsreader is behaving differently, and there is no server on the planet which is 100% compliant with the standard.  During the testing phase with MacSoup, Thunderbird, Pan , Slrn, leafnode,  I decided to implement a reasonable subset of it. Like everyone is doing.
-
+<br>
 - Q. The newsreader i love is not working with that.
 - A. Please send me the logs and I will see which spaghetti-NNTP-feature your client is trying to use. I will eventually add it.
 

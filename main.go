@@ -20,7 +20,7 @@ func init() {
 		os.Exit(1)
 	}
 
-	// now start all the engines asyncronously.
+	// now start all the engines.
 
 	tools.Log_Engine_Start()
 	cripta.GPG_Engine_Start()
