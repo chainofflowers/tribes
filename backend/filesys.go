@@ -22,6 +22,9 @@ func Trasmit_Active_NG(conn net.Conn) error {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		var line string = scanner.Text()
+		if strings.Contains(line, ".") == false {
+			continue
+		}
 		line = strings.Replace(line, "-", "_", -1)
 		response := line + " " + GetLastNumByGroup(line) + " " + GetFirstNumByGroup(line) + " y"
 		conn.Write([]byte(response + "\r\n"))
@@ -44,6 +47,9 @@ func Trasmit_New_NG(conn net.Conn) error {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		var line string = scanner.Text()
+		if strings.Contains(line, ".") == false {
+			continue
+		}
 		conn.Write([]byte(line + "\r\n"))
 		log.Printf("[BE-FS] NNTP print: %s ", line)
 	}
@@ -63,6 +69,9 @@ func Transmit_Article(conn net.Conn, FileName string) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
+		if strings.Contains(line, ".") == false {
+			continue
+		}
 		n, _ := conn.Write([]byte(line + "\r\n"))
 		log.Printf("[BE-FS] NNTP print: %s [%d BYTES]", line, n)
 	}
