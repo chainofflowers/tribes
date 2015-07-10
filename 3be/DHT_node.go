@@ -41,7 +41,7 @@ func init() {
 	mynode = wendy.NewNode(id, tools.ReadIpFromHost(), tools.ReadIpFromHost(), "Tribes", config.GetClusterPort())
 	log.Printf("[DHT] Node %s created for %s", mynode.ID.String(), WendyID)
 
-	cred = wendy.Passphrase(RandID)
+	cred = wendy.Passphrase(string(RandID[:]))
 
 	cluster = wendy.NewCluster(mynode, cred)
 	log.Printf("[DHT] Cluster initialized")
