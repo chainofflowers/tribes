@@ -2,7 +2,6 @@ package tribe
 
 import (
 	"crypto/md5"
-	"io"
 	"log"
 	"math"
 	"tribes/config"
@@ -30,9 +29,8 @@ func init() {
 	AllNodes = make(map[wendy.NodeID]string)
 
 	hash_p := md5.New()
-	io.WriteString(hash_p, config.GetTribeID())
 
-	RandID := hash_p.Sum(nil) // since it is sent in clear, we can't use TribeID in clear
+	RandID := hash_p.Sum([]byte(config.GetTribeID())) // since it is sent in clear, we can't use TribeID in clear
 
 	WendyID := tools.RandSeq(16)
 	log.Printf("[DHT] Volatile node ID: %s", WendyID)
