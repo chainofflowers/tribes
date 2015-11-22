@@ -41,14 +41,14 @@ func BCastMsgHeaders(payload []string, group string, messageID string) {
 
 	id, err := wendy.NodeIDFromBytes([]byte("FakeID"))
 	if err != nil {
-		log.Printf("[DHT-BCAST] Error creating fakenodeid %s", err.Error())
+		log.Printf("[DHT-BCAST] MSGHeaders, error creating fake nodeid : %s", err.Error())
 	}
 
 	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
 
 	WendyBroadcast(msg)
 
-	log.Printf("[DHT-BCAST] spreading around XOVER for %s", messageID)
+	log.Printf("[DHT-BCAST] MSGHeaders spreading around XOVER for %s", messageID)
 
 }
 
@@ -70,14 +70,14 @@ func BCastMsgBody(payload []string, group string, messageID string) {
 
 	id, err := wendy.NodeIDFromBytes([]byte("FakeID"))
 	if err != nil {
-		log.Printf("[DHT-BCAST] Error creating fake nodeid %s", err.Error())
+		log.Printf("[DHT-BCAST] MsgBody, error creating fake nodeid : %s", err.Error())
 	}
 
 	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
 
 	WendyBroadcast(msg)
 
-	log.Printf("[DHT-BCAST] spreading around XOVER for %s", messageID)
+	log.Printf("[DHT-BCAST] MsgBody spreading around XOVER for %s", messageID)
 
 }
 
@@ -99,14 +99,14 @@ func BCastMsgXover(payload []string, group string, messageID string) {
 
 	id, err := wendy.NodeIDFromBytes([]byte("FakeID"))
 	if err != nil {
-		log.Printf("[DHT-BCAST] Error creating fake nodeid %s", err.Error())
+		log.Printf("[DHT-BCAST] Xover, error creating fake nodeid %s", err.Error())
 	}
 
 	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
 
 	WendyBroadcast(msg)
 
-	log.Printf("[DHT-BCAST] spreading around XOVER for %s", messageID)
+	log.Printf("[DHT-BCAST] Xover spreading around XOVER for %s", messageID)
 
 }
 
@@ -123,13 +123,13 @@ func BCastGroup(groupname string) {
 
 	id, err := wendy.NodeIDFromBytes([]byte("010203"))
 	if err != nil {
-		log.Printf("[DHT-BCAST] Error creating fake nodeid %s", err.Error())
+		log.Printf("[DHT-BCAST] BCgroup, error creating fake nodeid: %s", err.Error())
 	}
 
 	msg := cluster.NewMessage(byte(30), id, []byte(wendyMsgString))
 
 	WendyBroadcast(msg)
 
-	log.Printf("[DHT-BCAST] spreading around GROUP for %s", groupname)
+	log.Printf("[DHT-BCAST] BCgroup , spreading around GROUP for %s", groupname)
 
 }
