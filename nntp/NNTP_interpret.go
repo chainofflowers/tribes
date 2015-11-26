@@ -35,7 +35,7 @@ func NNTP_Interpret(conn net.Conn) {
 			break
 		}
 
-		if matches, _ := regexp.MatchString("(?i)^GROUP[ ]+([_0-9A-Za-z]+\\.)+[_0-9A-Za-z]+$", message); matches == true {
+		if matches, _ := regexp.MatchString("(?i)^GROUP[ ]+([0-9A-Za-z]+\\.)+[0-9A-Za-z]+$", message); matches == true {
 			log.Printf("[INFO] NNTP %s from %s ", message, remote_client)
 			sinta := strings.Split(message, " ")
 			current_group = sinta[1]
