@@ -69,9 +69,14 @@ func Transmit_Article(conn net.Conn, FileName string) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
+/*
+		This causes the first empty line encountered
+		to interrupt the transmission of the article.
+		Removed!
 		if strings.Contains(line, ".") == false {
 			continue
 		}
+*/
 		n, _ := conn.Write([]byte(line + "\r\n"))
 		log.Printf("[BE-FS] NNTP print: %s [%d BYTES]", line, n)
 	}
